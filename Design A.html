@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>百度前端-设计学院-第一课</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            text-align: center;
+        }
+
+        p {
+            margin: 10vh auto 0;
+            width: 252px;
+            background: white;
+            color: black;
+            font-size: 21px;
+            text-align: center;
+            transition: all 1s;
+        }
+
+        p:last-of-type {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        span {
+            display: inline-block;
+            width: 0;
+            height: 12px;
+            background: transparent;
+            transition: width 1s, background 1s;
+        }
+
+        .effects {
+            background: #4569e6;
+            color: white;
+        }
+
+        .longer {
+            width: 100%;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+    <p>
+        百度前端学院 2018
+        <br>
+        <span></span>
+        <br> Baidu IFE 2018
+    </p>
+    <p>Click Me</p>
+</body>
+<script>
+    var peles = document.getElementsByTagName("p");
+    var spanele = document.querySelector("span");
+    peles[1].addEventListener("click", () => {
+        peles[0].classList.toggle("effects");
+        spanele.classList.toggle("longer");
+    });
+</script>
+
+</html>
