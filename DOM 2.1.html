@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html class="wuwuhee">
+  <head>
+    <meta charset="UTF-16" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>DOM 2.1</title>
+    <style>
+      .wuwuhee {
+        background: black;
+        color: white;
+      }
+
+      input {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="text" />
+    <div>1234567890</div>
+  </body>
+  <script>
+    // 正在加载文档
+    console.log(document.readyState);
+    // 文档加载完毕
+    window.onload = () => {
+      console.log(document.readyState);
+      console.log(document.charset);
+    };
+    const htmlele = document.documentElement;
+    // matches("CSS 选择符") ---> 如果调用元素与该选择符匹配，返回 true；否则，返回 false...
+    console.log(htmlele.matches('html'));
+    console.log(htmlele.childElementCount); // 2--->head + body，浏览器在解析 html 时，会把 script 标签作为 body 的子元素解析
+    console.log(htmlele.firstElementChild);
+    console.log(htmlele.lastElementChild);
+    console.log(htmlele.classList); // 类数组--->DOMTokenList
+    htmlele.onclick = function (e) {
+    /*
+    classList的方法：
+        add()
+        remove()
+        contains()
+        toggle()
+        item()
+    */
+      this.classList.toggle('wuwuhee');
+      console.log(htmlele.classList.contains('wuwuhee'));
+    };
+    document.querySelector('input').onclick = e => {
+      if (document.hasFocus()) {
+        console.log(document.activeElement);
+      }
+      e.stopPropagation();
+    };
+    const divele = document.getElementsByTagName('div')[0];
+    // outerHTML 是在 innerHTML 基础上获取它的 outer 对象标签内容
+    console.log(divele.outerHTML);
+    divele.outerHTML = '0987654321';
+  </script>
+</html>

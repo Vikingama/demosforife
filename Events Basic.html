@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Events Basic</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 300vh;
+      }
+
+      div {
+        text-align: center;
+      }
+
+      input {
+        -webkit-appearance: none;
+        margin: 0;
+        padding: 0 3vw;
+        width: 100vw;
+        height: 10vh;
+        border: none;
+        box-sizing: border-box;
+        outline: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="clickMe">Click Me</div>
+    <input type="text" id="textInput" />
+  </body>
+  <script>
+    /*
+    事件流的三个阶段：事件捕获、处于目标阶段、事件冒泡阶段
+        事件冒泡：事件开始由最具体的元素接收，逐级向上传播到较为不具体的节点
+            div ---> body ---> html ---> document
+        事件捕获：不太具体的节点应该更早接收到事件，而最具体的节点应该最后接收到事件
+            div <--- body <--- html <--- document
+    */
+    var clickMe = document.getElementById('clickMe');
+    var textInput = document.getElementById('textInput');
+    function clickHandler(e) {
+      alert(this == e.target);
+      // IE 中 this = e.srcElement
+    }
+    // DOM0 级事件处理程序
+    clickMe.onclick = clickHandler;
+    clickMe.onclick = null;
+    // DOM2 级事件处理程序，事件监听可以给一个事件绑定多个操作
+    /*
+        第三个参数为 true 时，表示在捕获阶段调用事件处理程序；false 表示在冒泡阶段调用事件处理程序
+        移除事件绑定，传入的参数须与 addEventListener 一致，所以如果要移除事件处理函数，事件处理函数不能为匿名函数
+    */
+    clickMe.addEventListener('click', clickHandler, false);
+    clickMe.removeEventListener('click', clickHandler, false);
+    /*
+        IE 事件处理程序
+        clickMe.attachEvent("onclick", clickHandler);
+        事件解绑同事件监听
+        clickMe.detachEvent("onclick", clickHandler);
+    */
+    /*
+        e.preventDefault() ---> 阻止事件默认行为
+        e.returnValue = false ---> IE 中阻止默认事件
+
+        e.stopPropagation() ---> 阻止事件传播
+        e.cancelBubble = true ---> IE 中阻止事件冒泡（IE 不支持事件捕获）
+
+        e.eventPhase ---> 当前事件位于事件流的位置
+    */
+    // DOM3 级事件处理程序
+    /*
+        UI 事件：load、unload、abort、error、ready、select、resize、scroll
+        焦点事件：focus、blur、focusin、focusout
+        鼠标事件：click、dblclick、mouseup、mousedown、mouseenter（不冒泡）、mouseleave（不冒泡）、mouseover、mouseout、mousemove
+        滚轮事件：mousewheel
+        文本事件：textInput（keypress 的补充，文本插入输入框之前触发）
+        键盘事件：keydown（按住不放，会重复触发）、keypress（按住不放，会重复触发）、keyup
+        合成事件：compositionstart、compositionupdate、compositionend
+        变动事件：DOMSubtreeModified、DOMNodeInserted、DOMNodeRemoved、DOMNodeInsertedIntoDocument、DOMNodeRemovedFromDocument、DOMAttrModified、DOMCharacterDataModified
+        变动名称事件（已废弃）
+    */
+    var pipe;
+    window.onresize = function () {
+      clearTimeout(pipe);
+      pipe = setTimeout(() => {
+        console.log(this);
+      }, 500);
+    };
+    /*
+        document.compatMode --- 浏览器当前的渲染方式
+            BackCompat ---> 标准兼容模式关闭
+            CSS1Compat ---> 标准兼容模式开启
+    */
+    /*
+        只有在同一个元素上相继触发 mousedown 和 mouseup 事件，才会触发 click 事件；
+        如果 mousedown 或 mouseup 中的一个被取消，就不会触发 click 事件；
+        只有触发两次 click 事件，才会触发一次 dblclick 事件；
+        如果有代码阻止了连续两次触发 click 事件（直接或间接），就不会触发 dblclick 事件
+    */
+    document.documentElement.onclick = e => {
+      console.log('视口坐标：(' + e.clientX + ',' + e.clientY + ')');
+      console.log('页面坐标：(' + e.pageX + ',' + e.pageY + ')'); // IE8不支持，需要借助 scrollTop、clientY 和 scrollLeft、clientX 计算
+      console.log('屏幕坐标：(' + e.screenX + ',' + e.screenY + ')');
+      console.log('目标坐标：(' + e.offsetX + ',' + e.offsetY + ')'); // 光标相对于目标元素的坐标
+      if (e.altKey) {
+        console.log('Alt/Option');
+      }
+      if (e.ctrlKey) {
+        console.log('Ctrl/Control');
+      }
+      if (e.metaKey) {
+        console.log('Windows/Command');
+      }
+      if (e.shiftKey) {
+        console.log('Shift');
+      }
+    };
+    function watchRelatedTarget(e) {
+      // e.relatedTarget 好像和 e.fromElement 对应的
+      if (e.relatedTarget) {
+        return e.relatedTarget;
+      } else if (e.fromElement) {
+        return e.fromElement;
+      } else if (e.toElement) {
+        return e.toElement;
+      } else {
+        return null;
+      }
+    }
+    clickMe.onmouseover = function (e) {
+      console.log('From' + e.target + 'To' + watchRelatedTarget(e));
+    };
+    clickMe.onmouseover = null;
+    clickMe.onmouseup = function (e) {
+      // console.log(typeof e.button);// number
+      switch (e.button) {
+        case 0:
+          console.log('鼠标主键按下');
+          break;
+        case 1:
+          console.log('鼠标中键按下');
+          break;
+        case 2:
+          console.log('鼠标副键按下');
+          break;
+        default:
+          break;
+      }
+    };
+    // IE 兼容版鼠标按键
+    function mouseButton(e) {
+      if (document.implementation.hasFeature('MouseEvents', '2.0')) {
+        return e.button;
+      } else {
+        switch (e.button) {
+          case 0:
+          case 1:
+          case 3:
+          case 5:
+          case 7:
+            return 0; // 主键
+          case 2:
+          case 6:
+            return 2; // 副键
+          case 4:
+            return 1; // 中键
+        }
+      }
+    }
+    // 节流函数，第一个参数---要执行的函数，第二个参数---延迟时间
+    function jieLiu(func, time) {
+      let timeOut;
+      if (func) {
+        return function () {
+          const that = this;
+          const args = arguments; // e
+          clearTimeout(timeOut);
+          timeOut = setTimeout(function () {
+            func.apply(that, args);
+          }, time || 500);
+        };
+      } else {
+        return null;
+      }
+    }
+    // 火狐不支持此事件
+    document.onmousewheel = jieLiu(function (e) {
+      if (e.wheelDelta > 0) {
+        console.log('向前/上滚');
+      } else if (e.wheelDelta < 0) {
+        console.log('向后/下滚');
+      }
+    }, 333);
+    // DOMMouseScroll 不支持 on 绑定
+    document.addEventListener(
+      'DOMMouseScroll',
+      jieLiu(function (e) {
+        if (e.detail < 0) {
+          console.log('向前/上滚');
+        } else if (e.detail > 0) {
+          console.log('向后/下滚');
+        }
+      }, 111),
+      false
+    );
+    /*
+        触摸设备：
+            不支持 dbclick 事件，双击会进行缩放行为；
+            轻击可单机元素会触发 mousemove 事件；
+            mousemove 事件会触发 mouseover 和 mouseout 事件；
+            两个手指放在屏幕上滚动会触发 mouseover 和 mouseout 事件。
+        无障碍问题：
+            屏幕阅读器无法触发鼠标事件。
+            键盘无法触发 dbclick。
+    */
+    document.addEventListener(
+      'keyup',
+      function (e) {
+        // console.log(e.keyCode);// 键码
+      },
+      false
+    );
+    textInput.addEventListener(
+      'textInput',
+      function (e) {
+        console.log(e);
+        e.preventDefault();
+      },
+      false
+    );
+    document.onkeypress = function (e) {
+      // console.log(e.charCode);// ASCII 编码
+    };
+  </script>
+</html>

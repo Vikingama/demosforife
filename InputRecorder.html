@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>意愿认证</title>
+    <style>
+      @font-face {
+        font-family: Emoji;
+        src: local('Apple Color Emoji'), local('Segoe UI Emoji'),
+          local('Segoe UI Symbol'), local('Noto Color Emoji');
+        unicode-range: U+1F000-1F644, U+203C-3299;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        -webkit-font-smoothing: antialiased;
+        color: #333;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Emoji,
+          Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        touch-action: manipulation;
+        overflow: hidden;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12vw;
+        height: 100%;
+      }
+      video {
+        display: block;
+        width: 100%;
+        height: calc((100vh - 24vw) / 3);
+        background: black;
+        overflow: hidden;
+        z-index: 1;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="file" accept="video/*" capture="user" hidden />
+    <video class="playback hidden" autoplay></video>
+    <button class="download hidden">下载</button>
+    <button class="begin">开始</button>
+  </body>
+  <script>
+    const inputEle = document.querySelector('input[capture]');
+    const videoEle = document.querySelector('.playback');
+    const beginEle = document.querySelector('.begin');
+    const downloadEle = document.querySelector('.download');
+    const formData = new FormData();
+    inputEle.addEventListener('click', function () {
+      formData.delete('file');
+    });
+    inputEle.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file) {
+        formData.append('file', file);
+        beginEle.classList.add('hidden');
+        downloadEle.classList.remove('hidden');
+        videoEle.src = window.URL.createObjectURL(file);
+        setTimeout(() => {
+          videoEle.classList.remove('hidden');
+          videoEle.play();
+        }, 300);
+      }
+    });
+    videoEle.addEventListener('click', function () {
+      if (this.paused) {
+        this.play();
+      } else {
+        this.pause();
+      }
+    });
+    beginEle.addEventListener('click', function () {
+      inputEle.click();
+    });
+    downloadEle.addEventListener('click', function () {
+      const aEle = document.createElement('a');
+      const url = window.URL.createObjectURL(formData.get('file'));
+      aEle.style.display = 'none';
+      aEle.href = url;
+      aEle.download = '认证.mp4';
+      document.body.appendChild(aEle);
+      aEle.click();
+      setTimeout(() => {
+        document.body.removeChild(aEle);
+        window.URL.revokeObjectURL(url);
+      }, 0);
+    });
+  </script>
+</html>

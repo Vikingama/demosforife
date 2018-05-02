@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Cite Type 2</title>
+    </head>
+    <body></body>
+    <script>
+        var now = new Date();
+        console.log(now.getTime() == Date.now());
+        console.log(new Date(Date.parse("May 01, 2000")));
+        console.log(new Date(Date.UTC(2000, 4, 1)));
+        console.log(new Date("May 01, 2000"));
+        console.log("valueOf: " + now.valueOf());
+        console.log("toString: " + now.toString());
+        console.log("toDateString: " + now.toDateString());
+        console.log("toTimeString: " + now.toTimeString());
+        console.log("toUTCString: " + now.toUTCString());
+        console.log("toLocaleString: " + now.toLocaleString());
+        console.log("toLocaleDateString: " + now.toLocaleDateString());
+        console.log("toLocaleTimeString: " + now.toLocaleTimeString());
+        /*
+        ES5 明确规定，使用正则表达式字面量必须像直接调用 RegExp 构造函数一样，每次都创建新的 RegExp 实例。
+            var expression = / pattern / flags;
+                g：全局模式，将被应用于所有字符串，而非在发现第一个匹配项时立即停止...
+                i：不区分大小写模式，在确定匹配项时忽略模式与字符串的大小写...
+                m：多行模式，在到达一行文本末尾时还会继续查找下一行中是否存在与模式匹配的项...
+        */
+        var exp = new RegExp("^c", "gim");
+        console.log(exp.test("catc")); // true
+        console.log(exp.global); // 是否设置了 g 标志
+        console.log(exp.ignoreCase); // 是否设置了 i 标志
+        console.log(exp.lastIndex); // 开始搜索下一个匹配项的字符位置，从 0 算起
+        console.log(exp.multiline); // 是否设置了 m 标志
+        console.log(exp.source); // 正则表达式的字符串表示
+        // exec(要应用模式的字符串) --- 为捕获组而设计的，返回包含第一个匹配项信息的数组，在没有匹配项的情况下返回 null。
+        var sampleText = "mom and dad and baby";
+        var sampleExp = /mom( and dad( and baby)?)?/gi;
+        var matches = sampleExp.exec(sampleText);
+        // 这是什么鬼？
+        console.log(matches);
+        // 函数实际上是对象，每个函数都是 Function 类型的实例；函数名实际上是一个指向函数对象的指针。
+        var sampleFun = function hahasha() {
+            return "woohoo";
+        };
+        try {
+            console.log(hahasha());
+        } catch (error) {
+            console.log(error);
+        }
+        // 性能不好
+        var funzs = new Function("v1", "v2", "return v1+v2");
+        console.log(funzs(1, 2));
+        console.log(funzs.length); // 示函数希望接收的命名参数的个数
+        /*
+            解析器会率先读取函数声明，并使其在执行任何代码之前可用；
+            函数表达式，则必须等到解析器执行到它所在的代码行，才会真正被读取；
+            this 引用的是函数据以执行的环境对象。
+            ---------------------------------
+            当函数在严格模式下运行时，访问 arguments.callee 会导致错误；
+            ES5 定义了 arguments.caller 属性，在严格模式下访问它也会导致错误，而在非严格模式下这个属性始终是 undefined；
+            定义这个属性是为了分清 arguments.caller 和函数的 caller 属性。
+            ----------------------------------------------------------
+            在 ES5 中，prototype 属性是不可枚举的，因此使用 for-in 无法发现；
+            apply()、call() --- 在特定的作用域中调用函数，设置函数体内 this 对象的值。
+        */
+        (function outer() {
+            inner();
+            console.log(inner.length);
+        })();
+
+        function inner() {
+            console.log(inner.caller); // 指向 outer
+        }
+
+        function calc() {
+            let answer = 0;
+            for (let i = 0; i < arguments.length; i++) {
+                answer = answer + arguments[i];
+            }
+            return answer;
+        }
+
+        function applyCalc() {
+            return calc.apply(this, arguments);
+        }
+
+        function callCalc(v1, v2) {
+            return calc.call(this, v1, v2);
+        }
+        console.log(applyCalc(1, 2, 3, 4, 5)); // 15
+        console.log(callCalc(1, 2, 3, 4, 5)); // 3
+        // apply & call --- 扩充函数作用域
+        var sampleColor = "pynk";
+        var sampleBeauty = {
+            sampleColor: "qxmj"
+        };
+
+        function showColor() {
+            console.log(this.sampleColor);
+        }
+        showColor.apply(window);
+        showColor.call(sampleBeauty);
+        // bind() --- 会创建一个函数的实例，其 this 值会被绑定到传给 bind() 函数的值，仅改变 this 指向
+        showColor.bind(sampleBeauty)();
+    </script>
+</html>

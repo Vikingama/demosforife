@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Circle Lottery（在花瓣写的转盘抽奖，运行不起来，但逻辑是好的）
+    </title>
+    <style>
+      html,
+      body {
+        background: #393374;
+      }
+      .hb.article {
+        padding: 0;
+      }
+      .hb.fixed.container {
+        width: 100%;
+        max-width: unset !important;
+      }
+      .hb.context.page {
+        width: 100%;
+      }
+      .common-div {
+        width: 100%;
+        height: 500px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: auto 100%;
+      }
+      .lottery-main {
+        height: 942px;
+        background-image: url('//event-img.huabanimg.com/1911-photofox/lotto_it01.jpg');
+      }
+      .lottery-rule {
+        position: relative;
+        height: 937px;
+        background-image: url('//hbfile.huabanimg.com/f0021cff89d1451a77827e71cab4c649a90b60a1');
+      }
+      .center {
+        position: relative;
+        margin: 0 auto;
+        width: 1065px;
+        height: 100%;
+      }
+      .center > img,
+      .mobile-img3,
+      .mobile-img4 {
+        display: none;
+      }
+      #container {
+        position: absolute;
+        top: 261px;
+        left: 19px;
+        width: 669px;
+        height: 669px;
+      }
+      #circle {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        width: 610px;
+        height: 610px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-image: url('//hbfile.huabanimg.com/f94a0ffb2b25576ed1c293e1bc0cf76828bb0664');
+      }
+      #arrow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        width: 200px;
+        height: 214px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-image: url('//event-img.huabanimg.com/1911-photofox/lotto_pointer.png');
+        cursor: pointer;
+      }
+      @media screen and (max-width: 1024px) {
+        html,
+        body {
+          background: #1d1843;
+        }
+        .lottery-main {
+          height: 178vw;
+          background-image: none;
+        }
+        .lottery-rule {
+          height: 88.2vw;
+          background-image: none;
+        }
+        .mobile-img3,
+        .mobile-img4 {
+          display: block;
+        }
+        .mobile-img3 {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          margin: 0 auto;
+          width: 100%;
+        }
+        .mobile-img4 {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          margin: 0 auto;
+          width: 100%;
+        }
+        .center {
+          width: 100%;
+        }
+        .center > img {
+          display: block;
+          position: absolute;
+          width: 100%;
+          z-index: 1;
+        }
+        .center .mobile-img1 {
+          top: 0;
+          left: 0;
+        }
+        .center .mobile-img2 {
+          bottom: 0;
+          right: 0;
+        }
+        #container {
+          top: 84vw;
+          left: 0;
+          right: 0;
+          margin: 0 auto;
+          width: 76.8vw;
+          height: 76.8vw;
+          z-index: 3;
+          background-position: center center;
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+          background-image: url('//event-img.huabanimg.com/1911-photofox/lotto_bg.png');
+        }
+        #circle {
+          width: 68vw;
+          height: 68vw;
+        }
+        #arrow {
+          width: 30vw;
+          height: 32vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="lottery-main common-div">
+      <div class="center">
+        <img
+          src="//event-img.huabanimg.com/1911-photofox/mb/ElementLottery-1.png"
+          class="mobile-img1"
+        />
+        <div id="container">
+          <section id="circle"></section>
+          <span id="arrow"></span>
+        </div>
+        <img
+          src="//event-img.huabanimg.com/1911-photofox/mb/ElementLottery-2.png"
+          class="mobile-img2"
+        />
+      </div>
+    </div>
+    <div class="lottery-rule common-div">
+      <img
+        src="//hbfile.huabanimg.com/ed87ec309f53a15a1b25e6e3952bb826f93a0e75"
+        class="mobile-img3"
+      />
+      <img
+        src="//event-img.huabanimg.com/1911-photofox/mb/ElementBottom.png"
+        class="mobile-img4"
+      />
+    </div>
+  </body>
+  <script>
+    window.isTime =
+      new Date() >= new Date(2019, 11, 25) && new Date() < new Date(2020, 0, 1);
+
+    (async function () {
+      // 用户抽奖状态
+      let userStatus = null;
+      // 请求当前用户的抽奖资格以及抽奖状态
+      try {
+        const { data } = await axios.get('/api/event/83/contact');
+
+        if (data && data.err) {
+          message.error(data.err);
+        }
+
+        userStatus =
+          data && data.fields
+            ? Object.assign(
+                {},
+                {
+                  tel: '',
+                  name: '',
+                  address: '',
+                  prizes: []
+                },
+                data.fields
+              )
+            : {
+                tel: '',
+                name: '',
+                address: '',
+                prizes: [],
+                chances: 0
+              };
+
+        new ChouJ().init();
+      } catch (err) {
+        message.error(err);
+      }
+      // 抽奖模块
+      function ChouJ() {
+        this.cirEle = document.getElementById('circle'); // 转盘本盘
+        this.arrEle = document.getElementById('arrow'); // 指针本针
+        this.isChouing = false; // 是否在进行抽奖
+        this.currentAward = 1; // 上次抽奖奖品
+        this.stopAward = 0; // 本次抽奖奖品
+        this.currentDeg = 0; // 抽奖开始时的角度，根据上次抽奖结果计算得出
+        this.stopDeg = 0; // 抽奖结束时的角度，根据本次抽奖结果计算得出
+        this.init = () => {
+          this.bindEvent(); // 绑定事件
+          this.currentDeg = 0;
+          this.setEleTransform(this.currentDeg); // 设置初始角度
+        };
+        this.bindEvent = () => {
+          // 为指针绑定事件
+          this.arrEle.addEventListener('click', this.beginChou, false);
+        };
+        this.setEleTransform = deg => {
+          // 设置转盘的角度
+          this.cirEle.style.transform = `rotateZ(${deg}deg)`;
+        };
+        this.calcCurrentDeg = () => {
+          // 计算抽奖开始时的角度，60 是 360 分为 6 个奖品
+          this.currentDeg = (1 - this.currentAward) * 60 - 30;
+        };
+        this.calcStopDeg = () => {
+          // 计算抽奖结束时的角度
+          this.stopDeg = 14400 - 30 + 60 * (1 - this.stopAward);
+        };
+        this.beginChou = () => {
+          if (!window.isTime) {
+            message.warning('未到抽奖时间');
+            return;
+          }
+          if (userStatus.work !== 'PASSED') {
+            // 没抽奖资格
+            message.warning('您还未成功投稿，没有抽奖机会');
+            return;
+          }
+          if (!this.isChouing && userStatus.chances - 0 === 1) {
+            // 有抽奖资格且没抽过奖
+            this.isChouing = true;
+            // 获取用户抽奖结果
+            axios
+              .post('/api/event/83/fuuk', { end: 'draw' })
+              .then(res => {
+                if (res.data && res.data.err) {
+                  message.error(res.data.err);
+                  this.isChouing = false;
+                  return;
+                }
+
+                userStatus.prizes.push(res.data.prize);
+                userStatus.chances = 0;
+
+                this.currentAward = this.stopAward; // 将上次抽奖结果设置为起始奖品
+                this.cirEle.style.transition = 'all 0s'; // 不设置动画
+                this.calcCurrentDeg(); // 计算初始角度
+                this.setEleTransform(this.currentDeg); // 设置初始角度
+
+                this.stopAward = this.convertAward(); // 计算本次抽奖结果
+                this.cirEle.style.transition = 'all 12s ease-in-out'; // 开启动画
+                this.calcStopDeg(); // 计算停止角度
+                this.setEleTransform(this.stopDeg); // 设置停止角度
+
+                setTimeout(() => {
+                  // 本次抽奖结束
+                  this.isChouing = false;
+                  this.currentAward = this.stopAward;
+                  this.cirEle.style.transition = 'all 0s';
+                  this.calcCurrentDeg();
+                  this.setEleTransform(this.currentDeg);
+
+                  switch (this.stopAward - 0) {
+                    case 1:
+                      message.success('恭喜您获得“iPhone 11”一部');
+                      this.handleAlready();
+                      return;
+                    case 2:
+                      message.success('恭喜您获得“花瓣星球杯”一个');
+                      return;
+                    case 3:
+                      message.success('谢谢参与');
+                      return;
+                    case 4:
+                      message.success('恭喜您获得“360 行车记录仪”一台');
+                      this.handleAlready();
+                      return;
+                    case 5:
+                      message.success('恭喜您获得“洛菲 dot 圆点机械键盘”一把');
+                      this.handleAlready();
+                      return;
+                    case 6:
+                      message.success('恭喜您获得“花瓣 Pro 年费会员”');
+                      return;
+                    default:
+                      return;
+                  }
+                }, 12000);
+              })
+              .catch(err => {
+                this.isChouing = false;
+                message.error(err);
+              });
+          } else if (userStatus.prizes.length !== 0) {
+            // 抽过奖的
+            this.stopAward = this.convertAward();
+            this.handleAlready();
+          }
+        };
+        this.convertAward = () => {
+        /*
+            1-iPhone 11
+            2-机械键盘
+            3-行车记录仪
+            4-花瓣限量星球杯
+            5-花瓣年费会员
+        */
+          // 将奖品和转盘对应起来
+          const prize = userStatus.prizes[0] - 0;
+
+          switch (prize) {
+            case 1:
+              return 1; // 转盘的第 1 个位置为 1 等奖
+            case 2:
+              return 5; // 转盘的第 5 个位置为 2 等奖
+            case 3:
+              return 4; // 转盘的第 4 个位置为 3 等奖
+            case 4:
+              return 2; // 转盘的第 2 个位置为 4 等奖
+            case 5:
+              return 6; // 转盘的第 6 个位置为 5 等奖
+            default:
+              return 3; // 转盘的第 3 个位置为谢谢参与
+          }
+        };
+        this.handleAlready = () => {
+          // 对于已经抽过奖的用户，再次点击抽奖，直接打开联系方式弹窗
+          switch (this.stopAward - 0) {
+            case 1:
+              this.generateModal('iPhone 11 一部');
+              return;
+            case 2:
+              this.generateModal('花瓣星球杯一个');
+              return;
+            case 4:
+              this.generateModal('360 行车记录仪一台');
+              return;
+            case 5:
+              this.generateModal('洛菲 dot 圆点机械键盘一把');
+              return;
+            case 6:
+              message.success('您的“花瓣 Pro 年费会员”会在活动结束后统一发放');
+              return;
+            default:
+              message.warning('谢谢参与');
+              return;
+          }
+        };
+        this.generateModal = awardName => {
+          // 创建实物奖品联系方式弹窗
+          window.pack.Modal.create(
+            `<div class='hb modal'>
+                <i class="icon reject close"></i>
+                <header class="header">您获得“${awardName}”，填写联系方式</header>
+                <div class="content" >
+                    <input type="text" class="hb input" name="username" value="${userStatus.name}" placeholder="收件人" style="width:100%;"/>
+                    <input type="text" class="hb input" name="telphone" value="${userStatus.tel}" placeholder="联系电话" style="width:100%;margin:15px 0;"/>
+                    <input type="text" class="hb input" name="address" value="${userStatus.address}" placeholder="收件地址" style="width:100%;"/>
+                </div>
+                <footer class="footer">
+                    <button class="hb reject button">取消</button>
+                    <button class="hb red accept button">提交</button>
+                </footer>
+            </div>`
+          ).then(function (modal) {
+            let name = modal.querySelector("[name='username']").value;
+            let tel = modal.querySelector("[name='telphone']").value;
+            let address = modal.querySelector("[name='address']").value;
+
+            if (!name || (name && name.trim().length === 0)) {
+              message.warning('请填写收件人');
+              return;
+            }
+            if (!tel || (tel && tel.trim().length === 0)) {
+              message.warning('请填写手机号');
+              return;
+            }
+            if (!address || (address && address.trim().length === 0)) {
+              message.warning('请填写收件地址');
+              return;
+            }
+
+            axios
+              .put('/api/event/83/contact', {
+                tel,
+                address,
+                name
+              })
+              .then(() => {
+                message.success('联系方式保存成功');
+                pack.Modal.hide(modal);
+                location.reload();
+              })
+              .catch(err => {
+                message.error(err);
+              });
+          });
+        };
+        this.randNum = (a, b) => {
+          // 随机数函数
+          return Math.floor(Math.random() * (b - a + 1) + a);
+        };
+      }
+    })();
+  </script>
+</html>

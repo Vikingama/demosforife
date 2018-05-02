@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>DOM 2.2</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        transition: all 1s;
+      }
+
+      div {
+        height: 100vw;
+        line-height: 100vw;
+        text-align: center;
+      }
+
+      div:nth-of-type(even) {
+        background: linear-gradient(#e66465, #9198e5);
+      }
+
+      div:nth-of-type(odd) {
+        background: linear-gradient(#9198e5, #e66465);
+      }
+    </style>
+  </head>
+  <body>
+    <div>01</div>
+    <div>02</div>
+    <div>03</div>
+    <div>04</div>
+    <div>05</div>
+  </body>
+  <script>
+    /*
+        scrollIntoViewIfNeeded()：只在当前元素在视口中不可见的情况下，才滚动浏览器窗口或容器元素，最终让它可见。如果当前元素在视口中可见，这个方法什么也不做。
+        scrollByLines(lineCount)：将元素的内容滚动指定的行高，lineCount 值可以是正值，也可以是负值。
+        scrollByPages(pageCount)：将元素的内容滚动指定的页面高度，具体高度由元素的高度决定。
+    */
+    setTimeout(function () {
+    /*
+        scrollIntoView(参数)可以在所有 HTML 元素上调用，通过滚动浏览器窗口或某个容器元素，调用元素就可以出现在视口中...
+        传入 true 或不传参时，让调用元素的顶部与视口顶部尽可能平齐...
+        传入 false 时，调用元素会尽可能全部出现在视口中，（可能的话，调用元素的底部会与视口顶部平齐。）不过顶部不一定平齐...
+    */
+      document.querySelectorAll('div')[2].scrollIntoView(false);
+    }, 3000);
+    console.log('compatMode: ' + document.compatMode);
+    console.log('designMode: ' + document.designMode);
+    console.log('children: ' + document.body.children);
+    console.log('childNodes: ' + document.body.childNodes);
+    console.log(document.documentElement.contains(document.body));
+    /*
+        compareDocumentPosition() ---> 确定节点关系
+            1   无关（给定的节点不在当前文档中）
+            2   居前（给定的节点在 DOM 树中位于参考节点之前）
+            4   居后（给定的节点在 DOM 树中位于参考节点之后）
+            8   包含（给定的节点是参考节点的祖先）
+            16  被包含（给定的节点是参考节点的后代）
+    */
+    console.log(
+      document.documentElement.compareDocumentPosition(document.body)
+    ); // 20 = 居后 + 被包含
+  </script>
+</html>

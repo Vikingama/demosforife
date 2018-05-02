@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>CSS Sticky Footer</title>
+    <!--
+        问题：如果页面内容不够长的时候，页脚块粘贴在视窗底部；如果内容足够长时，页脚块会被内容向下推送
+    -->
+    <style type="text/css">
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body > .wrapper {
+        min-height: 100%;
+        background-color: rgba(255, 0, 0, 0.5);
+        text-align: center;
+      }
+
+      .content {
+        padding: 3vw;
+        padding-bottom: calc(150px + 3vw);
+        text-align: left;
+        text-indent: 32px;
+        background-color: rgba(0, 0, 255, 0.5);
+      }
+
+      .footer {
+        margin-top: -150px;
+        height: 150px;
+        background-color: rgba(0, 0, 0, 0.5);
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1 style="background-color: rgba(0, 255, 0, 0.5)">Site Name</h1>
+      <p class="content">
+        Bacon ipsum dolor amet salami pig jowl filet mignon. Spare ribs t-bone
+        picanha strip steak shoulder sirloin pig. Beef beef ribs tail, chuck
+        andouille filet mignon t-bone. Turkey tri-tip beef ribs, ribeye
+        hamburger shank salami cow pastrami ham hock turducken tenderloin swine.
+        Cupim jowl capicola tenderloin meatloaf pork. Ground round prosciutto
+        strip steak bresaola t-bone swine sausage bacon brisket landjaeger.
+        Kielbasa chuck jowl filet mignon, bresaola corned beef picanha alcatra
+        pig tongue fatback. Bacon ipsum dolor amet salami pig jowl filet mignon.
+        Spare ribs t-bone picanha strip steak shoulder sirloin pig. Beef beef
+        ribs tail, chuck andouille filet mignon t-bone. Turkey tri-tip beef
+        ribs, ribeye hamburger shank salami cow pastrami ham hock turducken
+        tenderloin swine. Cupim jowl capicola tenderloin meatloaf pork. Ground
+        round prosciutto strip steak bresaola t-bone swine sausage bacon brisket
+        landjaeger. Kielbasa chuck jowl filet mignon, bresaola corned beef
+        picanha alcatra pig tongue fatback.
+      </p>
+    </div>
+    <div class="footer">
+      <p style="height: 75px; line-height: 75px">© 2015 No rights reserved.</p>
+      <p
+        style="
+          height: 75px;
+          line-height: 75px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        "
+      >
+        Made with ♥ by an anonymous pastafarian.
+      </p>
+    </div>
+  </body>
+</html>

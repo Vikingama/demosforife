@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Cite Type 1</title>
+  </head>
+  <body>
+    引用类型是一种数据结构，用于将"数据"和"功能"组织在一起，也被称为对象定义。
+    <hr />
+    新对象是使用 new
+    操作符后跟一个构造函数来创建的，构造函数本身就是一个函数，只不过该函数是出于创建新对象的目的而定义的。
+    <hr />
+    使用字面量表示时，不会调用构造函数。
+  </body>
+  <script>
+    var sampleObj = {
+      0: 0,
+      1: 1,
+      2: 2
+    };
+    console.log(sampleObj instanceof Array); // false
+    console.log(Array.isArray(sampleObj)); // false
+    console.log(sampleObj.valueOf());
+    var sampleArr = [51, 42, 33, 24, 15, 5];
+    // 数组最多可以包含 4294967295 个项...
+    console.log(sampleArr.length);
+    console.log(Array.isArray(sampleArr)); // true
+    console.log(sampleArr.toString()); // 51,42,33,24,15,5
+    console.log(sampleArr.join('|')); // 51|42|33|24|15|5
+    /*
+        栈是一种可以限制插入和删除项的数据结构（Last-In-First-Out）；是最新添加的项最早被移除。
+        push(参数) --- 接收任意数量的参数，把它们逐个添加到数组末尾，并返回修改后数组的长度，直接改变原数组
+        pop() --- 从数组末尾移除最后一项，然后返回移除的项，直接改变原数组
+    */
+    console.log(sampleArr.push(86, 77, 68));
+    console.log(sampleArr.pop());
+    /*
+        队列方法（First-In-First-Out），队列在列表的末端添加项，从列表的前端移除项。
+        shift() --- 移除数组中的第一个项并返回该项，直接改变原数组
+        unshift() --- 在数组前端添加任意个项并返回新数组的长度，直接改变原数组
+    */
+    console.log(sampleArr.unshift(-1, 0)); // 10
+    // reverse() --- 反转数组项的顺序，直接改变原数组...
+    console.log(sampleArr.reverse());
+    // sort() --- 按升序排列数组项，直接改变原数组...由于比较时会调用 toString() 方法，所以 42 后边出现 5 的情况...
+    console.log(sampleArr.sort());
+    // 升序
+    console.log(sampleArr.sort((v1, v2) => v1 - v2));
+    // 降序
+    console.log(sampleArr.sort((v1, v2) => v2 - v1));
+    // concat() --- 先创建当前数组一个副本，然后将接收到的参数添加到这个副本的末尾，最后返回新构建的数组...
+    console.log(sampleArr.concat()); // 快速实现深拷贝
+    console.log(sampleArr.concat([22]));
+    console.log(sampleArr.concat(3, 5));
+    /*
+        slice() --- 基于当前数组中的一或多个项创建一个新数组...
+        slice(start) --- 返回从 start 位置开始到当前数组末尾的所有项...
+        slice(start, end) --- 返回 start 和 end 位置之间的项但不包括 end 位置的项...
+    */
+    console.log(sampleArr.slice()); // 快速实现深拷贝
+    console.log(sampleArr.slice(1));
+    console.log(sampleArr.slice(1, 4));
+    console.log(sampleArr.slice(4, 3)); // 返回空数组
+    console.log(sampleArr.slice(-3)); // 从后往前截取 3 项
+    console.log(sampleArr.slice(-4, -1)); // 从后往前, 从倒数第 4 个位置开始，截取到倒数第 1 个位置
+    /*
+        splice() --- 向数组的中部插入项...直接修改原数组...
+        splice(起始位置，删除项的数量)
+        splice(起始位置，删除的项数，插入的项)
+    */
+    console.log(sampleArr.splice()); // 返回空数组
+    console.log(sampleArr.splice(0, 5)); // 返回删除的数组
+    console.log(sampleArr.splice(0, 1, 456)); // 返回被替换的项
+    /*
+        indexOf(查找的项，（可选）查找起点位置的索引) --- 从数组的开头开始向后查找...
+        lastIndexOf(查找的项，（可选）查找起点位置的索引) --- 从数组的末尾开始向前查找...
+    */
+    console.log(sampleArr.indexOf(555));
+    console.log(sampleArr.lastIndexOf(456));
+    /*
+        迭代方法：每个方法都接收两个参数（函数（数组项的值、该项在数组中的位置、数组对象本身），函数的作用域对象（可选））...
+            every() --- 对数组中的每一项运行给定函数，判断数组每项是否符合一定的条件，如果该函数对每一项都返回 true，则返回 true...
+            filter() --- 对数组中的每一项运行给定函数，过滤出数组中符合条件的数据组成新数组，返回该函数会返回 true 的项组成的数组...
+            forEach() --- 对数组中的每一项运行给定函数，这个方法没有返回值，多用于绑定事件...
+            map() --- 对数组中的每一项运行给定函数，返回每次函数调用的结果组成的数组...
+            some() --- 对数组中的每一项运行给定函数，判断数组中是否有符合条件的项，如果该函数对任一项返回 true，则返回 true...
+    */
+    var dedaiArr = [1, 22, 333, 4444, 55555];
+    console.log(
+      dedaiArr.every((value, index, arr) => {
+        return value > 0;
+      })
+    );
+    console.log(
+      dedaiArr.filter((value, index, arr) => {
+        return value > 10;
+      })
+    );
+    // 没有返回新数组，没有返回值，可以直接改变原数组
+    dedaiArr.forEach((value, index, arr) => {
+      arr[index] = value + 1;
+    });
+    // 返回新数组，不修改原数组
+    console.log(
+      dedaiArr.map((value, index, arr) => {
+        return value - 2;
+      })
+    );
+    console.log(
+      dedaiArr.some((value, index, arr) => {
+        return value < 3;
+      })
+    );
+    /*
+        reduce(每一项上调用的函数（前一个值、当前值、项的索引、数组对象），（可选）归并基础的初始值) --- 从数组的第一项开始，逐个遍历到最后...
+        reduceRight(每一项上调用的函数（前一个值、当前值、项的索引、数组对象），（可选）归并基础的初始值) --- 从数组的最后一项开始，向前遍历到第一项...
+    */
+    console.log(
+      dedaiArr.reduce((pre, cur, index, arr) => {
+        // -60356
+        return pre - cur;
+      })
+    );
+    console.log(
+      dedaiArr.reduceRight((pre, cur, index, arr) => {
+        // 50752
+        return pre - cur;
+      })
+    );
+  </script>
+</html>

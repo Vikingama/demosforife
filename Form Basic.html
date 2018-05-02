@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Form Basic</title>
+    <style>
+      form {
+        text-align: center;
+      }
+
+      select,
+      [type='range'] {
+        width: 100%;
+        height: 10vmin;
+      }
+
+      [type='text'] {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 10vmin;
+      }
+
+      [type='image'] {
+        margin-top: 1vmin;
+        width: 10vmin;
+        height: 10vmin;
+        border-radius: 50%;
+        transition: all 0.3s;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+        novalidate 不进行表单验证
+        document.forms[0].noValidate = true; 禁用验证
+    -->
+    <form action="https://baidu.com/s" method="get" novalidate>
+      <input type="hidden" value="hidden" name="sample" />
+      <input
+        type="text"
+        placeholder="键入搜索"
+        name="sample"
+        id="selectEle"
+        class="eles1"
+        maxlength="5"
+      />
+      <!-- pattern 属性不能阻止用户输入无效文本，checkValidity() 可以检测字段是否有效 -->
+      <input
+        type="text"
+        placeholder="键入搜索"
+        name="sample"
+        id="checkEle"
+        class="eles2"
+        maxlength="6"
+        pattern="\d+"
+      />
+      <input
+        type="text"
+        placeholder="键入搜索"
+        name="sample"
+        class="eles3"
+        maxlength="7"
+        required
+      />
+      <input
+        type="text"
+        placeholder="键入搜索"
+        name="sample"
+        class="eles4"
+        maxlength="8"
+      />
+      <input type="range" step="5" min="0" max="100" name="sample" />
+        <!--
+            formnovalidate 提交时不进行表单验证，用在提交按钮上
+            document.forms[0].elements["sample"].formNoValidate = true; 禁用提交验证
+        -->
+      <select name="sample" id="selectorEle">
+        <!--
+            如果 option 没有指定 value 属性，那默认的 value 值为标签的 innerText，IE 则返回空
+        -->
+        <option disabled selected>Choose One</option>
+        <option value="Los Angeles, CA">Los Angeles</option>
+        <option value="Mountain View, CA">Mountain View</option>
+        <option value="China">China</option>
+      </select>
+      <input
+        type="image"
+        src="./resource/submit.png"
+        name="sample"
+        formnovalidate
+      />
+    </form>
+  </body>
+  <script>
+    var formEle = document.forms[0];
+    var selectEle = document.getElementById('selectEle');
+    selectEle.onfocus = function (e) {
+      e.target.select(); // 当聚焦时可以自动选中输入框中内容，方便用户删除数据
+    };
+    selectEle.onselect = function () {
+      this.setSelectionRange(0, this.value.length - 3); // 设置用户的选择范围，用户不可自由选定选择范围
+      console.log(this.value.substring(this.selectionStart, this.selectionEnd)); // 用户所选择的内容
+    };
+    selectEle.onkeypress = function (e) {
+      // 只能输入数字
+      console.log(String.fromCharCode(e.charCode));
+      if (!/\d/.test(String.fromCharCode(e.charCode))) {
+        e.preventDefault();
+      }
+    };
+    formEle.onsubmit = function (e) {
+      console.log(formEle.elements); // 获取不到具有“提交属性”的表单元素
+      formEle.reset();
+      e.preventDefault();
+    };
+    function getClipboardData(e) {
+      // clipboardData --- IE 中属于 window，其他浏览器中属于事件 e
+      if (e.clipboardData) {
+        return e.clipboardData.getData('text/plain');
+      } else {
+        return window.clipboardData.getData('text');
+      }
+    /*
+    clipboardData 的三种方法：
+        getData(数据类型)
+            IE："text" 或 "URL"；其他：一种 MIME 类型
+        setData(数据类型, 数据)
+            成功返回 true，失败返回 false
+        clearData()
+    */
+    }
+    function setClipboardData(e, value) {
+      if (e.clipboardData) {
+        return e.clipboardData.setData('text/plain', value);
+      } else {
+        return window.clipboardData.setData('text', value);
+      }
+    }
+    document.oncopy = function (e) {
+      console.log(getClipboardData(e));
+      console.log(setClipboardData(e, 123)); // 母鸡为什么会报 undefined，并且没有效果
+    };
+    // document.execCommand();
+    // document.exitFullscreen();
+    document.body.onfullscreenchange = function (e) {
+      console.log(e); // 母鸡为什么实现不了
+    };
+    // 自动聚焦
+    var textbox1 = document.getElementsByClassName('eles1')[0];
+    var textbox2 = document.getElementsByClassName('eles2')[0];
+    var textbox3 = document.getElementsByClassName('eles3')[0];
+    var textbox4 = document.getElementsByClassName('eles4')[0];
+    textbox1.onkeyup = function (e) {
+      autoNextFocus(e);
+    };
+    textbox2.onkeyup = function (e) {
+      autoNextFocus(e);
+    };
+    textbox3.onkeyup = function (e) {
+      autoNextFocus(e);
+    };
+    textbox4.onkeyup = function (e) {
+      autoNextFocus(e);
+    };
+    function autoNextFocus(e) {
+      var form = document.querySelectorAll("[type='text']");
+      var target = e.target;
+      if (target.value.length == target.maxLength) {
+        for (var i = 0; i < form.length; i++) {
+          if (form[i] == target && form[i + 1]) {
+            form[i + 1].focus();
+            return;
+          }
+        }
+      }
+    }
+    var checkEle = document.getElementById('checkEle');
+    checkEle.onkeyup = function (e) {
+    /*
+    由于设置了 pattern 属性；当输入内容不符合 pattern 验证时，checkValidity() 将返回 false，否则返回 true
+    checkValidity() 可以直接作用在 form 表单上：document.forms[0].checkValidity()
+    当所有字段均有效返回 true，有一个字段无效，则返回 false
+    */
+      console.log(e.target.checkValidity());
+      if (e.target.validity && !e.target.valid) {
+        console.log(e.target.validity);
+      }
+    };
+    // new Option(text, value, defaultSelected, selected)
+    var selectorEle = document.getElementById('selectorEle'),
+      selectedEle;
+    selectorEle.onchange = function () {
+      selectedEle = selectorEle.options[selectorEle.selectedIndex];
+      console.log(selectedEle);
+    };
+    selectorEle.appendChild(new Option('Japan', 'Japan'));
+    selectorEle.add(new Option('Korea', 'Korea'));
+    setTimeout(function () {
+      selectorEle.remove(0);
+      setTimeout(function () {
+        selectorEle.options[0] = null;
+        setTimeout(function () {
+          selectorEle.removeChild(selectorEle.options[0]);
+        }, 3000);
+      }, 3000);
+    }, 3000);
+    function serialize(form) {
+      // 序列化函数
+      var parts = [],
+        field = null,
+        i,
+        j,
+        len,
+        option,
+        optLen,
+        optValue;
+      for (i = 0, len = form.elements.length; i < len; i++) {
+        field = form.elements[i];
+        switch (field.type) {
+          case undefined: // 字段集
+          case 'button': // 自定义按钮
+          case 'file': // 文件输入
+          case 'submit': // 提交按钮
+          case 'reset': // 重置按钮
+            break;
+          case 'select-one': // 单选 select 框
+          case 'select-multiple': // 多选 select 框
+            if (field.name.length) {
+              for (j = 0, optLen = field.options.length; j < optLen; j++) {
+                option = field.options[j];
+                if (option.selected) {
+                  optValue = '';
+                  if (option.hasAttribute) {
+                    optValue = option.hasAttribute('value')
+                      ? option.value
+                      : option.text;
+                  }
+                  parts.push(
+                    encodeURIComponent(field.name) +
+                      '=' +
+                      encodeURIComponent(optValue)
+                  );
+                }
+              }
+            }
+            break;
+          case 'checkbox': // 复选框
+          case 'radio': // 单选按钮
+            if (!field.checked) {
+              break;
+            }
+          /* 执行默认操作 */
+          default:
+            // 不包含没有名字的表单字段
+            if (field.name.length) {
+              parts.push(
+                encodeURIComponent(field.name) +
+                  '=' +
+                  encodeURIComponent(field.value)
+              );
+            }
+        }
+      }
+      return parts.join('&');
+    }
+  </script>
+</html>

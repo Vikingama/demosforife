@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>时序动画二</title>
+    <style>
+      html,
+      body {
+        overflow: hidden;
+      }
+      .container {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        width: 25vmin;
+        height: 25vmin;
+      }
+      .block {
+        position: absolute;
+        width: 10vmin;
+        height: 10vmin;
+        transform-origin: center;
+      }
+      .block:nth-of-type(1) {
+        top: 0;
+        left: 0;
+        background-color: red;
+      }
+      .block:nth-of-type(2) {
+        top: 0;
+        right: 0;
+        background-color: green;
+      }
+      .block:nth-of-type(3) {
+        bottom: 0;
+        left: 0;
+        background-color: yellow;
+      }
+      .block:nth-of-type(4) {
+        bottom: 0;
+        right: 0;
+        background-color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="block"></div>
+      <div class="block"></div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </body>
+  <script>
+    // 处理时间
+    class Timing {
+      constructor({ duration, iterations = 1 } = {}) {
+        // 起始时间
+        this.startTime = Date.now();
+        // 每个周期动画时长
+        this.duration = duration;
+        // 动画周期数
+        this.iterations = iterations;
+      }
+      get time() {
+        return Date.now() - this.startTime;
+      }
+      get p() {
+        const temp = Math.min(this.time / this.duration, this.iterations);
+        return this.isFinished ? 1 : temp % 1; // 0 -> 1
+      }
+      get isFinished() {
+        return this.time / this.duration >= this.iterations;
+      }
+    }
+  </script>
+  <script>
+    // 控制动画
+    class Animator {
+      constructor({ duration, iterations }) {
+        this.timing = { duration, iterations };
+      }
+      animate(target, update) {
+        const timing = new Timing(this.timing);
+        return new Promise(resolve => {
+          function next() {
+            if (!update({ target, timing }) && !timing.isFinished) {
+              requestAnimationFrame(next);
+            } else {
+              resolve(timing);
+            }
+          }
+          next();
+        });
+      }
+    }
+  </script>
+  <script>
+    const blockEles = document.querySelectorAll('.block');
+    const animator = new Animator({ duration: 1000, iterations: 1 });
+    (async function () {
+      let i = 0;
+      while (true) {
+        await animator.animate(blockEles[i++ % 4], ({ target, timing }) => {
+          i === 4 && console.log(timing.p);
+          target.style.transform = `rotate(${timing.p * 360}deg)`;
+        });
+      }
+    })();
+  </script>
+</html>

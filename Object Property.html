@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Object Property</title>
+  </head>
+  <body></body>
+  <script>
+    /*
+    数据属性
+        Configurable 默认值为 true
+            表示能否通过 delete 删除此属性，能否修改属性的特性，或能否修改把属性修改为访问器属性，如果直接使用字面量定义对象
+        Enumerable 默认值为 true
+            表示该属性是否可枚举，即是否通过 for-in 循环或 Object.keys() 返回属性，如果直接使用字面量定义对象
+        Writable 默认值为 true
+            能否修改属性的值，如果直接使用字面量定义对象
+        Value 默认为 undefined
+            该属性对应的值
+    访问器属性
+        Configurable
+        Enumerable
+        Get 默认为 undefined
+            一个给属性提供 getter 的方法(访问对象属性时调用的函数,返回值就是当前属性的值)，如果没有 getter 则为 undefined。该方法返回值被用作属性值
+        Set 默认为 undefined
+            一个给属性提供 setter 的方法(给对象属性设置值时调用的函数)，如果没有 setter 则为 undefined。该方法将接受唯一参数，并将该参数的新值分配给该属性
+    */
+    // "use strict"
+    var sample = {};
+    Object.defineProperties(sample, {
+      name: {
+        value: 'Tim Cook',
+        configurable: false,
+        enumerable: true,
+        writable: false
+      },
+      age: {
+        value: 18,
+        configurable: false,
+        enumerable: true,
+        writable: true
+      },
+      job: {
+        value: 'cooker',
+        configurable: true,
+        enumerable: true,
+        writable: true
+      },
+      salary: {
+        value: 100000,
+        configurable: true,
+        enumerable: false,
+        writable: true
+      }
+    });
+    Object.defineProperty(sample, 'isDead', {
+      value: false,
+      configurable: false,
+      enumerable: true,
+      writable: true
+    });
+    console.log(sample);
+    setTimeout(() => {
+      delete sample.age; // 删除失败
+      delete sample.job; // 删除成功
+      console.log(sample);
+    }, 3000);
+    console.log(Object.getOwnPropertyDescriptor(sample, 'isDead'));
+    console.log(Object.getOwnPropertyDescriptors(sample));
+    console.log(Object.hasOwnProperty(sample, 'isDead')); // false
+    // 如果设置 configrubale 属性为 false，则不可使用 delete 操作符(在严格模式下抛出错误), 修改所有内部属性值会抛出错误
+    // Object.defineProperty(sample, "name", {
+    //     writable: true
+    // });
+    // delete sample.name
+    // console.log(Object.getOwnPropertyDescriptor(sample, "name"));
+    var getSet = new Object();
+    var valua, b;
+    Object.defineProperty(getSet, 'a', {
+      configurable: true,
+      enumerable: true,
+      get: function () {
+        return valua;
+      },
+      set: function (value) {
+        valua = value;
+        this.b = valua + 1;
+      }
+    });
+    getSet.a = 0;
+    console.log(getSet.a); // 0
+    console.log(getSet.b); // 1
+    // var worry = new Object();
+    // Object.defineProperty(worry, "a", {
+    //     value: "123",
+    //     get: function () {
+    //         return "456";
+    //     }
+    // });
+    // console.log(worry.a);
+  </script>
+</html>

@@ -1,3 +1,0 @@
-# demosforife
-
-IFE 2018, I'M COMIN'...

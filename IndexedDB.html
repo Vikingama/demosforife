@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>IndexedDB</title>
+  </head>
+  <body></body>
+  <script>
+    var indexedDB = window.indexedDB,
+      adminDB = indexedDB.open('admin', 1), // 数据库名称，数据库版本号
+      user = {
+        username: '007',
+        firstName: 'James',
+        lastName: 'Bond',
+        password: '007'
+      },
+      db,
+      store;
+    adminDB.onsuccess = function (e) {
+      // 创建成功回调
+      db = e.target.result;
+      // store = db.createObjectStore("users", { keyPath: "username" });
+    };
+
+    adminDB.onupgradeneeded = function () {
+      // 数据库改变时回调
+    };
+    adminDB.onerror = function (e) {
+      // 创建失败回调
+      console.log(e.target.error);
+    };
+    store = db.createObjectStore('users', { keyPath: 'username' });
+  </script>
+</html>

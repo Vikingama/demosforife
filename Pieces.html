@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Pieces</title>
+  </head>
+  <body></body>
+  <script>
+    var callColor = 'red';
+    function beCalled() {
+      console.log(this.callColor); // red
+      console.log(arguments.callee); // beCalled
+      console.log(arguments.caller); // undefined
+    }
+    (function () {
+      beCalled();
+    })();
+    with (location) {
+      console.log(href);
+    }
+    function sum(num1, num2, ...nums) {
+      console.log(nums);
+      var result = num1 + num2;
+      for (let i = 0, len = nums.length; i < len; i++) {
+        result += nums[i];
+      }
+      return result;
+    }
+    console.log(sum(1, 2, 3, 4, 5, 6));
+    console.log(sum(...[1, 2, 3, 4, 5, 6]));
+    console.log(sum.call(this, 1, 2, 3, 4, 5, 6));
+    console.log(sum.apply(this, [1, 2, 3, 4, 5, 6]));
+    function* generateFn() {
+      for (var i = 0; i < 10; i++) {
+        yield i * 2;
+      }
+    }
+    var sampleFn = generateFn();
+    while (sampleFn.next().value != undefined) {
+      console.log(sampleFn.next());
+    }
+  </script>
+</html>

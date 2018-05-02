@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>花瓣足迹</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        transition: all 0.3s;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #000;
+      }
+
+      .hb.top.banner,
+      .hb.slug.navigation {
+        display: none;
+      }
+
+      .hb.fixed.container {
+        margin: 0;
+        width: 100%;
+      }
+
+      .hb.article {
+        padding: 0;
+        width: 100%;
+      }
+
+      .viewport {
+        width: 100%;
+        height: calc(100vh - 102px);
+        min-width: 1200px;
+        min-height: 604px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-image: url('https://event-img.huabanimg.com/8year/footprint/bg.png');
+        /* background-image: url("https://hbfile.huabanimg.com/901cc37e3bc171f0455802cdc795f383027c407c"); */
+      }
+
+      .over-ellipsis {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .expand-image {
+        width: 272px !important;
+        height: 272px !important;
+      }
+
+      span {
+        display: inline-block;
+        height: 54px;
+        user-select: none;
+        vertical-align: middle;
+      }
+
+      a {
+        text-decoration: none;
+        user-select: none;
+      }
+
+      img {
+        user-select: none;
+        vertical-align: top;
+      }
+
+      section {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        /* width: 1200px;
+                height: 624px; */
+        width: 1160px;
+        height: 574px;
+      }
+
+      section > div {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        background-position: 100% 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-color: transparent;
+        user-select: none;
+      }
+
+      section .none {
+        display: none !important;
+      }
+
+      section .top {
+        top: 0;
+        /* height: 111px; */
+        height: 107px;
+        /* background-image: url("https://hbfile.huabanimg.com/574eb8e663d3db664228d26d51eefe18c69aeeb0"); */
+        background-image: url('https://event-img.huabanimg.com/8year/footprint/top.png');
+      }
+
+      section .middle {
+        /* top: 141px;
+                height: 338px; */
+        top: 116px;
+        height: 338px;
+      }
+
+      section .bottom {
+        /* bottom: 0;
+                height: 115px; */
+        bottom: 0;
+        height: 111px;
+      }
+
+      section .bottom.normal {
+        /* background-image: url("https://hbfile.huabanimg.com/dc281ebe7c25146479d888f4ba8f03d67ee58ca9"); */
+        background-image: url('https://event-img.huabanimg.com/8year/footprint/cover-bt.png');
+      }
+
+      section .bottom.unnormal {
+        background-image: url('https://hbfile.huabanimg.com/3c43b97577f1c4bc5c09a320ec3c070a1925a6ff');
+      }
+
+      section .bottom img {
+        position: absolute;
+        /* top: 15px;
+                height: 86px; */
+        top: 14px;
+        height: 83px;
+        cursor: pointer;
+      }
+
+      section .bottom img:hover {
+        transform: scale3d(1.1, 1.1, 1.1);
+      }
+
+      section .bottom img.begin {
+        right: 25px;
+      }
+
+      section .bottom img.prev {
+        right: 79px;
+      }
+
+      section .bottom img.next {
+        right: 14px;
+      }
+
+      section .bottom img.reload {
+        right: 25px;
+      }
+    </style>
+    <style>
+      .border-pink {
+        border: 3px solid #f4aab5;
+      }
+
+      .color-pink {
+        color: #f4aab5;
+      }
+
+      .main {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .loading,
+      .box0,
+      .box1,
+      .box2,
+      .box4,
+      .box5,
+      .box6,
+      .box8,
+      .box9,
+      .box10 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .box0 img,
+      .box1 div,
+      .box1 img,
+      .box2 div,
+      .box2 img,
+      .box3 div,
+      .box4 div,
+      .box4 img,
+      .box5 div,
+      .box5 img,
+      .box6 div,
+      .box6 img,
+      .box8 div,
+      .box8 img,
+      .box9 div,
+      .box10 .content {
+        height: 100%;
+      }
+
+      .box1 div,
+      .box2 div,
+      .box3 div,
+      .box4 div,
+      .box5 div,
+      .box6 div,
+      .box7 div,
+      .box8 div,
+      .box9 div,
+      .box10 .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: start;
+        padding: 30px;
+        background-color: #000;
+        color: #fff;
+      }
+
+      .box1 div p,
+      .box2 div p,
+      .box3 div p,
+      .box4 div p,
+      .box5 div p,
+      .box6 div p,
+      .box7 div p,
+      .box8 div p,
+      .box9 div p,
+      .box10 .content p {
+        margin: 0;
+        height: 54px;
+        font-size: 32px;
+        font-weight: 700;
+      }
+
+      .box1 div span,
+      .box2 div span,
+      .box3 div span,
+      .box6 div span,
+      .box7 div span,
+      .box8 div span,
+      .box9 div span {
+        padding: 3px 13px;
+        font-size: 30px;
+        font-weight: 700;
+      }
+
+      .box2 div .diffent,
+      .box3 div .diffent,
+      .box6 div .diffent {
+        background-color: #f4aab5;
+        color: #000;
+      }
+
+      .loading p {
+        width: 100%;
+        color: #fff;
+        font-size: 24px;
+        text-align: center;
+      }
+
+      .box1 div {
+        width: 585px;
+      }
+
+      .box2 div {
+        width: 781px;
+      }
+
+      .box3 div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        /* width: 668px; */
+        width: 617px;
+        background-color: #000;
+      }
+
+      .box3 img {
+        position: absolute;
+        right: 0;
+        /* width: 500px; */
+        width: 534px;
+      }
+
+      .box3 img:first-of-type {
+        top: 0;
+      }
+
+      .box3 img:last-of-type {
+        bottom: 0;
+      }
+
+      .box4 div {
+        /* width: 646px; */
+        width: 628px;
+      }
+
+      .box5 div:first-of-type {
+        width: 588px;
+      }
+
+      .box5 div:last-of-type {
+        width: 338px;
+        overflow: hidden;
+      }
+
+      .box6 .content {
+        position: relative;
+        /* width: 832px; */
+        width: 812px;
+      }
+
+      .box6 .heart {
+        font-size: 27px;
+      }
+
+      .box6 .work {
+        width: 338px;
+      }
+
+      .box6 .right {
+        position: absolute;
+        top: 32px;
+        right: 21px;
+        font-size: 32px;
+      }
+
+      .box6 .eye {
+        position: absolute;
+        right: 123px;
+        bottom: 39px;
+        height: 47px;
+      }
+
+      .box7 div,
+      .box7 img {
+        position: absolute;
+      }
+
+      .box7 div {
+        top: 0;
+        left: 0;
+        /* width: 653px; */
+        width: 634px;
+        height: 100%;
+      }
+
+      .box7 img:nth-of-type(1) {
+        top: 0;
+        right: 332px;
+        width: 184px;
+        /* height: 85px; */
+        height: 106px;
+      }
+
+      .box7 img:nth-of-type(2) {
+        top: 0;
+        right: 0;
+        /* width: 301px;
+                height: 85px */
+        width: 323px;
+        height: 106px;
+      }
+
+      .box7 img:nth-of-type(3) {
+        bottom: 0;
+        right: 0;
+        width: 516px;
+        height: 224px;
+      }
+
+      .box8 div {
+        /* width: 798px; */
+        width: 778px;
+      }
+
+      .box8 div p:first-of-type {
+        margin-top: 0;
+      }
+
+      .box9 .info {
+        width: 586px;
+      }
+
+      .box9 .for {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        width: 276px;
+      }
+
+      .box9 .for img {
+        width: 112px;
+        height: 112px;
+        border-radius: 50%;
+      }
+
+      .box9 .for p {
+        margin: 0;
+        font-size: 25px;
+      }
+
+      .box10 .content {
+        position: relative;
+        padding: 30px 30px;
+        width: 790px;
+      }
+
+      .box10 .content > p img {
+        height: 91px;
+        vertical-align: middle;
+      }
+
+      .box10 .content > img {
+        position: absolute;
+        bottom: 30px;
+        width: 66px;
+        height: 66px;
+      }
+
+      .box10 .content .smile {
+        right: 30px;
+      }
+
+      .box10 .thanks {
+        width: 174px;
+        height: 100%;
+      }
+
+      .box10 .share {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: 178px;
+        height: 100%;
+      }
+
+      .box10 .share div {
+        width: 100%;
+        height: 31%;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        cursor: pointer;
+      }
+
+      .box10 .share div a {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .box10 .share .wechat {
+        background-image: url('https://hbfile.huabanimg.com/b8ecd11f55a5092bbd70168fd134af2a96c6bc28');
+      }
+
+      .box10 .share .imqq {
+        background-image: url('https://hbfile.huabanimg.com/705923b23d1cb4581af1a1ff872b2b091c778ab9');
+      }
+
+      .box10 .share .weibo {
+        background-image: url('https://hbfile.huabanimg.com/a45590105a4075db4e6c143e5a86f685262b6e19');
+      }
+
+      .box10 .share .wxcode {
+        position: absolute;
+        top: -54px;
+        left: -231px;
+        width: 220px;
+        height: 220px;
+        opacity: 0;
+        transition: all 0.3s;
+      }
+
+      .box10 .share .wechat:hover {
+        background-image: url('https://hbfile.huabanimg.com/49bbd6a46646d77af8e21b111fc60e8088f58931');
+      }
+
+      .box10 .share .wechat:hover .wxcode {
+        opacity: 1;
+      }
+
+      .box10 .share .imqq:hover {
+        background-image: url('https://hbfile.huabanimg.com/9cacf70c760b2d583c1e7c172916b9ce68b43445');
+      }
+
+      .box10 .share .weibo:hover {
+        background-image: url('https://hbfile.huabanimg.com/7a7f96c97eb96c54770196cf21dafa830d04b5eb');
+      }
+    </style>
+    <style>
+      .main {
+        animation-timing-function: cubic-bezier(0.94, 0.06, 0.05, 0.52);
+        animation-duration: 500ms;
+        animation-name: inAni;
+      }
+
+      .main.bye {
+        animation-timing-function: cubic-bezier(0.94, 0.49, 0.05, 0.95);
+        animation-duration: 300ms;
+        animation-name: outAni;
+      }
+
+      @keyframes inAni {
+        0% {
+          opacity: 0;
+          transform: scale3d(0, 0, 0);
+        }
+
+        50% {
+          opacity: 0.8;
+          transform: scale3d(1.15, 1.15, 1.15);
+        }
+
+        100% {
+          opacity: 1;
+          transform: scale3d(1, 1, 1);
+        }
+      }
+
+      @keyframes outAni {
+        0% {
+          opacity: 1;
+          transform: scale3d(1, 1, 1);
+        }
+
+        50% {
+          opacity: 0.5;
+          transform: scale3d(1.05, 1.05, 1.05);
+        }
+
+        100% {
+          opacity: 0;
+          transform: scale3d(0, 0, 0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="viewport">
+      <section>
+        <div class="top"></div>
+        <div class="middle">
+          <div class="main loading">
+            <p id="toAudience">加载中......</p>
+          </div>
+        </div>
+        <div class="bottom none">
+          <img
+            src="https://hbfile.huabanimg.com/7f2dd29b335e5d8d61d20a06e4fd5c45950b584b"
+            class="begin"
+            alt="开始"
+          />
+          <img
+            src="https://hbfile.huabanimg.com/2ff992622b2a02be46f90e509f6915d18cd98c75"
+            class="prev none"
+            alt="上一个"
+          />
+          <img
+            src="https://hbfile.huabanimg.com/0f885d5a553be1268eb8e846b72a3e37fc786525"
+            class="next none"
+            alt="下一个"
+          />
+          <img
+            src="https://event-img.huabanimg.com/8year/footprint/restart.png"
+            class="reload none"
+            alt="重新开始"
+          />
+          <!-- <img src="https://hbfile.huabanimg.com/0180a01b449e1e192037372711c10ee3b226e42e" class="reload none"
+                    alt="重新开始" /> -->
+        </div>
+      </section>
+    </div>
+  </body>
+  <script>
+    (function () {
+      const userAgentInfo = navigator.userAgent;
+      const agents = ['Android', 'iPhone', 'Mobile', 'iPad', 'iPod'];
+
+      for (let v = 0; v < agents.length; v++) {
+        if (userAgentInfo.indexOf(agents[v]) >= 0) {
+          location.assign('http://event.huaban.com/art/82/slug/mobileSteps');
+          return;
+        }
+      }
+
+      let p1WhenSignUp = null;
+      let p2HowLong = null,
+        p2SumPins = null,
+        p2OverPercent = null;
+      let p3WhenMostPins = null,
+        p3MostPinsNumber = null;
+      let p5InitPinId = null,
+        p5InitPinImage = null;
+      let p6aWelcomeId = null,
+        p6aWelcomeImage = null,
+        p6aWelcomeName = null,
+        p6aWelcomeLike = null;
+      let p6bWelcomeId = null,
+        p6bWelcomeImage = null,
+        p6bWelcomeName = null,
+        p6bWelcomeLike = null;
+      let p7NightTime = null;
+      let p8Likes = null,
+        p8Repins = null;
+      let p9Followers = null,
+        p9Seeers = null,
+        p9Who4U = {
+          url: 0,
+          avatar: '',
+          name: ''
+        },
+        p9U4Who = {
+          url: 0,
+          avatar: '',
+          name: ''
+        };
+      let p10YourTitle = null;
+      let titleLevel = [
+        'https://hbfile.huabanimg.com/ec0ce59581ad05fe215f0b5531b39c9f59e9289e',
+        'https://hbfile.huabanimg.com/dcb469ca8f016581cd87ee48d37487734d7b9d11',
+        'https://hbfile.huabanimg.com/d6489141e4cb3225b087881df4c54ff111d4b20b',
+        'https://hbfile.huabanimg.com/4c011dbbe1803eebb80a30ae338621d80a68d2f5',
+        'https://hbfile.huabanimg.com/2abdeddcf56063177c9f22330874a3af9e39eade',
+        'https://hbfile.huabanimg.com/96c37c516bb992aa772e7fd0037ca8775a57d37c',
+        'https://hbfile.huabanimg.com/3742ea2bc89a5ca9dd66d51cbe8a36b5aa006ee8'
+      ];
+      let p0, p1, p2, p3, p4, p5, p6a, p6b, p7, p8, p9, p10;
+
+      function Foots() {
+        this.middleEle = document.querySelector('.middle');
+        this.bottomEle = document.querySelector('.bottom');
+        this.beginEle = document.querySelector('.begin');
+        this.prevEle = document.querySelector('.prev');
+        this.nextEle = document.querySelector('.next');
+        this.reloadEle = document.querySelector('.reload');
+        this.currentIndex = 0; // 十二个板块
+        this.pageList = []; // 要显示的 DOM 序列
+        this.inter = null; // 防抖
+        this.init = async () => {
+          // 初始化，请求接口，确定展示内容，绑定事件，渲染页面
+          try {
+            let res = await axios.get('/api/anniversary/8/footprint');
+            let actData = res.data;
+
+            if (actData.err) {
+              document.querySelector('#toAudience').innerText = actData.err;
+            } else {
+              // 注册时间
+              p1WhenSignUp = this.getYMD(actData.created_at * 1000);
+              // 注册了多久
+              p2HowLong = this.getDays(Date.now() - actData.created_at * 1000);
+              // 总采集数量
+              p2SumPins = actData.total_pins ? actData.total_pins : 0;
+              // 超过多少用户
+              p2OverPercent = actData.rank
+                ? actData.rank - 0 >= 100
+                  ? 99.9
+                  : actData.rank - 0
+                : 0;
+              // x 年 x 月 x 日采集的最多
+              p3WhenMostPins = actData.most_pins_day
+                ? actData.most_pins_day
+                : '';
+              // x 年 x 月 x 日采集的数量
+              p3MostPinsNumber = actData.most_pins ? actData.most_pins : 0;
+              // 采集的第一张图
+              p5InitPinId =
+                actData.first_pin && actData.first_pin.pin_id
+                  ? actData.first_pin.pin_id
+                  : '';
+              p5InitPinImage =
+                actData.first_pin && actData.first_pin.pin_id
+                  ? `https://${actData.first_pin.file.bucket}.huabanimg.com/${actData.first_pin.file.key}_sq320`
+                  : '';
+              // 最受欢迎原创
+              p6aWelcomeId = actData.creation_most_pin_id
+                ? actData.creation_most_pin_id
+                : '';
+              p6aWelcomeImage = actData.creation_most_pin_id
+                ? `https://${actData.creation_most_pin.file.bucket}.huabanimg.com/${actData.creation_most_pin.file.key}_sq320`
+                : '';
+              p6aWelcomeName = actData.creation_most_pin_id
+                ? actData.creation_most_pin.raw_text
+                : '';
+              p6aWelcomeLike = actData.creation_most_pin_id
+                ? actData.creation_most_pin.like_count >
+                  actData.creation_most_pin.repin_count
+                  ? actData.creation_most_pin.like_count
+                  : actData.creation_most_pin.repin_count
+                : 0;
+              // 最受欢迎采集
+              p6bWelcomeId = actData.non_creation_most_pin_id
+                ? actData.non_creation_most_pin_id
+                : '';
+              p6bWelcomeImage = actData.non_creation_most_pin_id
+                ? `https://${actData.non_creation_most_pin.file.bucket}.huabanimg.com/${actData.non_creation_most_pin.file.key}_sq320`
+                : '';
+              p6bWelcomeName = actData.non_creation_most_pin_id
+                ? actData.non_creation_most_pin.raw_text
+                : '';
+              p6bWelcomeLike = actData.non_creation_most_pin_id
+                ? actData.non_creation_most_pin.like_count >
+                  actData.non_creation_most_pin.repin_count
+                  ? actData.non_creation_most_pin.like_count
+                  : actData.non_creation_most_pin.repin_count
+                : 0;
+              // 最晚访问时间
+              p7NightTime = actData.last_visit
+                ? actData.last_visit.split('T')[1]
+                : '';
+              // 被喜欢总数
+              p8Likes = actData.total_like ? actData.total_like : 0;
+              // 被转采总数
+              p8Repins = actData.total_repin ? actData.total_repin : 0;
+              // 被关注总数
+              p9Followers = actData.followers ? actData.followers - 0 : 0;
+              // 被查看总数
+              p9Seeers = actData.via_user_count ? actData.via_user_count : 0;
+              // 谁为你贡献最大
+              p9Who4U = actData.most_contribute_user_id
+                ? {
+                    url: actData.most_contribute_user.urlname,
+                    avatar: `https://${actData.most_contribute_user.avatar.bucket}.huabanimg.com/${actData.most_contribute_user.avatar.key}_sq300`,
+                    name: actData.most_contribute_user.username
+                  }
+                : {
+                    url: 0,
+                    avatar: '',
+                    name: ''
+                  };
+              // 你为谁贡献最大
+              p9U4Who = actData.most_contribute_to_user_id
+                ? {
+                    url: actData.most_contribute_to_user.urlname,
+                    avatar: `https://${actData.most_contribute_to_user.avatar.bucket}.huabanimg.com/${actData.most_contribute_to_user.avatar.key}_sq300`,
+                    name: actData.most_contribute_to_user.username
+                  }
+                : {
+                    url: 0,
+                    avatar: '',
+                    name: ''
+                  };
+              // 通过函数计算称号
+              p10YourTitle = this.caculateTitle();
+              // 初始化页面
+              setTimeout(() => {
+                this.generateDOM();
+              }, 0);
+            }
+          } catch (error) {
+            document.querySelector('#toAudience').innerText = error;
+          }
+        };
+        this.generateDOM = () => {
+          p0 = `
+                    <div class="main box0">
+                        <img
+                            src="https://event-img.huabanimg.com/8year/footprint/cover-left.png"
+                            alt="8th"
+                        />
+                        <img
+                            src="https://event-img.huabanimg.com/8year/footprint/cover.png"
+                            alt="8th"
+                        />
+                        <img
+                            src="https://event-img.huabanimg.com/8year/footprint/cover-right.png"
+                            alt="8th"
+                        />
+                    </div>
+                    `;
+          p1 = `
+                    <div class="main box1">
+                        <div class="border-pink">
+                            <span class="border-pink color-pink over-ellipsis" style="max-width: 100%;">${p1WhenSignUp}</span>
+                            <p>花瓣与你第一次相遇，</p>
+                            <p>从此开启了一个不寻常的旅程</p>
+                            <p>······</p>
+                        </div>
+                        <img
+                            src="https://event-img.huabanimg.com/8year/footprint/b1-r1.png"
+                            alt="8th"
+                        />
+                        <img
+                            src="https://event-img.huabanimg.com/8year/footprint/b1-r2.png"
+                            alt="8th"
+                        />
+                    </div>
+                    `;
+          p2 = `
+                    <div class="main box2">
+                        <div class="border-pink">
+                            <p>
+                                在花瓣陪伴的
+                                <span class="border-pink color-pink over-ellipsis" style="max-width: 404px;">${p2HowLong}</span>
+                                天里，
+                            </p>
+                            <p>
+                                你一共采集了
+                                <span class="border-pink color-pink diffent over-ellipsis" style="max-width: 372px;">${p2SumPins}</span>
+                                张图片，
+                            </p>
+                            <p>
+                                超过了全国
+                                <span class="border-pink color-pink over-ellipsis" style="max-width: 336px;">${p2OverPercent}%</span>
+                                的花瓣用户。
+                            </p>
+                        </div>
+                        <img src="https://event-img.huabanimg.com/8year/footprint/b2-r1.png" alt="8th" />
+                        <img src="https://event-img.huabanimg.com/8year/footprint/b2-r2.png" alt="8th" />
+                    </div>
+                    `;
+          // 没有不显示
+          p3 = `
+                    <div class="main box3">
+                        <div class="border-pink">
+                            <span class="border-pink color-pink over-ellipsis" style="max-width: 100%;">${p3WhenMostPins}</span>
+                            <p>这一天是你采集了里最多图片的一天，</p>
+                            <p>
+                                共
+                                <span class="border-pink color-pink diffent over-ellipsis"  style="max-width: 450px;">${p3MostPinsNumber}</span>
+                                张哦。
+                            </p>
+                        </div>
+                        <img src="https://event-img.huabanimg.com/8year/footprint/b3-rt.png" alt="8th">
+                        <img src="https://event-img.huabanimg.com/8year/footprint/b3-rb.png" alt="8th">
+                    </div>
+                    `;
+          // 没有显示
+          p4 = `
+                    <div class="main box4">
+                        <div class="border-pink">
+                            <p>你还没有在花瓣采集过图片哦。</p>
+                            <p>大胆 SHOW 自己，</p>
+                            <p>你将会成为花瓣最靓的仔！</p>
+                        </div>
+                        <img src="https://event-img.huabanimg.com/8year/footprint/b8-r-v2.png" alt="8th">
+                    </div>
+                    `;
+          // 没有不显示
+          p5 = `
+                    <div class="main box5">
+                        <div class="border-pink">
+                            <p>你还记得 TA 吗？</p>
+                            <p>这是你在花瓣采集的第一张图片，</p>
+                            <p>老伙计它还好吗？</p>
+                        </div>
+                        <div class="border-pink">
+                            <a href="https://huaban.com/pins/${p5InitPinId}" target="_blank">
+                                <img src="${p5InitPinImage}" class="expand-image" alt="8th"/>
+                            </a>
+                        </div>
+                        <img src="https://event-img.huabanimg.com/8year/footprint/b5-r.png" alt="8th">
+                    </div>
+                    `;
+          // 一分为二，没有不显示
+          p6a = `
+                    <div class="main box6">
+                        <div class="content border-pink">
+                            <p>你最受欢迎的原创作品</p>
+                            ${
+                              p6aWelcomeName
+                                ? `<span class="color-pink border-pink over-ellipsis diffent" style="max-width:100%;">${p6aWelcomeName}</span>`
+                                : ''
+                            }
+                            <p>被
+                                <span class="color-pink border-pink over-ellipsis" style="max-width:538px;">
+                                    ${p6aWelcomeLike}
+                                    <i class="iconfont iconheart heart"></i>
+                                </span>
+                                人采集/喜欢
+                            </p>
+                            <p>&nbsp;</p>
+                            <i class="iconfont iconright right"></i>
+                        </div>
+                        <div class="border-pink work">
+                            <a href="https://huaban.com/pins/${p6aWelcomeId}" target="_blank">
+                                <img src="${p6aWelcomeImage}" class="expand-image" alt="8th"/>
+                            </a>
+                        </div>
+                    </div>
+                    `;
+          // 一分为二，没有不显示
+          p6b = `
+                    <div class="main box6">
+                        <div class="content border-pink">
+                            <p>你最受欢迎的采集作品</p>
+                            ${
+                              p6bWelcomeName
+                                ? `<span class="color-pink border-pink over-ellipsis diffent" style="max-width:100%;">${p6bWelcomeName}</span>`
+                                : ''
+                            }
+                            <p>被
+                                <span class="color-pink border-pink over-ellipsis" style="max-width:538px;">
+                                    ${p6bWelcomeLike}
+                                    <i class="iconfont iconheart heart"></i>
+                                </span>
+                                人采集/喜欢
+                            </p>
+                            <p>只有最优质的图片才能通过你的火眼金睛</p>
+                            <i class="iconfont iconright right"></i>
+                            <img src="https://hbfile.huabanimg.com/d8a0349aa31d43fd7d9f00be410757d9c647ea5f" class="eye"
+                                alt="8th">
+                        </div>
+                        <div class="border-pink work">
+                            <a href="https://huaban.com/pins/${p6bWelcomeId}" target="_blank">
+                                <img src="${p6bWelcomeImage}" class="expand-image" alt="8th"/>
+                            </a>
+                        </div>
+                    </div>
+                    `;
+          p7 = `
+                    <div class="main box7">
+                        <div class="border-pink">
+                            <p>你最近最晚一次访问花瓣时间为</p>
+                            <span class="border-pink color-pink over-ellipsis" style="max-width: 100%;">${p7NightTime}</span>
+                            <p>是还在加班吗？</p>
+                            <p>记得照顾好自己啊。</p>
+                        </div>
+                        <img src="https://event-img.huabanimg.com/8year/footprint/b7-tl.png" alt="8th">
+                        <img src="https://event-img.huabanimg.com/8year/footprint/b7-tr.png" alt="8th">
+                        <img src="https://event-img.huabanimg.com/8year/footprint/b7-b.png" alt="8th">
+                    </div>
+                    `;
+          p8 = `
+                    <div class="main box8">
+                        <div class="border-pink">
+                            <p>你的品味总是被大家认可，这些年来，</p>
+                            <p>你的采集一共被</p>
+                            <p>转采&nbsp;<span class="color-pink border-pink over-ellipsis" style="max-width: 580px;">${p8Repins}</span>&nbsp;次，</p>
+                            <p>被喜欢&nbsp;<span class="color-pink border-pink over-ellipsis" style="max-width: 548px;">${p8Likes}</span>&nbsp;次。</p>
+                        </div>
+                        <img src="https://event-img.huabanimg.com/8year/footprint/b8-r-v1.png" alt="8th">
+                    </div>
+                    `;
+          // 没有不显示
+          p9 = `
+                    <div class="main box9">
+                        <div class="info border-pink">
+                            <p>在花瓣你并不孤单，</p>
+                            <p><span class="border-pink color-pink over-ellipsis" style="max-width: 220px;">${p9Followers}</span>&nbsp;位小伙伴关注着您，</p>
+                            <p>有&nbsp;<span class="border-pink color-pink over-ellipsis" style="max-width: 242px;">${p9Seeers}</span>&nbsp;个小伙伴的采集</p>
+                            <p>进入了你的画板，其中：</p>
+                        </div>
+                        <div class="for for-ya border-pink">
+                            <a href="https://huaban.com/${p9Who4U.url}" target="_blank">
+                                <img src="${p9Who4U.avatar}" class="border-pink" alt="8th">
+                            </a>
+                            <a href="https://huaban.com/${p9Who4U.url}" target="_blank">
+                                <span class="border-pink color-pink over-ellipsis" style="max-width: 100%;">${p9Who4U.name}</span>
+                            </a>
+                            <p>为您贡献最多</p>
+                        </div>
+                        <div class="for for-ta border-pink">
+                            <p>您为 TA 贡献最多</p>
+                            <a href="https://huaban.com/${p9U4Who.url}" target="_blank">
+                                <img src="${p9U4Who.avatar}" class="border-pink" alt="8th">
+                            </a>
+                            <a href="https://huaban.com/${p9U4Who.url}" target="_blank">
+                                <span class="border-pink color-pink over-ellipsis" style="max-width: 100%;">${p9U4Who.name}</span>
+                            </a>
+                        </div>
+                    </div>
+                    `;
+          p10 = `
+                    <div class="main box10">
+                        <div class="content border-pink">
+                            <p style="padding-bottom:88px;">
+                                你获得了
+                                <img src="${p10YourTitle}" alt="8th">
+                                称号
+                            </p>
+                            <p>八年相伴，真好，</p>
+                            <p>你一直都在 ~</p>
+                            <img src="https://hbfile.huabanimg.com/043e27c4647a0659daa1fa952bba00454972fb53" class="smile"
+                                alt="8th">
+                        </div>
+                        <img src="https://hbfile.huabanimg.com/6e87bd966b76d60627ac450ce6a55750df02540c" class="thanks"
+                            alt="8th">
+                        <div class="share">
+                            <div class="wechat">
+                                <img src="https://hbfile.huabanimg.com/51910df8f11c8676c08e9110706a7f9d0821b99e" class="wxcode" alt="8th"/>
+                            </div>
+                            <div class="imqq">
+                                <a href="https://connect.qq.com/widget/shareqq/index.html?url=http%3a%2f%2fevent.huaban.com%2fart%2f82%2fslug%2fsteps%2f%3Futm_source%3Djs-share%26utm_medium%3Dqfriends&desc=%E8%8A%B1%E7%93%A38%E5%91%A8%E5%B9%B4%E8%B6%B3%E8%BF%B9%E5%9B%9E%E5%BF%86%E5%BD%95&site=%E8%8A%B1%E7%93%A3%E7%BD%91&pics=http%3a%2f%2fevent-img.huabanimg.com%2f8year%2f8year.jpg&summary=%E8%8A%B1%E7%93%A38%E5%91%A8%E5%B9%B4%E8%B6%B3%E8%BF%B9%E5%9B%9E%E5%BF%86%E5%BD%95" target="_blank">&nbsp;</a>
+                            </div>
+                            <div class="weibo">
+                                <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fevent.huaban.com%2Fart%2F82%2Fslug%2Fsteps%2F&title=%E7%81%B5%E6%84%9F%E4%B8%8D%E6%96%AD%E7%94%B5%EF%BC%8C%E5%88%9B%E6%84%8F%E6%97%A0%E9%99%908%E2%80%94%E2%80%94%E8%8A%B1%E7%93%A38%E5%91%A8%E5%B9%B4%20%40%E8%8A%B1%E7%93%A3%E7%BD%91&pic=https%3A%2F%2Fevent-img.huabanimg.com%2F8year%2F8year.jpg&appkey=2499394483" target="_blank">&nbsp;</a>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+
+          setTimeout(() => {
+            this.pageList = [p0, p1, p2];
+
+            if (p3WhenMostPins && p3MostPinsNumber - 0 !== 0) {
+              this.pageList.push(p3);
+            }
+
+            if (p2SumPins - 0 !== 0) {
+              // 有采集
+              this.pageList.push(p5);
+            } else {
+              // 没有采集
+              this.pageList.push(p4);
+            }
+
+            if (p6aWelcomeId) {
+              // 存在最受欢迎原创
+              this.pageList.push(p6a);
+            }
+
+            if (p6bWelcomeId) {
+              // 存在最受欢迎采集
+              this.pageList.push(p6b);
+            }
+
+            if (p7NightTime) {
+              this.pageList.push(p7);
+            }
+
+            this.pageList.push(p8);
+
+            if (p9U4Who.url && p9Who4U.url) {
+              this.pageList.push(p9);
+            }
+
+            this.pageList.push(p10);
+
+            document.querySelector('.bottom').classList.remove('none');
+            this.bindEvents();
+            this.renderPage();
+          }, 0);
+        };
+        this.getYMD = timestamp => {
+          const date = new Date(timestamp);
+          const year = date.getFullYear().toString();
+          const month = (date.getMonth() + 1).toString();
+          const day = date.getDate().toString();
+          const m = month.length === 1 ? `0${month}` : month;
+          const d = day.length === 1 ? `0${day}` : day;
+
+          return `${year}-${m}-${d}`;
+        };
+        this.getDays = timestamp => {
+          return Math.floor(timestamp / 1000 / 60 / 60 / 24);
+        };
+        this.caculateTitle = () => {
+          let yearsNum = p1WhenSignUp.split('-')[0] - 0;
+          let yearScore = 0;
+          let pinsScore = 0;
+          let welcomeScore = 0;
+          let followerScore = 0;
+          let scores = 0;
+
+          // 年份
+          if (yearsNum - 0 > 2018) {
+            yearScore = 1;
+          } else if (yearsNum - 0 === 2018) {
+            yearScore = 2;
+          } else if (yearsNum - 0 === 2017) {
+            yearScore = 3;
+          } else if (yearsNum - 0 === 2016) {
+            yearScore = 4;
+          } else if (yearsNum - 0 === 2015) {
+            yearScore = 5;
+          } else if (yearsNum - 0 === 2014) {
+            yearScore = 6;
+          } else if (yearsNum - 0 === 2013) {
+            yearScore = 7;
+          } else if (yearsNum - 0 === 2012) {
+            yearScore = 8;
+          } else {
+            yearScore = 9;
+          }
+          // 总采集数量
+          if (p2SumPins - 0 <= 500) {
+            pinsScore = 1;
+          } else if (p2SumPins - 0 <= 1000) {
+            pinsScore = 2;
+          } else if (p2SumPins - 0 <= 5000) {
+            pinsScore = 3;
+          } else if (p2SumPins - 0 <= 8000) {
+            pinsScore = 4;
+          } else if (p2SumPins - 0 <= 10000) {
+            pinsScore = 5;
+          } else if (p2SumPins - 0 <= 20000) {
+            pinsScore = 6;
+          } else if (p2SumPins - 0 <= 30000) {
+            pinsScore = 7;
+          } else if (p2SumPins - 0 <= 50000) {
+            pinsScore = 8;
+          } else {
+            pinsScore = 9;
+          }
+          // 单张最高被转采（数量）的采集
+          if (p6bWelcomeLike - 0 <= 10) {
+            welcomeScore = 1;
+          } else if (p6bWelcomeLike - 0 <= 20) {
+            welcomeScore = 2;
+          } else if (p6bWelcomeLike - 0 <= 50) {
+            welcomeScore = 3;
+          } else if (p6bWelcomeLike - 0 <= 80) {
+            welcomeScore = 4;
+          } else if (p6bWelcomeLike - 0 <= 100) {
+            welcomeScore = 5;
+          } else if (p6bWelcomeLike - 0 <= 150) {
+            welcomeScore = 6;
+          } else if (p6bWelcomeLike - 0 <= 200) {
+            welcomeScore = 7;
+          } else if (p6bWelcomeLike - 0 <= 300) {
+            welcomeScore = 8;
+          } else {
+            welcomeScore = 9;
+          }
+          // 粉丝数
+          if (p9Followers - 0 <= 50) {
+            followerScore = 1;
+          } else if (p9Followers - 0 <= 100) {
+            followerScore = 2;
+          } else if (p9Followers - 0 <= 300) {
+            followerScore = 3;
+          } else if (p9Followers - 0 <= 500) {
+            followerScore = 4;
+          } else if (p9Followers - 0 <= 700) {
+            followerScore = 5;
+          } else if (p9Followers - 0 <= 1000) {
+            followerScore = 6;
+          } else if (p9Followers - 0 <= 5000) {
+            followerScore = 7;
+          } else if (p9Followers - 0 <= 10000) {
+            followerScore = 8;
+          } else {
+            followerScore = 9;
+          }
+          // 算分
+          scores = yearScore + pinsScore + welcomeScore + followerScore;
+          // 头衔分数
+          if (scores <= 5) {
+            // console.log("小小萌新花瓣");
+            return titleLevel[0];
+          } else if (scores <= 10) {
+            // console.log("淡泊名利花");
+            return titleLevel[1];
+          } else if (scores <= 15) {
+            // console.log("江湖游侠花");
+            return titleLevel[2];
+          } else if (scores <= 20) {
+            // console.log("小有成就花");
+            return titleLevel[3];
+          } else if (scores <= 25) {
+            // console.log("人见人爱花");
+            return titleLevel[4];
+          } else if (scores <= 30) {
+            // console.log("万里挑一花");
+            return titleLevel[5];
+          } else {
+            // console.log("人生赢家花");
+            return titleLevel[6];
+          }
+        };
+        this.bindEvents = () => {
+          // 绑定事件
+          window.addEventListener('wheel', this.handleMouse, false);
+          window.addEventListener('keydown', this.handleKeyboard, false);
+          this.beginEle.addEventListener('click', this.nextPage, false);
+          this.prevEle.addEventListener('click', this.prevPage, false);
+          this.nextEle.addEventListener('click', this.nextPage, false);
+          this.reloadEle.addEventListener('click', this.reloadPage, false);
+        };
+        this.handleKeyboard = e => {
+          const keyCode = e.keyCode;
+          if (keyCode === 39) {
+            // 下一张
+            this.nextPage();
+          }
+          if (keyCode === 37) {
+            // 上一张
+            this.prevPage();
+          }
+        };
+        this.handleMouse = e => {
+          clearTimeout(this.inter);
+
+          this.inter = setTimeout(() => {
+            if (e.deltaY > 0) {
+              this.nextPage();
+            } else if (e.deltaY < 0) {
+              this.prevPage();
+            }
+          }, 333);
+        };
+        this.prevPage = () => {
+          if (this.currentIndex > 0) {
+            this.currentIndex--;
+            this.renderPage();
+          }
+        };
+        this.nextPage = () => {
+          if (this.currentIndex < this.pageList.length - 1) {
+            this.currentIndex++;
+            this.renderPage();
+          }
+        };
+        this.reloadPage = () => {
+          this.currentIndex = 0;
+          this.renderPage();
+        };
+        this.renderPage = () => {
+          // 根据 currentIndex 的值，将对应的 DOM 插入到 middleEle
+          const main = document.querySelector('.main');
+
+          main && main.classList.add('bye');
+
+          setTimeout(() => {
+            this.middleEle.innerHTML = this.pageList[this.currentIndex];
+          }, 300);
+
+          if (this.currentIndex === 0) {
+            this.bottomEle.classList.add('normal');
+            this.bottomEle.classList.remove('unnormal');
+            this.beginEle.classList.remove('none');
+            this.prevEle.classList.add('none');
+            this.nextEle.classList.add('none');
+            this.reloadEle.classList.add('none');
+          } else if (this.currentIndex === this.pageList.length - 1) {
+            this.bottomEle.classList.add('normal');
+            this.bottomEle.classList.remove('unnormal');
+            this.beginEle.classList.add('none');
+            this.prevEle.classList.add('none');
+            this.nextEle.classList.add('none');
+            this.reloadEle.classList.remove('none');
+          } else {
+            this.bottomEle.classList.remove('normal');
+            this.bottomEle.classList.add('unnormal');
+            this.beginEle.classList.add('none');
+            this.prevEle.classList.remove('none');
+            this.nextEle.classList.remove('none');
+            this.reloadEle.classList.add('none');
+          }
+        };
+      }
+
+      new Foots().init();
+    })();
+  </script>
+</html>

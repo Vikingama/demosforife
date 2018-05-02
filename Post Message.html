@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Post Message</title>
+  </head>
+  <body></body>
+  <script>
+    /*
+    通常，对于两个不同页面的脚本，只有当执行它们的页面具有
+    相同的协议（通常为 https），
+    端口号（443 为 https 的默认值），
+    主机 (两个页面的模数 Document.domain 设置为相同的值) 时，
+    这两个脚本才能相互通信...
+    postMessage() --- 安全地实现跨源通信...
+    pM 被调用时，会在所有页面脚本执行完毕之后
+    向目标窗口派发一个 MessageEvent 消息...
+    其他窗口的一个引用.postMessage(发送的数据, "*"（无限制）/ URI, [transfer])
+    [transfer] --- 一串和 message 同时传递的 Transferable 对象，这些对象的所有权将被转移给消息的接收方，而发送一方将不再保有所有权...
+    */
+    var pop = window.open(
+      'http://127.0.0.1:8848/demosforife/resource/receive.html'
+    );
+    setTimeout(function () {
+      pop.postMessage('Oops! I Did It Again...', '*');
+    }, 3000);
+  </script>
+</html>

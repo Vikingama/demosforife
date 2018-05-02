@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>BOM</title>
+  </head>
+  <body>
+    BOM--->浏览器的一个实例，它的核心对象是 window...
+    <br />
+    window--->JavaScript 访问浏览器窗口的接口，是 ECMAScript 定义的 Global
+    对象...
+  </body>
+  <script>
+    var variableSample = 8888;
+    console.log(window.variableSample); // 8888
+    window.hahasha = 6666;
+    delete variableSample;
+    delete hahasha;
+    try {
+      console.log(variableSample);
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      console.log(hahasha);
+    } catch (error) {
+      console.log(
+        '全局变量不能通过 delete 操作符删除，而直接在 window 对象上的定义的属性可以被删除...'
+      );
+      console.log('原因是全局变量的 configurable 属性为 false...');
+    }
+    try {
+      // 这里会抛出错误，因为 oldValue 未定义
+      var newValue = oldValue;
+      console.log(newValue);
+    } catch (error) {
+      // 这里不会抛出错误，因为这是一次属性查询
+      // newValue 的值是 undefined
+      var newValue = window.oldValue;
+      console.log(newValue);
+    } finally {
+      console.log(
+        '尝试访问未声明的变量会抛出错误，但是通过查询 window 对象，可以知道某个可能未声明的变量是否存在...'
+      );
+    }
+    var winLeftPos = window.screenLeft || window.screenX;
+    var winTopPos = window.screenTop || window.screenY;
+    console.log(winLeftPos, winTopPos); // 0 0
+    // 在 mac 下好像被禁用了
+    window.moveBy(100, 100);
+    window.moveTo(100, 100);
+    window.resizeBy(100, 100);
+    window.resizeTo(100, 100);
+    // window.open(要加载的 URL、窗口目标、一个特性字符串、一个表示新页面是否取代浏览器历史记录中当前加载页面的布尔值);
+    var baiduWindow = window.open(
+      'https://www.baidu.com/',
+      'Baidu',
+      'height=400,width=400,top=10,left=10,resizable=yes',
+      false
+    );
+    if (baiduWindow == null) {
+      alert('The popup is blocked...');
+    } else {
+      console.log(baiduWindow);
+    }
+    setTimeout(function () {
+      console.log(baiduWindow.opener);
+      // 将 opener 置为 null，切断了当前窗口与新打开窗口之间的联系，所以 close() 方法报错
+      baiduWindow.opener = null;
+      try {
+        baiduWindow.close();
+      } catch (e) {
+        console.log(e);
+      }
+      console.log(baiduWindow.closed);
+    }, 6666);
+    // var answers = confirm('Do You Love Me ?');
+    // if (answers) {
+    //     alert('Thank You');
+    // } else {
+    //     alert('Fucking Asshole');
+    // }
+    var textIn = prompt('Who Are You ?', 'vkx');
+    if (textIn) {
+      alert('Welcome, ' + textIn);
+    }
+    // window.print();// 打印弹出框，出现打印预览界面
+    // window.find();
+    console.log(window.location === document.location);
+    console.log(location);
+    console.log([1, 2, 3].includes(1)); // ES2016
+    /*
+        window.location = "https://baidu.com" 或 location.href = "https://baidu.com" 是通过 assign 方法运行的...
+        location.assign('https://baidu.com');
+        location.reload();// 可能从缓存中重载页面
+        location.raload(true);// 从服务器重载页面
+    */
+    navigator.plugins.refresh(); // 刷新浏览器插件列表
+    console.log(window.screen);
+    window.screen.orientation.onchange = function () {
+      console.log(this); // ScreenOrientation
+      if (this.type.indexOf('landscape') != -1) {
+        console.log('横屏');
+      } else {
+        console.log('竖屏');
+      }
+    };
+    window.resizeTo(screen.availWidth, screen.availHeight);
+    /*
+        history.go()
+        history.forward()
+        history.back()
+        history.length
+    */
+    console.log(history.length);
+    console.log(document.createDocumentFragment);
+  </script>
+</html>

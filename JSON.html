@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>JSON</title>
+  </head>
+  <body></body>
+  <script>
+    var sample = [
+      {
+        title: 'Professional JavaScript',
+        authors: ['Nicholas C. Zakas'],
+        edition: 3,
+        year: 2011
+      },
+      {
+        title: 'Professional JavaScript',
+        authors: ['Nicholas C. Zakas'],
+        edition: 2,
+        year: 2009
+      },
+      {
+        title: 'Professional Ajax',
+        authors: ['Nicholas C. Zakas', 'Jeremy McPeak', 'Joe Fawcett'],
+        edition: 2,
+        year: 2008
+      },
+      {
+        title: 'Professional Ajax',
+        authors: ['Nicholas C. Zakas', 'Jeremy McPeak', 'Joe Fawcett'],
+        edition: 1,
+        year: 2007
+      },
+      {
+        title: 'Professional JavaScript',
+        authors: ['Nicholas C. Zakas'],
+        edition: 1,
+        year: 2006
+      }
+    ];
+    // JSON.stringify(JSON 对象，过滤函数/数组，缩进格式);
+    console.log(JSON.stringify(sample, ['title', 'year']));
+    console.log(
+      JSON.stringify(sample, function (key, value) {
+        switch (key) {
+          case 'authors':
+            return value.join(',');
+          case 'year':
+            return 5000;
+          case 'edition':
+            // JSON 不支持 undefined，返回 undefined 等同于过滤除去 edition 项
+            return undefined;
+          default:
+            return value;
+        }
+      })
+    );
+    console.log(JSON.stringify(sample, null, 4));
+  </script>
+</html>
