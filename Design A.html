@@ -17,46 +17,49 @@
         }
 
         p {
-            margin: 10vh auto 0;
+            position: relative;
+            margin: 5vh auto 0;
             width: 252px;
-            background: white;
-            color: black;
+            background: transparent;
+            color: #4569e6;
             font-size: 21px;
             text-align: center;
             transition: all 1s;
         }
 
         p:last-of-type {
+            color: black;
             cursor: pointer;
             user-select: none;
         }
 
         span {
-            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
             width: 0;
-            height: 12px;
+            height: 100%;
             background: transparent;
             transition: width 1s, background 1s;
+            z-index: -1;
         }
 
         .effects {
-            background: #4569e6;
             color: white;
         }
 
         .longer {
             width: 100%;
-            background: white;
+            background: #4569e6;
         }
     </style>
 </head>
 
 <body>
     <p>
-        百度前端学院 2018
-        <br>
+        Baidu IFE 2018
         <span></span>
-        <br> Baidu IFE 2018
     </p>
     <p>Click Me</p>
 </body>
