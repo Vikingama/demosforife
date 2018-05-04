@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>百度前端-设计学院-第八课-Part One</title>
+    <title>百度前端-设计学院-第八课-Part Two</title>
     <style>
         html,
         body {
@@ -36,12 +36,18 @@
 </body>
 <script src="./resource/bodymovin.js"></script>
 <script>
-    bodymovin.loadAnimation({
-        autoplay: true,
+    var bodyMovin = bodymovin.loadAnimation({
+        autoplay: false,
         container: document.getElementById("bodyMovin"),
-        loop: true,
-        path: './resource/data.json',
+        loop: false,
+        path: './resource/box.json',
         renderer: 'svg'
+    });
+    document.getElementById("bodyMovin").addEventListener("mouseover", function () {
+        bodyMovin.play();
+    });
+    document.getElementById("bodyMovin").addEventListener("mouseleave", function () {
+        bodyMovin.stop();
     });
 </script>
 
