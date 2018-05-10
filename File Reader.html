@@ -57,7 +57,7 @@
 
 <body>
     <div>
-        <input type="file">
+        <input type="file" accept="image/*">
         <a href="javascript:void(0)">点我</a>
     </div>
     <img src="" alt="">
@@ -66,8 +66,20 @@
     var inputEle = document.getElementsByTagName("input")[0];
     var imgEle = document.querySelector("img");
     inputEle.onchange = function (e) {
+        if (e.target.files[0].type && !/image/.test(e.target.files[0].type)) {
+            return;
+        }
+        // var srcUrl = URL.createObjectURL(e.target.files[0]);
+        // imgEle.src = srcUrl;
+        // URL.revokeObjectURL(srcUrl);
         var reader = new FileReader();
+        // reader.readAsArrayBuffer(e.target.files[0]);
+        // reader.readAsBinaryString(e.target.files[0]);
         reader.readAsDataURL(e.target.files[0]);
+        // reader.readAsText(e.target.files[0]);
+        reader.onload = function (e) {
+            console.log(e);
+        };
         reader.onprogress = function (e) {
             if (e.lengthComputable) {
                 imgEle.src = e.target.result;
