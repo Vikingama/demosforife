@@ -6,24 +6,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Booster</title>
+    <style>
+        ul {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+    </style>
 </head>
 
 <body>
-
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
 </body>
 <script>
-    var initialTime = new Date().getTime(), domFragment = document.createDocumentFragment(), i, item, betweenTime;
-    function operateDom() {
-        for (i = 0; i < 100; i++) {
-            item = document.createElement("li");
-            item.innerText = i;
-            domFragment.appendChild(item);
+    var initialTime = new Date().getTime(), domFragment = document.createDocumentFragment(), i, t, itemOne, itemTwo, betweenTimeOne, betweenTimeTwo;
+    function operateDomOne() {
+        var liEles = document.getElementsByTagName("li");
+        for (i = 0; i < liEles.length * 10; i++) {
+            itemOne = document.createElement("i");
+            itemOne.innerText = i;
+            domFragment.appendChild(itemOne);
         }
         document.body.appendChild(domFragment);
-        betweenTime = new Date().getTime() - initialTime;
-        return betweenTime;
+        betweenTimeOne = new Date().getTime() - initialTime;
+        return betweenTimeOne;
     }
-    console.log(operateDom());
+    function operateDomTwo() {
+        for (t = 0; t < document.getElementsByTagName("li").length * 10; t++) {
+            itemTwo = document.createElement("i");
+            itemTwo.innerText = t;
+            domFragment.appendChild(itemTwo);
+        }
+        document.body.appendChild(domFragment);
+        betweenTimeTwo = new Date().getTime() - initialTime;
+        return betweenTimeTwo;
+    }
+    console.log(operateDomOne());// <5ms
+    document.write("<br>");
+    console.log(operateDomTwo());// >5ms
 </script>
 
 </html>
