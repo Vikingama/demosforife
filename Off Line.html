@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN" manifest="./resource/offline.mainfest">
 
 <head>
     <meta charset="UTF-8">
@@ -19,6 +19,7 @@
     window.onoffline = function () {
         alert("妈的，断网了...");
     }
+    console.log(applicationCache.status);
 </script>
 
 </html>
