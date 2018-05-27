@@ -28,10 +28,30 @@
 </head>
 
 <body>
-    <form action="https://www.baidu.com/">
-        <input type="text" placeholder="键入搜索">
-        <input type="image" src="./resource/submit.png">
+    <form action="https://baidu.com/s" method="get">
+        <input type="hidden" value="hidden" name="sample">
+        <input type="text" placeholder="键入搜索" name="sample" id="selectEle">
+        <input type="image" src="./resource/submit.png" name="sample">
     </form>
 </body>
+<script>
+    var formEle = document.forms[0];
+    var selectEle = document.getElementById("selectEle");
+    selectEle.onfocus = function (e) {
+        e.target.select();// 当聚焦时可以自动选中输入框中内容，方便用户删除数据
+    };
+    selectEle.onselect = function () {
+        this.setSelectionRange(0, this.value.length - 3);// 设置用户的选择范围
+        console.log(this.value.substring(this.selectionStart, this.selectionEnd));// 用户所选择的内容
+    };
+    selectEle.onkeypress = function (e) {
+        console.log(e);
+    };
+    formEle.onsubmit = function (e) {
+        console.log(formEle.elements);// 获取不到具有“提交属性”的表单元素
+        formEle.reset();
+        e.preventDefault();
+    }
+</script>
 
 </html>
