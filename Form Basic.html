@@ -41,17 +41,38 @@
         e.target.select();// 当聚焦时可以自动选中输入框中内容，方便用户删除数据
     };
     selectEle.onselect = function () {
-        this.setSelectionRange(0, this.value.length - 3);// 设置用户的选择范围
+        this.setSelectionRange(0, this.value.length - 3);// 设置用户的选择范围，用户不可自由选定选择范围
         console.log(this.value.substring(this.selectionStart, this.selectionEnd));// 用户所选择的内容
     };
     selectEle.onkeypress = function (e) {
-        console.log(e);
+        // 只能输入数字
+        console.log(String.fromCharCode(e.charCode));
+        if (!/\d/.test(String.fromCharCode(e.charCode))) {
+            e.preventDefault();
+        }
     };
     formEle.onsubmit = function (e) {
         console.log(formEle.elements);// 获取不到具有“提交属性”的表单元素
         formEle.reset();
         e.preventDefault();
     }
+    function clipboardData(e) {
+        // clipboardData --- IE 中属于 window，其他浏览器中属于事件 e
+        if (e.clipboardData) {
+            return e.clipboardData.getData("text/plain");
+        } else {
+            return window.clipboardData.getData("text");
+        }
+        /*
+        clipboardData 的三种方法：
+            getData()
+            setData()
+            clearData()
+        */
+    };
+    document.oncopy = function (e) {
+        console.log(clipboardData(e));
+    };
 </script>
 
 </html>
