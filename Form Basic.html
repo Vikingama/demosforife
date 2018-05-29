@@ -11,13 +11,14 @@
             text-align: center;
         }
 
-        [type="text"] {
-            -webkit-appearance: none;
+        select,
+        [type="range"] {
             width: 100%;
             height: 10vmin;
         }
 
-        [type="range"] {
+        [type="text"] {
+            -webkit-appearance: none;
             width: 100%;
             height: 10vmin;
         }
@@ -33,7 +34,11 @@
 </head>
 
 <body>
-    <form action="https://baidu.com/s" method="get">
+    <!--
+        novalidate 不进行表单验证
+        document.forms[0].noValidate = true; 禁用验证
+    -->
+    <form action="https://baidu.com/s" method="get" novalidate>
         <input type="hidden" value="hidden" name="sample">
         <input type="text" placeholder="键入搜索" name="sample" id="selectEle" class="eles1" maxlength="5">
         <!-- pattern 属性不能阻止用户输入无效文本，checkValidity() 可以检测字段是否有效 -->
@@ -41,7 +46,20 @@
         <input type="text" placeholder="键入搜索" name="sample" class="eles3" maxlength="7" required>
         <input type="text" placeholder="键入搜索" name="sample" class="eles4" maxlength="8">
         <input type="range" step="5" min="0" max="100" name="sample">
-        <input type="image" src="./resource/submit.png" name="sample">
+        <!--
+            formnovalidate 提交时不进行表单验证，用在提交按钮上
+            document.forms[0].elements["sample"].formNoValidate = true; 禁用提交验证
+        -->
+        <select name="sample" id="selectorEle">
+            <!--
+                如果 option 没有指定 value 属性，那默认的 value 值为标签的 innerText，IE 则返回空
+            -->
+            <option disabled selected>Choose One</option>
+            <option value="Los Angeles, CA">Los Angeles</option>
+            <option value="Mountain View, CA">Mountain View</option>
+            <option value="China">China</option>
+        </select>
+        <input type="image" src="./resource/submit.png" name="sample" formnovalidate>
     </form>
 </body>
 <script>
@@ -129,9 +147,32 @@
     };
     var checkEle = document.getElementById("checkEle");
     checkEle.onkeyup = function (e) {
-        // 由于设置了 pattern 属性；当输入内容不符合 pattern 验证时，将返回 false，否则返回 true
+        /*
+        由于设置了 pattern 属性；当输入内容不符合 pattern 验证时，checkValidity() 将返回 false，否则返回 true
+        checkValidity() 可以直接作用在 form 表单上：document.forms[0].checkValidity()
+        当所有字段均有效返回 true，有一个字段无效，则返回 false
+        */
         console.log(e.target.checkValidity());
+        if (e.target.validity && !e.target.valid) {
+            console.log(e.target.validity);
+        }
     };
+    var selectorEle = document.getElementById("selectorEle"), selectedEle;
+    selectorEle.onchange = function () {
+        selectedEle = selectorEle.options[selectorEle.selectedIndex];
+        console.log(selectedEle);
+    };
+    selectorEle.appendChild(new Option("Japan", "Japan"));
+    selectorEle.add(new Option("Korea", "Korea"));
+    setTimeout(function () {
+        selectorEle.remove(0);
+        setTimeout(function () {
+            selectorEle.options[0] = null;
+            setTimeout(function () {
+                selectorEle.removeChild(selectorEle.options[0]);
+            }, 3000);
+        }, 3000);
+    }, 3000);
 </script>
 
 </html>
