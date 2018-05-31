@@ -27,6 +27,7 @@
     var clickMe = document.getElementById("clickMe");
     function clickHandler(e) {
         alert(this == e.target);
+        // IE 中 this == e.srcElement
     };
     // DOM0 级事件处理程序
     clickMe.onclick = clickHandler;
@@ -46,9 +47,46 @@
     */
     /*
         e.preventDefault() ---> 阻止事件默认行为
+        e.returnValue = false ---> IE 中阻止默认事件
+
         e.stopPropagation() ---> 阻止事件传播
+        e.cancelBubble = true ---> IE 中阻止事件冒泡（IE 不支持事件捕获）
+
         e.eventPhase ---> 当前事件位于事件流的位置
     */
+    // DOM3 级事件处理程序
+    /*
+        UI 事件：load、unload、abort、error、ready、select、resize、scroll
+        焦点事件：focus、blur、focusin、focusout
+        鼠标事件：click、dblclick、mouseup、mousedown、mouseenter（不冒泡）、mouseleave（不冒泡）、mouseover、mouseout、mousemove
+        滚轮事件：
+        文本事件：
+        键盘事件：
+        合成事件：
+        变动事件：
+        变动名称事件（已废弃）
+    */
+    var pipe;
+    window.onresize = function () {
+        clearTimeout(pipe);
+        pipe = setTimeout(() => {
+            console.log(this);
+        }, 500);
+    };
+    /*
+        document.compatMode --- 浏览器当前的渲染方式
+            BackCompat ---> 标准兼容模式关闭
+            CSS1Compat ---> 标准兼容模式开启
+    */
+    /*
+        只有在同一个元素上相继触发 mousedown 和 mouseup 事件，才会触发 click 事件；
+        如果 mousedown 或 mouseup 中的一个被取消，就不会触发 click 事件；
+        只有触发两次 click 事件，才会触发一次 dblclick 事件；
+        如果有代码阻止了连续两次触发 click 事件（直接或间接），就不会触发 dblclick 事件
+    */
+    document.documentElement.onclick = e => {
+        console.log("视口坐标：(" + e.clientX + "," + e.clientY + ")");
+    };
 </script>
 
 </html>
