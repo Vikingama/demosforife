@@ -7,6 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Events</title>
     <style>
+        html,
+        body {
+            height: 300vh;
+        }
+
         div {
             text-align: center;
         }
@@ -86,6 +91,20 @@
     */
     document.documentElement.onclick = e => {
         console.log("视口坐标：(" + e.clientX + "," + e.clientY + ")");
+        console.log("页面坐标：(" + e.pageX + "," + e.pageY + ")");// IE8不支持，需要借助 scrollTop、clientY 和 scrollLeft、clientX 计算
+        console.log("屏幕坐标：(" + e.screenX + "," + e.screenY + ")");
+        if (e.altKey) {
+            console.log("Alt/Option");
+        }
+        if (e.ctrlKey) {
+            console.log("Ctrl/Control");
+        }
+        if (e.metaKey) {
+            console.log("Windows/Command");
+        }
+        if (e.shiftKey) {
+            console.log("Shift");
+        }
     };
 </script>
 
