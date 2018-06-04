@@ -217,14 +217,14 @@
             键盘无法触发 dbclick。
     */
     document.addEventListener("keyup", function (e) {
-        console.log(e.keyCode);// 键码
+        // console.log(e.keyCode);// 键码
     }, false);
     textInput.addEventListener("textInput", function (e) {
         console.log(e);
         e.preventDefault();
     }, false);
     document.onkeypress = function (e) {
-        console.log(e.charCode);// ASCII 编码
+        // console.log(e.charCode);// ASCII 编码
     };
 </script>
 
