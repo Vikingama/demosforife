@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Events</title>
+    <title>Events Basic</title>
     <style>
         html,
         body {
@@ -37,7 +37,7 @@
     // DOM0 级事件处理程序
     clickMe.onclick = clickHandler;
     clickMe.onclick = null;
-    // DOM2 级事件处理程序
+    // DOM2 级事件处理程序，事件监听可以给一个事件绑定多个操作
     /*
         第三个参数为 true 时，表示在捕获阶段调用事件处理程序；false 表示在冒泡阶段调用事件处理程序
         移除事件绑定，传入的参数须与 addEventListener 一致，所以如果要移除事件处理函数，事件处理函数不能为匿名函数
@@ -63,7 +63,7 @@
     /*
         UI 事件：load、unload、abort、error、ready、select、resize、scroll
         焦点事件：focus、blur、focusin、focusout
-        鼠标事件：click、dblclick、mouseup、mousedown、mouseenter（不冒泡）、mouseleave（不冒泡）、mouseover、mouseout、mousemove
+        鼠标事件：click、dblclick、mouseup、mousedown、mouseenter（不冒泡）、mouseleave（不冒泡）、mouseover、mouseout、mousemove、mousewheel
         滚轮事件：
         文本事件：
         键盘事件：
@@ -93,6 +93,7 @@
         console.log("视口坐标：(" + e.clientX + "," + e.clientY + ")");
         console.log("页面坐标：(" + e.pageX + "," + e.pageY + ")");// IE8不支持，需要借助 scrollTop、clientY 和 scrollLeft、clientX 计算
         console.log("屏幕坐标：(" + e.screenX + "," + e.screenY + ")");
+        console.log("目标坐标：(" + e.offsetX + "," + e.offsetY + ")");// 光标相对于目标元素的坐标
         if (e.altKey) {
             console.log("Alt/Option");
         }
@@ -106,6 +107,90 @@
             console.log("Shift");
         }
     };
+    function watchRelatedTarget(e) {
+        // e.relatedTarget 好像和 e.fromElement 对应的
+        if (e.relatedTarget) {
+            return e.relatedTarget;
+        } else if (e.fromElement) {
+            return e.fromElement;
+        } else if (e.toElement) {
+            return e.toElement;
+        } else {
+            return null;
+        }
+    };
+    clickMe.onmouseover = function (e) {
+        console.log("From" + e.target + "To" + watchRelatedTarget(e));
+    };
+    clickMe.onmouseover = null;
+    clickMe.onmouseup = function (e) {
+        // console.log(typeof e.button);// number
+        switch (e.button) {
+            case 0:
+                console.log("鼠标主键按下");
+                break;
+            case 1:
+                console.log("鼠标中键按下");
+                break;
+            case 2:
+                console.log("鼠标副键按下");
+                break;
+            default:
+                break;
+        }
+    };
+    // IE 兼容版鼠标按键
+    function mouseButton(e) {
+        if (document.implementation.hasFeature("MouseEvents", "2.0")) {
+            return e.button;
+        } else {
+            switch (e.button) {
+                case 0:
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                    return 0;// 主键
+                case 2:
+                case 6:
+                    return 2;// 副键
+                case 4:
+                    return 1;// 中键
+            }
+        }
+    };
+    // 节流函数，第一个参数---要执行的函数，第二个参数---延迟时间
+    function jieLiu(func, time) {
+        let timeOut;
+        if (func) {
+            return function () {
+                const that = this;
+                const args = arguments;// e
+                clearTimeout(timeOut);
+                timeOut = setTimeout(function () {
+                    func.apply(that, args);
+                }, time || 500);
+            };
+        } else {
+            return null;
+        }
+    };
+    // 火狐不支持此事件
+    document.onmousewheel = jieLiu(function (e) {
+        if (e.wheelDelta > 0) {
+            console.log("向前/上滚");
+        } else if (e.wheelDelta < 0) {
+            console.log("向后/下滚");
+        }
+    }, 333);
+    // DOMMouseScroll 不支持 on 绑定
+    document.addEventListener("DOMMouseScroll", jieLiu(function (e) {
+        if (e.detail < 0) {
+            console.log("向前/上滚");
+        } else if (e.detail > 0) {
+            console.log("向后/下滚");
+        }
+    }, 111), false);
 </script>
 
 </html>
