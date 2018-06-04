@@ -9,17 +9,31 @@
     <style>
         html,
         body {
+            margin: 0;
+            padding: 0;
             height: 300vh;
         }
 
         div {
             text-align: center;
         }
+
+        input {
+            -webkit-appearance: none;
+            margin: 0;
+            padding: 0 3vw;
+            width: 100vw;
+            height: 10vh;
+            border: none;
+            box-sizing: border-box;
+            outline: 1px solid black;
+        }
     </style>
 </head>
 
 <body>
     <div id="clickMe">Click Me</div>
+    <input type="text" id="textInput">
 </body>
 <script>
     /*
@@ -30,6 +44,7 @@
             div <--- body <--- html <--- document
     */
     var clickMe = document.getElementById("clickMe");
+    var textInput = document.getElementById("textInput");
     function clickHandler(e) {
         alert(this == e.target);
         // IE 中 this == e.srcElement
@@ -63,10 +78,10 @@
     /*
         UI 事件：load、unload、abort、error、ready、select、resize、scroll
         焦点事件：focus、blur、focusin、focusout
-        鼠标事件：click、dblclick、mouseup、mousedown、mouseenter（不冒泡）、mouseleave（不冒泡）、mouseover、mouseout、mousemove、mousewheel
-        滚轮事件：
+        鼠标事件：click、dblclick、mouseup、mousedown、mouseenter（不冒泡）、mouseleave（不冒泡）、mouseover、mouseout、mousemove
+        滚轮事件：mousewheel
         文本事件：
-        键盘事件：
+        键盘事件：keydown（按住不放，会重复触发）、keypress（按住不放，会重复触发）、keyup、textInput（keypress 的补充，文本插入输入框之前触发）
         合成事件：
         变动事件：
         变动名称事件（已废弃）
@@ -191,6 +206,26 @@
             console.log("向后/下滚");
         }
     }, 111), false);
+    /*
+        触摸设备：
+            不支持 dbclick 事件，双击会进行缩放行为；
+            轻击可单机元素会触发 mousemove 事件；
+            mousemove 事件会触发 mouseover 和 mouseout 事件；
+            两个手指放在屏幕上滚动会触发 mouseover 和 mouseout 事件。
+        无障碍问题：
+            屏幕阅读器无法触发鼠标事件。
+            键盘无法触发 dbclick。
+    */
+    document.addEventListener("keyup", function (e) {
+        console.log(e.keyCode);// 键码
+    }, false);
+    textInput.addEventListener("textInput", function (e) {
+        console.log(e);
+        e.preventDefault();
+    }, false);
+    document.onkeypress = function (e) {
+        console.log(e.charCode);// ASCII 编码
+    };
 </script>
 
 </html>
