@@ -80,10 +80,10 @@
         焦点事件：focus、blur、focusin、focusout
         鼠标事件：click、dblclick、mouseup、mousedown、mouseenter（不冒泡）、mouseleave（不冒泡）、mouseover、mouseout、mousemove
         滚轮事件：mousewheel
-        文本事件：
-        键盘事件：keydown（按住不放，会重复触发）、keypress（按住不放，会重复触发）、keyup、textInput（keypress 的补充，文本插入输入框之前触发）
-        合成事件：
-        变动事件：
+        文本事件：textInput（keypress 的补充，文本插入输入框之前触发）
+        键盘事件：keydown（按住不放，会重复触发）、keypress（按住不放，会重复触发）、keyup
+        合成事件：compositionstart、compositionupdate、compositionend
+        变动事件：DOMSubtreeModified、DOMNodeInserted、DOMNodeRemoved、DOMNodeInsertedIntoDocument、DOMNodeRemovedFromDocument、DOMAttrModified、DOMCharacterDataModified
         变动名称事件（已废弃）
     */
     var pipe;
