@@ -9,12 +9,30 @@
 </head>
 
 <body>
-
+    <a href="https://baidu.com">百度</a>
 </body>
 <script>
     document.documentElement.oncontextmenu = function (e) {
         e.preventDefault();
         return false;
+    };
+    window.onbeforeunload = e => {
+        let unloadMessage = "Don't go...";
+        return unloadMessage;
+    };
+    (() => {
+        let showCount = 0;
+        window.onload = () => {
+            showCount++;
+            console.log('onload' + showCount);
+        };
+        window.onpageshow = () => {
+            showCount++;
+            console.log('onpageshow' + showCount);
+        }
+    })();
+    window.onhashchange = () => {
+        console.log("Hash Change: " + location.hash);
     };
 </script>
 
