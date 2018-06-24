@@ -12,6 +12,12 @@
     <a href="https://baidu.com">百度</a>
 </body>
 <script>
+    /*
+    HTML5 事件：contextmenu、beforeunload、DOMContentLoaded、readystatechange、pageshow、pagehide、hashchange
+    设备事件：orientationchange、MozOrientation、deviceorientation、devicemotion
+    触摸事件：touchstart、touchmove、touchend、touchcancel
+    手势事件：gesturestart、gesturechange、gestureend
+    */
     document.documentElement.oncontextmenu = function (e) {
         e.preventDefault();
         return false;
@@ -20,19 +26,44 @@
         let unloadMessage = "Don't go...";
         return unloadMessage;
     };
-    (() => {
-        let showCount = 0;
-        window.onload = () => {
-            showCount++;
-            console.log('onload' + showCount);
-        };
-        window.onpageshow = () => {
-            showCount++;
-            console.log('onpageshow' + showCount);
-        }
-    })();
     window.onhashchange = () => {
         console.log("Hash Change: " + location.hash);
+    };
+    window.onorientationchange = () => {
+        switch (this.orientation) {
+            case 0:
+                console.log("头部在上");
+                break;
+            case 90:
+                console.log("头部在左");
+                break;
+            case -90:
+                console.log("头部在右");
+                break;
+            case 180:
+                console.log("趴在地上");
+                break;
+            default:
+                break;
+        }
+    };
+    window.ondeviceorientation = e => {
+        console.log(e.alpha);// Z轴--->左右旋转
+        console.log(e.beta);// X轴--->前后旋转
+        console.log(e.gamma);// Y轴--->扭转
+        console.log(e.absolute);
+        console.log(e.compassCalibrated);// 指南针是否经过校准
+    };
+    window.ondevicemotion = e => {
+        console.log(e.acceleration);
+        console.log(e.accelerationIncludingGravity);
+        console.log(e.interval);
+        console.log(e.rotationRate);
+    };
+    document.documentElement.ontouchstart = e => {
+        console.log(e.touches);
+        console.log(e.targetTouches);
+        console.log(e.changeTouches);
     };
 </script>
 
