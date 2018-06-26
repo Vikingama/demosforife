@@ -15,27 +15,41 @@
 
 </body>
 <script>
+    // 动态 JS
     function loadScript(jsURL) {
         let script = document.createElement("script");
-        script.id = 'doExp';
+        script.className = 'doExp';
         script.type = "text/javascript";
         script.src = jsURL;
         script.text = 'function tryThis(){alert("doExp");}';
-        document.head.appendChild(script);
+        document.body.appendChild(script);
     };
     loadScript("https://unpkg.com/jquery@3.3.1/dist/jquery.js");
     setTimeout(function () {
         try {
-            let doExpJs = document.scripts['doExp'].innerText;
+            // 可能是浏览器安全限制的原因，不同 script 标签是在一个作用域的...需要通过 eval 函数，将文本信息转化为 js 代码
+            let doExpJs = document.querySelectorAll(".doExp")[0].innerText;
             eval(doExpJs);
             tryThis();
-            // 可能是浏览器安全限制的原因，不同 script 标签是在一个作用域的...需要通过 eval 函数，将文本信息转化为 js 代码
         } catch (error) {
             alert(error);
         } finally {
             console.log(headVariable);
         };
     }, 1000);
+    // 动态 CSS
+    function loadStyle(cssURL) {
+        let style = document.createElement("link"), isOK = document.createElement("style");
+        style.id = "doCSS";
+        style.rel = "stylesheet";
+        style.type = "text/css";
+        style.href = cssURL;
+        isOK.type = "text/css";
+        isOK.appendChild(document.createTextNode('html{background:red;}'));
+        document.head.appendChild(style);
+        document.head.appendChild(isOK);
+    };
+    loadStyle("https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css");
 </script>
 
 
