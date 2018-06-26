@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DOM 1.2</title>
+    <script>
+        let headVariable = "null";
+    </script>
+</head>
+
+<body>
+
+</body>
+<script>
+    function loadScript(jsURL) {
+        let script = document.createElement("script");
+        script.id = 'doExp';
+        script.type = "text/javascript";
+        script.src = jsURL;
+        script.text = 'function tryThis(){alert("doExp");}';
+        document.head.appendChild(script);
+    };
+    loadScript("https://unpkg.com/jquery@3.3.1/dist/jquery.js");
+    setTimeout(function () {
+        try {
+            let doExpJs = document.scripts['doExp'].innerText;
+            eval(doExpJs);
+            tryThis();
+            // 可能是浏览器安全限制的原因，不同 script 标签是在一个作用域的...需要通过 eval 函数，将文本信息转化为 js 代码
+        } catch (error) {
+            alert(error);
+        } finally {
+            console.log(headVariable);
+        };
+    }, 1000);
+</script>
+
+
+</html>
