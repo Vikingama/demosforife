@@ -6,14 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>DOM 1.2</title>
-    <script>
-        let headVariable = "null";
-    </script>
+    <style>
+        #tableSample {
+            width: 100%;
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-
+    <table id="tableSample">
+        <caption>表格标题</caption>
+        <!-- 
+    colspan     跨列
+    rowspan     跨行
+ -->
+        <thead>
+            <tr>
+                <th>表头一</th>
+                <th>表头二</th>
+                <th>表头三</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>123</td>
+                <td>456</td>
+                <td>789</td>
+            </tr>
+            <tr>
+                <td colspan="4">O*^*O*^*O我是一行O*^*O*^*O</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>123</td>
+                <td>456</td>
+                <td>789</td>
+            </tr>
+        </tfoot>
+    </table>
 </body>
+<script>
+    let headVariable = "null";
+</script>
 <script>
     // 动态 JS
     function loadScript(jsURL) {
@@ -24,7 +61,7 @@
         script.text = 'function tryThis(){alert("doExp");}';
         document.body.appendChild(script);
     };
-    loadScript("https://unpkg.com/jquery@3.3.1/dist/jquery.js");
+    // loadScript("https://unpkg.com/jquery@3.3.1/dist/jquery.js");
     setTimeout(function () {
         try {
             // 可能是浏览器安全限制的原因，不同 script 标签是在一个作用域的...需要通过 eval 函数，将文本信息转化为 js 代码
@@ -32,7 +69,7 @@
             eval(doExpJs);
             tryThis();
         } catch (error) {
-            alert(error);
+            console.log(error);
         } finally {
             console.log(headVariable);
         };
@@ -49,7 +86,9 @@
         document.head.appendChild(style);
         document.head.appendChild(isOK);
     };
-    loadStyle("https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css");
+    // loadStyle("https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css");
+    // 操作表格
+
 </script>
 
 
