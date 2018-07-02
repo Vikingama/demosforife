@@ -77,9 +77,29 @@
     console.log(window.location === document.location);
     console.log(location);
     console.log([1, 2, 3].includes(1));// ES2016
-    // location.assign('https://baidu.com');
-    // location.reload();// 可能从缓存中重载页面
-    // location.raload(true);// 从服务器重载页面
+    /*
+        window.location = "https://baidu.com" 或 location.href = "https://baidu.com" 是通过 assign 方法运行的...
+        location.assign('https://baidu.com');
+        location.reload();// 可能从缓存中重载页面
+        location.raload(true);// 从服务器重载页面
+    */
+    navigator.plugins.refresh();// 刷新浏览器插件列表
+    console.log(window.screen);
+    window.screen.orientation.onchange = function () {
+        if (this.type.indexOf('landscape') != -1) {
+            console.log("横屏");
+        } else {
+            console.log("竖屏");
+        };
+    };
+    window.resizeTo(screen.availWidth, screen.availHeight);
+    /*
+        history.go()
+        history.forward()
+        history.back()
+        history.length
+    */
+    console.log(history.length);
 </script>
 
 </html>
