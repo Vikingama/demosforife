@@ -9,16 +9,61 @@
 </head>
 
 <body>
-
+    <noscript>
+        竟然不支持 JavaScript...
+    </noscript>
 </body>
 <script>
+    // 'use strict';
+    {
+        var i = 0;
+        let t = 1;
+    }
+    console.log(i);
+    try {
+        console.log(t);// t is not defined...
+    } catch (error) {
+        console.log(error);
+    }
     /*
         script 标签属性：
-            async：该立即下载脚本，但不应妨碍页面中的其他操作，比如下载其他资源或等待加载其他脚本；只对外部脚本文件有效。
+            异步脚本（一定会在页面的 load 事件前执行）--->async：该立即下载脚本，但不应妨碍页面中的其他操作，比如下载其他资源或等待加载其他脚本；只对外部脚本文件有效。
             charset：通过 src 属性指定的代码的字符集。
-            defer：脚本可以延迟到文档完全被解析和显示之后再执行；只对外部脚本文件有效。
+            延迟脚本--->defer：脚本可以延迟到文档完全被解析和显示之后再执行；只对外部脚本文件有效。
             type：编写代码使用的脚本语言的内容类型（MIME 类型）。
     */
+    // (function () {
+    //     alert("<\/script>");
+    // })();
+    // 文档模式：混杂模式、标准模式、准标准模式
+    /*
+        JS 中的一切（变量、函数名、操作符）都区分大小写...
+    */
+    message = 123;// 相当于 window.message = 123，不同于 var message = 123...
+    delete message;
+    // typeof 是一个操作符，不是一个函数
+    console.log(typeof '123');// string
+    console.log(typeof 123);// number
+    console.log(typeof true);// boolean
+    console.log(typeof function () { });//function
+    console.log(typeof {});// object
+    console.log(typeof [{}, {}, {}]);// object，数组本质也是一种对象，不过每个 key 为对应的下标
+    /*
+        undefined 与 null：
+            undefined：一个变量最原始的状态，而非人为操作的结果...
+                声明了一个变量，但没有赋值
+                访问对象上不存在的属性
+                函数定义了形参，但没有传递实参
+                使用 void 对表达式求值
+            null：一个对象被人为的重置为空对象，而非一个变量最原始的状态...
+                栈中的变量没有指向堆中的内存对象...
+                typeof null --> Object，是因为 JS 数据类型在底层是以二进制的形式表示的，二进制的前三位为 0 会被 typeof 判断为对象类型，而 null 的二进制位恰好都是 0，因此，null 被误判断为 Object...
+        undefined 和 null 都表示了一个无效的值...
+    
+    */
+    console.log(typeof undefined);// undefined
+    console.log(typeof null);// object，因为 null 被认为是对空对象的引用，是一个空对象指针
+    console.log('null == undefined: ' + (null == undefined));// undefined 派生于 null
 </script>
 
 </html>
