@@ -21,7 +21,7 @@
     }
     console.log(i);
     try {
-        console.log(t);// t is not defined...
+        console.log(t); // t is not defined...
     } catch (error) {
         console.log(error);
     }
@@ -39,15 +39,16 @@
     /*
         JS 中的一切（变量、函数名、操作符）都区分大小写...
     */
-    message = 123;// 相当于 window.message = 123，不同于 var message = 123...
+    message = 123; // 相当于 window.message = 123，不同于 var message = 123...
     delete message;
     // typeof 是一个操作符，不是一个函数
-    console.log(typeof '123');// string
-    console.log(typeof 123);// number
-    console.log(typeof true);// boolean
-    console.log(typeof function () { });//function
-    console.log(typeof {});// object
-    console.log(typeof [{}, {}, {}]);// object，数组本质也是一种对象，不过每个 key 为对应的下标
+    console.log(typeof '123'); // string
+    console.log(typeof 123); // number
+    console.log(typeof true); // boolean
+    console.log(typeof
+        function () {}); //function
+    console.log(typeof {}); // object
+    console.log(typeof [{}, {}, {}]); // object，数组本质也是一种对象，不过每个 key 为对应的下标
     /*
         undefined 与 null：
             undefined：一个变量最原始的状态，而非人为操作的结果...
@@ -59,11 +60,51 @@
                 栈中的变量没有指向堆中的内存对象...
                 typeof null --> Object，是因为 JS 数据类型在底层是以二进制的形式表示的，二进制的前三位为 0 会被 typeof 判断为对象类型，而 null 的二进制位恰好都是 0，因此，null 被误判断为 Object...
         undefined 和 null 都表示了一个无效的值...
+        NaN：表示一个本来要返回数值的操作数未返回数值的情况...
+            任何涉及 NaN 的操作（例如 NaN/10）都会返回 NaN
+            NaN 与任何值都不相等，包括 NaN 本身
     
     */
-    console.log(typeof undefined);// undefined
-    console.log(typeof null);// object，因为 null 被认为是对空对象的引用，是一个空对象指针
-    console.log('null == undefined: ' + (null == undefined));// undefined 派生于 null
+    console.log(typeof undefined); // undefined
+    console.log(typeof null); // object，因为 null 被认为是对空对象的引用，是一个空对象指针
+    console.log('null == undefined: ' + (null == undefined)); // undefined 派生于 null
+    console.log(isFinite(1)); // 处于最大值和最小值之间 --- true
+    console.log(isFinite(Number.MAX_VALUE + Number.MAX_VALUE)); // 超出浏览器所支持的最大（小）值 --- false
+    console.log(isNaN(NaN));
+    console.log(isNaN(0 / 0));
+    console.log(Number(true)); // 1
+    console.log(Number(false)); // 0
+    console.log(Number(null)); // 0
+    console.log(Number(undefined)); // NaN
+    console.log(Number(NaN)); // NaN
+    console.log(Number("+123")); // 123
+    console.log(Number("-123")); // -123
+    console.log(Number('')); // 0
+    console.log(Number('456dfg123')); // NaN
+    console.log(Number([{}])); // NaN
+    console.log(Number({})); // NaN
+    // parseInt(参数一，参数二（转换进制）);
+    // parseFloat();
+    var sampleString = "QQ\u03a3";
+    console.log(sampleString.length); // 转义字符长度为 1
+    console.log(typeof "123".toString());
+    var sampleNumber = 10;
+    console.log(sampleNumber.toString(16)); // 当数字类型调用时，可以传入转换进制
+    console.log(NaN.toString());
+    // console.log(null.toString());报错
+    // console.log(undefined.toString());报错
+    console.log(typeof String(null));
+    console.log(typeof String(undefined));
+    console.log("------object------");
+    var sampleObject = new Object;
+    sampleObject.name = 'VKX';
+    console.log(sampleObject.constructor); // 创建当前对象的函数
+    console.log(sampleObject.hasOwnProperty('name')); // 检查给定的属性在当前对象实例中（而不是在实例的原型中）是否存在
+    console.log(sampleObject.isPrototypeOf('name')); // 检查传入的对象是否是传入对象的原型
+    console.log(sampleObject.propertyIsEnumerable('name')); // 检查给定的属性是否能够使用 for-in 语句来枚举
+    console.log(sampleObject.toLocaleString()); // 返回对象的字符串表示，该字符串与执行环境的地区对应
+    console.log(sampleObject.toString()); // 返回对象的字符串表示
+    console.log(sampleObject.valueOf()); // 返回对象的字符串、数值或布尔值表示
 </script>
 
 </html>
