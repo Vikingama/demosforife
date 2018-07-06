@@ -105,6 +105,46 @@
     console.log(sampleObject.toLocaleString()); // 返回对象的字符串表示，该字符串与执行环境的地区对应
     console.log(sampleObject.toString()); // 返回对象的字符串表示
     console.log(sampleObject.valueOf()); // 返回对象的字符串、数值或布尔值表示
+    // 操作符
+    var agea = 1,
+        ageb = 1;
+    agea++;
+    ++ageb;
+    console.log("agea++: " + agea);
+    console.log("++ageb: " + ageb);
+    agea--;
+    --ageb;
+    console.log("agea--: " + agea);
+    console.log("--ageb: " + ageb);
+    // 后置递增和递减与前置递增和递减的区别：即递增和递减操作是在包含它们的语句被求值之后才执行的...
+    let [m, n, p, q] = [2, 2, 20, 20];
+    console.log("let [m, n, p, q] = [2, 2, 20, 20]");
+    console.log("--m + p: " + (--m + p)); // 21
+    console.log("m + p: " + (m + p)); // 21
+    console.log("n-- + q: " + (n-- + q)); // 22
+    console.log("n + q: " + (n + q)); // 21
+    console.log(agea += 10);
+    console.log(ageb -= 10);
+    console.log(Number.POSITIVE_INFINITY * 0); // NaN
+    console.log(Number.POSITIVE_INFINITY / Number.NEGATIVE_INFINITY); //NaN
+    console.log(Number.POSITIVE_INFINITY % 0); // NaN
+    console.log(Number.POSITIVE_INFINITY % Number.NEGATIVE_INFINITY); //NaN
+    console.log(Number.POSITIVE_INFINITY + Number.NEGATIVE_INFINITY); //NaN
+    console.log(Number.POSITIVE_INFINITY - Number.POSITIVE_INFINITY); //NaN
+    console.log("Brick" < "alphabet"); // true
+    console.log("Brick".toLowerCase() < "alphabet".toLowerCase()); // false
+    console.log('23' < '3'); // true
+    // 任何操作数与 NaN 进行关系比较，结果都是 false
+    console.log("s" < 3); // false，"a"不能转换成合理的数值，因此就被转换成了 NaN
+    /*
+        语句：
+            if(){}else{}
+            do{}while() ---> 循环体内的代码至少会被执行一次
+            while(){} ---> 循环体内的代码有可能永远不会被执行
+            for(){}
+            for...in...
+            label... ---> 在代码中添加标签，以便将来使用...
+    */
 </script>
 
 </html>
