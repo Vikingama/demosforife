@@ -143,8 +143,43 @@
             while(){} ---> 循环体内的代码有可能永远不会被执行
             for(){}
             for...in...
-            label... ---> 在代码中添加标签，以便将来使用...
+            label... ---> 在代码中添加标签，以便将来使用（常和 break 与 continue 连用）
+            break... ---> 立即退出循环，强制继续执行循环后面的语句 ---> 跳出后不再执行循环
+            continue... ---> 立即退出循环，从循环的顶部继续执行 ---> 跳出本次循环，进行下个循环
+            width... ---> 是将代码的作用域设置到一个特定的对象中
+            switch...case... ---> 在比较值时使用的是全等操作符，不会发生类型转换
     */
+    var numz = 0;
+    sample: for (var i = 0; i < 10; i++) {
+        for (var j = 0; j < 10; j++) {
+            if (i == 5 && j == 5) {
+                // continue sample; // 95
+                break sample; // 55
+            }
+            numz++;
+        }
+    };
+    console.log(numz);
+    // 严格模式下不能用...
+    with(location) {
+        var originz = origin;
+        var pathName = pathname;
+    };
+    console.log(originz + pathName);
+    var num = 25;
+    switch (true) {
+        case num < 0:
+            alert("Less than 0...");
+            break;
+        case num >= 0 && num <= 10:
+            alert("Between 0 and 10...");
+            break;
+        case num > 10 && num <= 20:
+            alert("Between 10 and 20...");
+            break;
+        default:
+            alert("More than 20...");
+    }
 </script>
 
 </html>
