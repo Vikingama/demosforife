@@ -15,6 +15,7 @@
     <hr> Promise.reject() 执行失败
     <hr> Promise.then() 递延处理
     <hr> Promise.all() 所有的完成，常被用于处理多个 Promise 对象的状态集合
+    <hr>使用 async/await 时，在主体函数前使用 async，表示这是个异步函数，await 只能使用在 async 函数内部。当函数执行的时候，一旦遇到 await 就会先返回，等到异步操作完成，再接着执行函数体内后面的语句。示例中，await getJSON() 说明 console.log 的调用，会等到 getJSON() 返回的 Promise 对象 resolve 之后触发
 </body>
 <script>
     let samplePromise = new Promise((resolve, reject) => {
