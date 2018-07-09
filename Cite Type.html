@@ -10,6 +10,36 @@
     
 </body>
 <script>
-    
+    /*
+        引用类型是一种数据结构，用于将"数据"和"功能"组织在一起，也被称为对象定义。
+        新对象是使用 new 操作符后跟一个构造函数来创建的，构造函数本身就是一个函数，只不过该函数是出于创建新对象的目的而定义的。
+        使用字面量表示时，不会调用构造函数。
+    */
+    var sampleObj = {
+        0:0,
+        1:1,
+        2:2
+    };
+    console.log(sampleObj instanceof Array);// false
+    console.log(Array.isArray(sampleObj));
+    console.log(sampleObj.valueOf());
+    var sampleArr = [1,2,3,4,5,];
+    // 数组最多可以包含 4294967295 个项...
+    console.log(sampleArr.length);
+    console.log(Array.isArray(sampleArr));
+    console.log(sampleArr.toString());
+    console.log(sampleArr.join('|'));
+    /*
+        栈是一种可以限制插入和删除项的数据结构（Last-In-First-Out）；是最新添加的项最早被移除。
+        push(参数) --- 接收任意数量的参数，把它们逐个添加到数组末尾，并返回修改后数组的长度。
+        pop() --- 从数组末尾移除最后一项，然后返回移除的项。
+    */
+    console.log(sampleArr.push(6,7,8));
+    console.log(sampleArr.pop());
+    /*
+        队列方法（First-In-First-Out），队列在列表的末端添加项，从列表的前端移除项。
+        shift() --- 移除数组中的第一个项并返回该项。
+        unshift() --- 在数组前端添加任意个项并返回新数组的长度。
+    */
 </script>
 </html>
