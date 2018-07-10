@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cite Type 2</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var now = new Date();
+    console.log(now.getTime() == Date.now());
+    console.log(new Date(Date.parse("May 01, 2000")));
+    console.log(new Date(Date.UTC(2000, 4, 1)));
+    console.log(new Date("May 01, 2000"));
+    console.log("valueOf: " + now.valueOf());
+    console.log("toString: " + now.toString());
+    console.log("toDateString: " + now.toDateString());
+    console.log("toTimeString: " + now.toTimeString());
+    console.log("toUTCString: " + now.toUTCString());
+    console.log("toLocaleString: " + now.toLocaleString());
+    console.log("toLocaleDateString: " + now.toLocaleDateString());
+    console.log("toLocaleTimeString: " + now.toLocaleTimeString());
+    /*
+        var expression = / pattern / flags;
+            g：全局模式，将被应用于所有字符串，而非在发现第一个匹配项时立即停止...
+            i：不区分大小写模式，在确定匹配项时忽略模式与字符串的大小写...
+            m：多行模式，在到达一行文本末尾时还会继续查找下一行中是否存在与模式匹配的项...
+    */
+    var exp = new RegExp("^c", "gim");
+    console.log(exp.test('catc'));
+    console.log(exp.global); // 是否设置了 g 标志
+    console.log(exp.ignoreCase); // 是否设置了 i 标志
+    console.log(exp.lastIndex); // 开始搜索下一个匹配项的字符位置，从 0 算起
+    console.log(exp.multiline); // 是否设置了 m 标志
+    console.log(exp.source); // 正则表达式的字符串表示
+</script>
+
+</html>
