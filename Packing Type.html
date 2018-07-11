@@ -1,12 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Packing Type</title>
 </head>
+
 <body>
-    
+    引用类型与基本包装类型的主要区别就是对象的生存期：
+    <hr> 使用 new 操作符创建的引用类型的实例，在执行流离开当前作用域之前都一直保存在内存中；
+    <hr> 自动创建的基本包装类型的对象，则只存在于一行代码的执行瞬间，然后立即被销毁。
 </body>
+<script>
+    var sampleStr1 = "hahasha";
+    sampleStr1.name = "eardrum";
+    console.log(sampleStr1); // hahasha
+    console.log(sampleStr1.name); // undefined
+    var sampleStr2 = String("hahasha");
+    console.log(sampleStr2); // hahasha
+    console.log(typeof sampleStr2); // string
+    console.log(sampleStr2 instanceof String); // false
+    console.log(sampleStr2 instanceof Object); // false
+    var sampleStr3 = new String("biubiubiu");
+    sampleStr3.age = 12;
+    console.log(sampleStr3); // String {"biubiubiu", age: 12}
+    console.log(sampleStr3.age); // 12
+    console.log(typeof sampleStr3); // object
+    console.log(sampleStr3 instanceof String); // true
+    console.log(sampleStr3 instanceof Object); // true
+    var sampleNum1 = 10;
+    var sampleNum2 = 10.05;
+    console.log(sampleNum1.toFixed(2));
+    console.log(sampleNum2.toFixed(1));
+</script>
+
 </html>
