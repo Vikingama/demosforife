@@ -155,11 +155,28 @@
     console.log(person);
     console.log(another);
     // 寄生式继承 --- 创建一个仅用于封装继承过程的函数，该函数在内部以某种方式来增强对象，最后返回对象...
-    // 寄生组合式继承 --- 通过借用构造函数来继承属性，通过原型链的混成形式来继承方法...
+    // 寄生组合式继承(最理想的方式) --- 通过借用构造函数来继承属性，通过原型链的混成形式来继承方法...
     function inheritPrototype(i, papa) {
         var prototype = Object(papa.prototype); // 创建对象
         prototype.constructor = i; // 增强对象
         i.prototype = prototype;
+    }
+
+    function Papa(name) {
+        this.name = name;
+        this.colors = ["cyan", "pink"];
+    }
+    Papa.prototype.sayName = function () {
+        alert(this.name);
+    }
+
+    function I(name, age) {
+        Papa.call(this, name);
+        this.age = age;
+    }
+    inheritPrototype(I, Papa);
+    I.prototype.sayAge = function () {
+        alert(this.age);
     }
 </script>
 
