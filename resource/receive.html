@@ -15,9 +15,9 @@
     // 如果不希望从其他网站接收 message，请不要为 message 事件添加任何事件侦听器(为了安全)...
     window.addEventListener("message", receivePM, false);
     function receivePM(e) {
-// 		if(e.origin != "http://127.0.0.1:8848"){
-// 			return;
-// 		}
+        // if (e.origin != "http://127.0.0.1:8848") {
+        //     return;
+        // }
         console.log(e.data);
     }
 </script>
