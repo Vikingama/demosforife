@@ -21,6 +21,15 @@
     console.log(real.age); // 1
     real.age = 2;
     console.log(initial.age); // 1
+    let other = Object.create(initial); // 创建一个“新”对象并把新对象内部的 Prototype 关联到你指定的对象
+    console.log(other);
+    let another = {};
+    Object.setPrototypeOf(another, other);
+    console.log(another);
+    console.log(other.isPrototypeOf(another)); // true
+    console.log(initial.isPrototypeOf(another)); // true
+    console.log(Object.prototype.isPrototypeOf(another)); // true
+    console.log(Object.getPrototypeOf(another) === other); // true
 </script>
 
 </html>
