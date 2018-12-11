@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Prototype</title>
-</head>
+  </head>
 
-<body>
-
-</body>
-<script>
+  <body></body>
+  <script>
     let initial = {
-            age: 0
-        },
-        real = Object.create(initial);
+        age: 0
+      },
+      real = Object.create(initial);
     console.log(real.age); // 0
     initial.age = 1;
     console.log(real.age); // 1
@@ -30,6 +27,16 @@
     console.log(initial.isPrototypeOf(another)); // true
     console.log(Object.prototype.isPrototypeOf(another)); // true
     console.log(Object.getPrototypeOf(another) === other); // true
-</script>
-
+    /*
+        Object.defineProperty(Object.prototype, "__proto__", {
+            get() {
+                return Object.getPrototypeOf(this);
+            },
+            set(o) {
+                Object.setPrototypeOf(this, o);
+                return o;
+            }
+        });    
+    */
+  </script>
 </html>
