@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Epsiilon</title>
+</head>
+
+<body>
+    所有遵循 IEEE754 规范的语言都有：0.1 + 0.2！= 0.3 的问题...
+    <br>
+    JS 的整数安全范围：(Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER)...
+</body>
+<script>
+    if (!Number.EPSILON) {
+        Number.EPSILON = Math.pow(2, -52);
+    }
+    console.log(0.1 + 0.2 === 0.3); // false
+    console.log(isEqual((0.1 + 0.2), 0.3)); // true
+    console.log(Number.isSafeInteger(Math.pow(2, 53))); // false
+    console.log(Number.isSafeInteger(Math.pow(2, 53) - 1)); // true
+    console.log("😕😕😕");
+    (function () {
+        var a;
+        console.log(a === undefined); // true
+        undefined = "a";
+        console.log(a); // undefined，为什么不是 "a"...
+    })();
+    console.log(typeof NaN); // number ---> NaN（无效数字，执行数学运算没有成功，这是失败后返回的结果）是 number 类型的...
+    // window.isNaN 与 Number.isNaN 不是一种东西...
+    console.log(isNaN("foo")); // true
+    console.log(Number.isNaN("foo")); // false
+    function isEqual(a, b) {
+        return Math.abs(a - b) < Number.EPSILON;
+    }
+    console.log("😑😑😑");
+    // Object.is() ---> 判断两个值是否绝对相等...
+    console.log(Object.is(NaN, NaN)); // true
+    console.log(Object.is((0 / -3), 0)); // false
+    console.log(Object.is((0 / -3), -0)); // true
+</script>
+
+</html>
