@@ -14,6 +14,22 @@
     </noscript>
 </body>
 <script>
+    console.log(false || false); // false
+    console.log(3 && "三"); // 三，表达式结果为 true 返回第一个操作数、结果为 false 返回第二个操作数...
+    function zzz() {
+        console.log(arguments[0] + "...");
+    }
+    true && zzz("true");
+    false && zzz("false"); // zzz 不会运行...
+    console.log("42 == [42]:" + (42 == [42]));
+    let za = "za",
+        zb = null,
+        zc = undefined,
+        zd = NaN;
+    console.log("za == Object(za):" + (za == Object(za))); // true，这里的 Object(za) 等价于 new String(za)...
+    console.log("zb == Object(za):" + (zb == Object(zb))); // false
+    console.log("zc == Object(za):" + (zc == Object(zc))); // false
+    console.log("zd == Object(za):" + (zd == Object(zd))); // false
     // 'use strict';
     {
         var i = 0;
