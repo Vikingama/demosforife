@@ -8,9 +8,10 @@
   </head>
 
   <body>
-    <noscript> 竟然不支持 JavaScript... </noscript>
+    <noscript id="noScript"> 竟然不支持 JavaScript... </noscript>
   </body>
   <script>
+    console.log(typeof noScript); // HTML 也可以创建全局变量，在创建带有 ID 属性的 HTML 元素时，就会生成对应 ID 的全局变量...
     var vkz = 0;
     console.log(vkz++); // 0
     console.log((vkz++, vkz)); // 2
