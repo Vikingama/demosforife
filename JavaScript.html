@@ -1,45 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>JavaScript</title>
-</head>
+  </head>
 
-<body>
-    <noscript>
-        竟然不支持 JavaScript...
-    </noscript>
-</body>
-<script>
+  <body>
+    <noscript> 竟然不支持 JavaScript... </noscript>
+  </body>
+  <script>
+    var vkz = 0;
+    console.log(vkz++); // 0
+    console.log((vkz++, vkz)); // 2
+    var vlz = 0;
+    console.log(++vlz); // 1
+    console.log((++vlz, vlz)); // 2
+    console.log(0 == "\n"); // true
     console.log(false || false); // false
     console.log(3 && "三"); // 三，表达式结果为 true 返回第一个操作数、结果为 false 返回第二个操作数...
     function zzz() {
-        console.log(arguments[0] + "...");
+      console.log(arguments[0] + "...");
     }
     true && zzz("true");
     false && zzz("false"); // zzz 不会运行...
     console.log("42 == [42]:" + (42 == [42]));
     let za = "za",
-        zb = null,
-        zc = undefined,
-        zd = NaN;
+      zb = null,
+      zc = undefined,
+      zd = NaN;
     console.log("za == Object(za):" + (za == Object(za))); // true，这里的 Object(za) 等价于 new String(za)...
     console.log("zb == Object(za):" + (zb == Object(zb))); // false
     console.log("zc == Object(za):" + (zc == Object(zc))); // false
     console.log("zd == Object(za):" + (zd == Object(zd))); // false
     // 'use strict';
     {
-        var i = 0;
-        let t = 1;
+      var i = 0;
+      let t = 1;
     }
     console.log(i);
     try {
-        console.log(t); // t is not defined...
+      console.log(t); // t is not defined...
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
     /*
         script 标签属性：
@@ -58,11 +62,10 @@
     message = 123; // 相当于 window.message = 123，不同于 var message = 123...
     delete message;
     // typeof 是一个操作符，不是一个函数
-    console.log(typeof '123'); // string
+    console.log(typeof "123"); // string
     console.log(typeof 123); // number
     console.log(typeof true); // boolean
-    console.log(typeof
-        function () {}); //function
+    console.log(typeof function() {}); //function
     console.log(typeof {}); // object
     console.log(typeof [{}, {}, {}]); // object，数组本质也是一种对象，不过每个 key 为对应的下标
     /*
@@ -83,7 +86,7 @@
     */
     console.log(typeof undefined); // undefined
     console.log(typeof null); // object，因为 null 被认为是对空对象的引用，是一个空对象指针
-    console.log('null == undefined: ' + (null == undefined)); // undefined 派生于 null
+    console.log("null == undefined: " + (null == undefined)); // undefined 派生于 null
     console.log(isFinite(1)); // 处于最大值和最小值之间 --- true
     console.log(isFinite(Number.MAX_VALUE + Number.MAX_VALUE)); // 超出浏览器所支持的最大（小）值 --- false
     console.log(isNaN(NaN));
@@ -95,8 +98,8 @@
     console.log(Number(NaN)); // NaN
     console.log(Number("+123")); // 123
     console.log(Number("-123")); // -123
-    console.log(Number('')); // 0
-    console.log(Number('456dfg123')); // NaN
+    console.log(Number("")); // 0
+    console.log(Number("456dfg123")); // NaN
     console.log(Number([{}])); // NaN
     console.log(Number({})); // NaN
     // parseInt(参数一，参数二（转换进制）);
@@ -112,18 +115,18 @@
     console.log(typeof String(null));
     console.log(typeof String(undefined));
     console.log("------object------");
-    var sampleObject = new Object;
-    sampleObject.name = 'VKX';
+    var sampleObject = new Object();
+    sampleObject.name = "VKX";
     console.log(sampleObject.constructor); // 创建当前对象的函数
-    console.log(sampleObject.hasOwnProperty('name')); // 检查给定的属性在当前对象实例中（而不是在实例的原型中）是否存在
-    console.log(sampleObject.isPrototypeOf('name')); // 检查传入的对象是否是传入对象的原型
-    console.log(sampleObject.propertyIsEnumerable('name')); // 检查给定的属性是否能够使用 for-in 语句来枚举
+    console.log(sampleObject.hasOwnProperty("name")); // 检查给定的属性在当前对象实例中（而不是在实例的原型中）是否存在
+    console.log(sampleObject.isPrototypeOf("name")); // 检查传入的对象是否是传入对象的原型
+    console.log(sampleObject.propertyIsEnumerable("name")); // 检查给定的属性是否能够使用 for-in 语句来枚举
     console.log(sampleObject.toLocaleString()); // 返回对象的字符串表示，该字符串与执行环境的地区对应
     console.log(sampleObject.toString()); // 返回对象的字符串表示
     console.log(sampleObject.valueOf()); // 返回对象的字符串、数值或布尔值表示
     // 操作符
     var agea = 1,
-        ageb = 1;
+      ageb = 1;
     agea++;
     ++ageb;
     console.log("agea++: " + agea);
@@ -139,8 +142,8 @@
     console.log("m + p: " + (m + p)); // 21
     console.log("n-- + q: " + (n-- + q)); // 22
     console.log("n + q: " + (n + q)); // 21
-    console.log(agea += 10);
-    console.log(ageb -= 10);
+    console.log((agea += 10));
+    console.log((ageb -= 10));
     console.log(Number.POSITIVE_INFINITY * 0); // NaN
     console.log(Number.POSITIVE_INFINITY / Number.NEGATIVE_INFINITY); //NaN
     console.log(Number.POSITIVE_INFINITY % 0); // NaN
@@ -149,7 +152,7 @@
     console.log(Number.POSITIVE_INFINITY - Number.POSITIVE_INFINITY); //NaN
     console.log("Brick" < "alphabet"); // true
     console.log("Brick".toLowerCase() < "alphabet".toLowerCase()); // false
-    console.log('23' < '3'); // true
+    console.log("23" < "3"); // true
     // 任何操作数与 NaN 进行关系比较，结果都是 false
     console.log("s" < 3); // false，"a"不能转换成合理的数值，因此就被转换成了 NaN
     /*
@@ -167,35 +170,34 @@
     */
     var numz = 0;
     sample: for (var i = 0; i < 10; i++) {
-        for (var j = 0; j < 10; j++) {
-            if (i == 5 && j == 5) {
-                // continue sample; // 95
-                break sample; // 55
-            }
-            numz++;
+      for (var j = 0; j < 10; j++) {
+        if (i == 5 && j == 5) {
+          // continue sample; // 95
+          break sample; // 55
         }
-    };
+        numz++;
+      }
+    }
     console.log(numz);
     // 严格模式下不能用...
-    with(location) {
-        var originz = origin;
-        var pathName = pathname;
-    };
+    with (location) {
+      var originz = origin;
+      var pathName = pathname;
+    }
     console.log(originz + pathName);
     var num = 25;
     switch (true) {
-        case num < 0:
-            alert("Less than 0...");
-            break;
-        case num >= 0 && num <= 10:
-            alert("Between 0 and 10...");
-            break;
-        case num > 10 && num <= 20:
-            alert("Between 10 and 20...");
-            break;
-        default:
-            alert("More than 20...");
+      case num < 0:
+        alert("Less than 0...");
+        break;
+      case num >= 0 && num <= 10:
+        alert("Between 0 and 10...");
+        break;
+      case num > 10 && num <= 20:
+        alert("Between 10 and 20...");
+        break;
+      default:
+        alert("More than 20...");
     }
-</script>
-
+  </script>
 </html>
