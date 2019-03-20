@@ -40,17 +40,23 @@
     console.log("document.URL: " + document.URL);
     /*
         当页面包含来自其他子域的框架或内嵌框架时，将每个页面的 document.domain 设为相同的值，就可以互相访问对方包含的 JS 对象了。
-        浏览器对 domain 属性有一个限制，如果域名一开始是“松散的”，那么不能将它再设置为“紧绷的”。在将 document.domain 设置为 "wrox.com" 之后，就不能再将其设置回 "p2p.wrox.com"，否则将会导致错误：
+        浏览器对 domain 属性有一个限制，如果域名一开始是“松散的”，那么不能将它再设置为“紧绷的”。在将 document.domain 设置为 "wrox.com" 之后，就不能再将其设置回 "p2p.wrox.com"，否则将会导致错误。
         假设页面来自于 p2p.wrox.com
         document.domain = "wrox.com";// 松散的（成功）
         document.domain = "p2p.wrox.com";// 紧绷的（出错）
     */
-    console.log("document.domain: " + document.domain);
-    console.log("document.referrer: " + document.referrer);
-    console.log("document.doctype: " + document.doctype);
-    console.log("document.title: " + document.title);
-    console.log("document.children: " + document.children);
-    console.log("document.childNodes: " + document.childNodes);// 神似数组
+    console.log("document.domain: ");
+    console.log(document.domain);
+    console.log("document.referrer: ");
+    console.log(document.referrer);
+    console.log("document.doctype: ");
+    console.log(document.doctype);
+    console.log("document.title: ");
+    console.log(document.title);
+    console.log("document.children: ");
+    console.log(document.children);
+    console.log("document.childNodes: ");// 神似数组
+    console.log(document.childNodes);
     console.log(document.childNodes[0] === document.childNodes.item(0));// true
     var nodeArray = Array.prototype.slice.call(document.childNodes, 0);// 将 NodeList 转换为 数组
     console.log(nodeArray);
@@ -69,12 +75,19 @@
          Node.NOTATION_NODE(12)。---> 
     */
     const h1ele = document.querySelector("h1");
-    console.log(h1ele.parentNode);
-    console.log(h1ele.nodeType == Node.ELEMENT_NODE);
-    console.log(h1ele.firstChild === h1ele.lastChild);
-    console.log(h1ele.childNodes[0].hasChildNodes());
-    console.log(h1ele.childNodes[0].ownerDocument);
-    // appendChild()、insertBefore()、replaceChild()、removeChild()、cloneNode()、normalize()
+    console.log(h1ele.parentNode); // body
+    console.log(h1ele.nodeType == Node.ELEMENT_NODE); // true
+    console.log(h1ele.firstChild === h1ele.lastChild); // true
+    console.log(h1ele.childNodes[0].hasChildNodes()); // false
+    console.log(h1ele.childNodes[0].ownerDocument); // #document
+    /*
+        node.appendChild(childNode)
+        nodeinsertBefore(newChildNode, existChildNode)
+        node.replaceChild(newChildNode, oldChildNode)
+        node.removeChild(childNode)
+        node.cloneNode(isTrue): true -> 递归复制当前节点的所有子孙节点; false -> 复制当前节点
+        node.normalize(): 合并相邻的文本节点并删除空的文本节点
+    */
     /*
         <input type="text" name="myElement" value="Text field">
         <div id="myElement">A div</div>
@@ -96,7 +109,7 @@
         document.open()     打开网页的输出流
         document.close()    关闭网页的输出流
     */
-    console.clear();
+    // console.clear();
     console.log("nodeName: " + h1ele.nodeName);
     console.log("tagName: " + h1ele.tagName);
     // getAttribute()、setAttribute()、removeAttribute()
@@ -126,7 +139,7 @@
     }, 3000);
     // 创建元素节点
     const divele = document.createElement("div");
-    document.body.appendChild(divele)
+    document.body.appendChild(divele);
     // 创建文本节点
     const divtext1 = document.createTextNode("I'm Created Node...");
     divele.appendChild(divtext1);
@@ -137,9 +150,9 @@
     divele.normalize();
     console.log("afterNormlize: " + divele.childNodes.length);
     // 分割文本节点--->splitText()--->与 normalize() 相反
-    const newdivtext = divele.firstChild.splitText(16);
+    const newdivtext = divele.firstChild.splitText(8);
     console.log(newdivtext);
-    console.log(divele.childNodes.length);
+    console.log(divele.childNodes);
     // 创建注释节点
     const divcomment = document.createComment('我是注释');
     divele.appendChild(divcomment);

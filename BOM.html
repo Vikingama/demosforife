@@ -86,6 +86,7 @@
     navigator.plugins.refresh();// 刷新浏览器插件列表
     console.log(window.screen);
     window.screen.orientation.onchange = function () {
+        console.log(this); // ScreenOrientation
         if (this.type.indexOf('landscape') != -1) {
             console.log("横屏");
         } else {
@@ -100,6 +101,7 @@
         history.length
     */
     console.log(history.length);
+    console.log(document.createDocumentFragment);
 </script>
 
 </html>
