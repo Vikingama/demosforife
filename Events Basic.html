@@ -47,7 +47,7 @@
     var textInput = document.getElementById("textInput");
     function clickHandler(e) {
         alert(this == e.target);
-        // IE 中 this == e.srcElement
+        // IE 中 this = e.srcElement
     };
     // DOM0 级事件处理程序
     clickMe.onclick = clickHandler;

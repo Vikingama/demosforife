@@ -37,8 +37,8 @@
     div1ele.setAttribute("class", "box");
     div2ele.setAttribute("class", "box");
     // 相等但不同
-    console.log("div1ele.isEqualNode(div2ele): " + div1ele.isEqualNode(div2ele));
-    console.log("div1ele.isSameNode(div2ele): " + div1ele.isSameNode(div2ele));
+    console.log("div1ele.isEqualNode(div2ele): " + div1ele.isEqualNode(div2ele)); // true -> 相等
+    console.log("div1ele.isSameNode(div2ele): " + div1ele.isSameNode(div2ele)); // false -> 但不是同一个
     /*
         DOM 样式属性和方法
             cssText：能够访问到 style 特性中的 CSS 代码
