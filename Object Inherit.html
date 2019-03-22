@@ -36,7 +36,7 @@
     }
     var instance = new SubType();
     /*
-        原型链：
+    原型链：
         让原型对象等于另一个类型的实例，原型对象将包含一个指向另一个原型的指针，
         另一个原型中也包含着一个指向另一个构造函数的指针，另一个原型又是另一个类型的实例，
         那么上述关系依然成立，如此层层递进，就构成了实例与原型的链条...
@@ -45,17 +45,15 @@
     console.log(instance);
     // 构造函数指向 Type，因为 SubType 的原型指向了 Type 的原型，Type 的 constructor 指向 Type...
     console.log(instance.constructor);
-    console.log(instance.getTypeValue());
-    console.log(instance.getSubValue());
+    console.log(instance.getTypeValue()); // true
+    console.log(instance.getSubValue()); // false
     console.log(instance instanceof Object); // true
     console.log(instance instanceof Type); // true
     console.log(instance instanceof SubType); // true
     console.log(Object.prototype.isPrototypeOf(instance)); // true
     console.log(Type.prototype.isPrototypeOf(instance)); // true
     console.log(SubType.prototype.isPrototypeOf(instance)); // true
-    var fns = function () {
-
-    };
+    var fns = function () {};
     console.log(fns.prototype);
     // 重写超类型中方法，会屏蔽原来的方法...
     SubType.prototype.getTypeValue = function () {
