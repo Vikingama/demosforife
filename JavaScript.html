@@ -12,6 +12,7 @@
         <noscript id="noScript"> 竟然不支持 JavaScript... </noscript>
     </body>
     <script>
+        console.log(noScript);
         console.log(typeof noScript); // HTML 也可以创建全局变量，在创建带有 ID 属性的 HTML 元素时，就会生成对应 ID 的全局变量...
         console.log(span instanceof Object); // true
         var vkz = 0;
@@ -54,14 +55,11 @@
             charset：通过 src 属性指定的代码的字符集。
             延迟脚本--->defer：脚本可以延迟到文档完全被解析和显示之后再执行；只对外部脚本文件有效。
             type：编写代码使用的脚本语言的内容类型（MIME 类型）。
-    */
+        */
         // (function () {
         //     alert("<\/script>");
         // })();
         // 文档模式：混杂模式、标准模式、准标准模式
-        /*
-        JS 中的一切（变量、函数名、操作符）都区分大小写...
-    */
         message = 123; // 相当于 window.message = 123，不同于 var message = 123...
         delete message;
         // typeof 是一个操作符，不是一个函数
@@ -85,7 +83,7 @@
         NaN：表示一个本来要返回数值的操作数未返回数值的情况...
             任何涉及 NaN 的操作（例如 NaN/10）都会返回 NaN
             NaN 与任何值都不相等，包括 NaN 本身
-    */
+        */
         console.log(typeof undefined); // undefined
         console.log(typeof null); // object，因为 null 被认为是对空对象的引用，是一个空对象指针
         console.log("null == undefined: " + (null == undefined)); // undefined 派生于 null
@@ -169,7 +167,7 @@
             continue... ---> 立即退出循环，从循环的顶部继续执行 ---> 跳出本次循环，进行下个循环
             with... ---> 是将代码的作用域设置到一个特定的对象中
             switch...case... ---> 在比较值时使用的是全等操作符，不会发生类型转换
-    */
+        */
         var numz = 0;
         sample: for (var i = 0; i < 10; i++) {
             for (var j = 0; j < 10; j++) {

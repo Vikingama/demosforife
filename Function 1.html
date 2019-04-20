@@ -31,11 +31,11 @@
             if (num > 1) {
                 // return num * factorialz(num - 1);
                 /*
-                callee---被召者、受话人
-                caller---呼叫者、召集者、访问者
-                arguments.callee 是一个指向正在执行的函数的指针...严格模式下报错--->指向拥有该 arguments 的函数
-                console.log(anotherz.caller);--->函数的调用者
-            */
+                    callee---被召者、受话人
+                    caller---呼叫者、召集者、访问者
+                    arguments.callee 是一个指向正在执行的函数的指针...严格模式下报错--->指向拥有该 arguments 的函数
+                    console.log(anotherz.caller);--->函数的调用者
+                */
                 return num * arguments.callee(num - 1);
             } else {
                 return 1;
@@ -45,14 +45,14 @@
         factorialz = null;
         console.log(anotherz(5)); // 120
         /*
-    闭包--->有权访问另一个函数作用域中的变量的函数...
-        闭包是一个函数；
-        闭包可以使用在它外面定义的变量；
-        闭包存在定义该变量的作用域中...
-        全局变量，生命周期是永久的；
-        局部变量，当定义该变量的函数调用结束时，该变量就会被垃圾回收机制回收而销毁；
-        再次调用该函数时又会重新定义了一个新变量...
-    */
+        闭包--->有权访问另一个函数作用域中的变量的函数...
+            闭包是一个函数；
+            闭包可以使用在它外面定义的变量；
+            闭包存在定义该变量的作用域中...
+            全局变量，生命周期是永久的；
+            局部变量，当定义该变量的函数调用结束时，该变量就会被垃圾回收机制回收而销毁；
+            再次调用该函数时又会重新定义了一个新变量...
+        */
         function fncs() {
             var area = "area";
             // 形成闭包，area 的生命周期被延续了...
@@ -71,9 +71,7 @@
             setTimeout(console.log(i), 0); // 0,1,2,3
         }
         for (var i = 0; i < 4; i++) {
-            setTimeout(function() {
-                console.log(i); // 4,4,4,4
-            }, 0);
+            setTimeout("console.log(i);", 0); // 4,4,4,4
         }
         for (var i = 0; i < 4; i++) {
             setTimeout(
@@ -148,16 +146,16 @@
             };
         }
         /*
-    this：在运行时基于函数的执行环境绑定的...
-        作为普通函数调用；
-        作为对象的方法调用；
-        作为构造函数调用；
-        apply & call 调用...
-    当某个函数被调用时，会创建一个执行环境及相应的作用域链...
-    在全局函数中，this 等于 window；
-    当函数被作为某个对象的方法调用时，this 等于那个对象；
-    匿名函数的执行环境具有全局性，this 对象通常指向 window...
-    */
+        this：在运行时基于函数的执行环境绑定的...
+            作为普通函数调用；
+            作为对象的方法调用；
+            作为构造函数调用；
+            apply & call 调用...
+        当某个函数被调用时，会创建一个执行环境及相应的作用域链...
+        在全局函数中，this 等于 window；
+        当函数被作为某个对象的方法调用时，this 等于那个对象；
+        匿名函数的执行环境具有全局性，this 对象通常指向 window...
+        */
         var name = "the window",
             age = 18,
             sex = "male";

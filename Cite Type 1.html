@@ -28,19 +28,19 @@
         // 数组最多可以包含 4294967295 个项...
         console.log(sampleArr.length);
         console.log(Array.isArray(sampleArr)); // true
-        console.log(sampleArr.toString());
-        console.log(sampleArr.join('|'));
+        console.log(sampleArr.toString()); // 51,42,33,24,15,5
+        console.log(sampleArr.join("|")); // 51|42|33|24|15|5
         /*
             栈是一种可以限制插入和删除项的数据结构（Last-In-First-Out）；是最新添加的项最早被移除。
-            push(参数) --- 接收任意数量的参数，把它们逐个添加到数组末尾，并返回修改后数组的长度。
-            pop() --- 从数组末尾移除最后一项，然后返回移除的项。
+            push(参数) --- 接收任意数量的参数，把它们逐个添加到数组末尾，并返回修改后数组的长度，直接改变原数组
+            pop() --- 从数组末尾移除最后一项，然后返回移除的项，直接改变原数组
         */
         console.log(sampleArr.push(86, 77, 68));
         console.log(sampleArr.pop());
         /*
             队列方法（First-In-First-Out），队列在列表的末端添加项，从列表的前端移除项。
-            shift() --- 移除数组中的第一个项并返回该项。
-            unshift() --- 在数组前端添加任意个项并返回新数组的长度。
+            shift() --- 移除数组中的第一个项并返回该项，直接改变原数组
+            unshift() --- 在数组前端添加任意个项并返回新数组的长度，直接改变原数组
         */
         console.log(sampleArr.unshift(-1, 0)); // 10
         // reverse() --- 反转数组项的顺序，直接改变原数组...
@@ -82,41 +82,53 @@
         console.log(sampleArr.lastIndexOf(456));
         /*
             迭代方法：每个方法都接收两个参数（函数（数组项的值、该项在数组中的位置、数组对象本身），函数的作用域对象（可选））...
-                every() --- 对数组中的每一项运行给定函数，如果该函数对每一项都返回 true，则返回 true...
-                filter() --- 对数组中的每一项运行给定函数，返回该函数会返回 true 的项组成的数组...
-                forEach() --- 对数组中的每一项运行给定函数。这个方法没有返回值...
+                every() --- 对数组中的每一项运行给定函数，判断数组每项是否符合一定的条件，如果该函数对每一项都返回 true，则返回 true...
+                filter() --- 对数组中的每一项运行给定函数，过滤出数组中符合条件的数据组成新数组，返回该函数会返回 true 的项组成的数组...
+                forEach() --- 对数组中的每一项运行给定函数，这个方法没有返回值，多用于绑定事件...
                 map() --- 对数组中的每一项运行给定函数，返回每次函数调用的结果组成的数组...
-                some() --- 对数组中的每一项运行给定函数，如果该函数对任一项返回 true，则返回 true...
+                some() --- 对数组中的每一项运行给定函数，判断数组中是否有符合条件的项，如果该函数对任一项返回 true，则返回 true...
         */
         var dedaiArr = [1, 22, 333, 4444, 55555];
-        console.log(dedaiArr.every((value, index, arr) => {
-            return value > 0;
-        }));
-        console.log(dedaiArr.filter((value, index, arr) => {
-            return value > 10;
-        }));
+        console.log(
+            dedaiArr.every((value, index, arr) => {
+                return value > 0;
+            })
+        );
+        console.log(
+            dedaiArr.filter((value, index, arr) => {
+                return value > 10;
+            })
+        );
         // 没有返回新数组，没有返回值，可以直接改变原数组
         dedaiArr.forEach((value, index, arr) => {
             arr[index] = value + 1;
         });
         // 返回新数组，不修改原数组
-        console.log(dedaiArr.map((value, index, arr) => {
-            return value - 2;
-        }));
-        console.log(dedaiArr.some((value, index, arr) => {
-            return value < 3;
-        }));
+        console.log(
+            dedaiArr.map((value, index, arr) => {
+                return value - 2;
+            })
+        );
+        console.log(
+            dedaiArr.some((value, index, arr) => {
+                return value < 3;
+            })
+        );
         /*
             reduce(每一项上调用的函数（前一个值、当前值、项的索引、数组对象），（可选）归并基础的初始值) --- 从数组的第一项开始，逐个遍历到最后...
             reduceRight(每一项上调用的函数（前一个值、当前值、项的索引、数组对象），（可选）归并基础的初始值) --- 从数组的最后一项开始，向前遍历到第一项...
         */
-        console.log(dedaiArr.reduce((pre, cur, index, arr) => {
-            // -60356
-            return pre - cur;
-        }));
-        console.log(dedaiArr.reduceRight((pre, cur, index, arr) => {
-            // 50752
-            return pre - cur;
-        }));
+        console.log(
+            dedaiArr.reduce((pre, cur, index, arr) => {
+                // -60356
+                return pre - cur;
+            })
+        );
+        console.log(
+            dedaiArr.reduceRight((pre, cur, index, arr) => {
+                // 50752
+                return pre - cur;
+            })
+        );
     </script>
 </html>
