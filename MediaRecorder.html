@@ -85,6 +85,7 @@
       .videos {
         position: relative;
         overflow: hidden;
+        background-color: black;
       }
       .videos video {
         position: absolute;
@@ -92,8 +93,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: black;
-        z-index: 0;
+        z-index: -1;
       }
       .videos .current {
         z-index: 1;
