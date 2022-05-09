@@ -379,6 +379,7 @@
         // 开始录制
         await tools.start();
         changeUI(2);
+        monitorVideo.play()
       } else if (e.target === stopBtn) {
         // 停止录制
         await tools.stop();
@@ -388,11 +389,11 @@
         await tools.reset();
         await tools.start();
         changeUI(2);
+        monitorVideo.play()
       } else if (e.target === playbackBtn) {
         // 回放
         await tools.playback();
         changeUI(3);
-        playbackVideo && playbackVideo.play();
       } else if (e.target === uploadBtn) {
         // 上传
         await tools.upload();
