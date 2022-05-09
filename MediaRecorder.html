@@ -189,6 +189,7 @@
           });
         } catch (error) {
           console.error(error);
+          document.querySelector("videos area").innerHTML = error
         }
       }
       async getMedia() {
@@ -206,6 +207,7 @@
           } catch (error) {
             monitorEle.src = window.URL.createObjectURL(mediaStream);
             console.error(error);
+            document.querySelector("videos area").innerHTML = error
           }
         } catch (error) {
           switch (error.name) {
@@ -234,6 +236,7 @@
               console.error(error);
               break;
           }
+          document.querySelector("videos area").innerHTML = error
         }
       }
       captureMedia() {
