@@ -7,6 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no"
     />
+    <meta name="mobile-web-app-capable" content="yes" />
     <title>意愿认证</title>
     <style>
       @font-face {
@@ -151,6 +152,7 @@
       <button class="step-3" id="refreshBtn">重新录制</button>
     </section>
   </body>
+  <script src="./resource/webrtc-adapter.js"></script>
   <script>
     class MediaTools {
       constraints = {
@@ -189,7 +191,7 @@
           });
         } catch (error) {
           console.error(error);
-          document.querySelector("videos area").innerHTML = error
+          document.querySelector('videos area').innerHTML = error;
         }
       }
       async getMedia() {
@@ -207,7 +209,7 @@
           } catch (error) {
             monitorEle.src = window.URL.createObjectURL(mediaStream);
             console.error(error);
-            document.querySelector("videos area").innerHTML = error
+            document.querySelector('videos area').innerHTML = error;
           }
         } catch (error) {
           switch (error.name) {
@@ -236,7 +238,7 @@
               console.error(error);
               break;
           }
-          document.querySelector("videos area").innerHTML = error
+          document.querySelector('videos area').innerHTML = error;
         }
       }
       captureMedia() {
@@ -382,7 +384,7 @@
         // 开始录制
         await tools.start();
         changeUI(2);
-        monitorVideo.play()
+        monitorVideo.play();
       } else if (e.target === stopBtn) {
         // 停止录制
         await tools.stop();
@@ -392,7 +394,7 @@
         await tools.reset();
         await tools.start();
         changeUI(2);
-        monitorVideo.play()
+        monitorVideo.play();
       } else if (e.target === playbackBtn) {
         // 回放
         await tools.playback();
