@@ -196,9 +196,12 @@
       }
       async getMedia() {
         try {
-          const mediaStream = await navigator.mediaDevices.getUserMedia(
-            this.constraints
-          );
+          const getUserMedia =
+            navigator?.mediaDevices?.getUserMedia ||
+            navigator.getUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.webkitGetUserMedia;
+          const mediaStream = await getUserMedia(this.constraints);
           const monitorEle = document.querySelector('video.step-2');
           monitorEle.onloadedmetadata = () => {
             monitorEle.play();
