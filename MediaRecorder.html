@@ -392,6 +392,7 @@
         // 回放
         await tools.playback();
         changeUI(3);
+        playbackVideo && playbackVideo.play();
       } else if (e.target === uploadBtn) {
         // 上传
         await tools.upload();
