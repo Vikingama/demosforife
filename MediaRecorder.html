@@ -178,12 +178,12 @@
         }
       };
       // constraints = {
-        // video: {
-        //   width: { ideal: 1920 }, // 指定视频宽度
-        //   height: { ideal: 1080 }, // 指定视频高度
-        //   frameRate: { ideal: 60 }, // 指定视频帧率
-        //   facingMode: 'user' // 优先使用前置摄像头
-        // }
+      // video: {
+      //   width: { ideal: 1920 }, // 指定视频宽度
+      //   height: { ideal: 1080 }, // 指定视频高度
+      //   frameRate: { ideal: 60 }, // 指定视频帧率
+      //   facingMode: 'user' // 优先使用前置摄像头
+      // }
       // };
       mediaRecorder = null;
       mediaStream = null;
@@ -270,9 +270,8 @@
           ? 'video/mp4'
           : isTypeSupported('video/mpeg')
           ? 'video/mpeg'
-          : isTypeSupported('video/webm')
-          ? 'video/webm'
-          : 'video/*';
+          : 'video/webm';
+        console.log(typeof this.mediaStream);
         const mediaRecorder = new MediaRecorder(this.mediaStream, {
           mimeType
         });
