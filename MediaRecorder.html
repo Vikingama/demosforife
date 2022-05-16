@@ -152,7 +152,16 @@
       <button class="step-3" id="refreshBtn">重新录制</button>
     </section>
   </body>
+  <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
   <script src="./resource/webrtc-adapter.js"></script>
+  <script>
+    var vConsole = new window.VConsole({
+      onReady
+    });
+    function onReady() {
+      console.log('vConsole is ready...');
+    }
+  </script>
   <script>
     class MediaTools {
       constraints = {
