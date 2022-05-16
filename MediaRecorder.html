@@ -164,16 +164,27 @@
   </script>
   <script>
     class MediaTools {
+      // constraints = {
+      //   audio: true,
+      //   video: true
+      // };
       constraints = {
-        audio: true,
-        video: true
+        audio: {
+          echoCancellation: { exact: true }
+        },
+        video: {
+          width: 1280,
+          height: 720
+        }
+      };
+      // constraints = {
         // video: {
         //   width: { ideal: 1920 }, // 指定视频宽度
         //   height: { ideal: 1080 }, // 指定视频高度
         //   frameRate: { ideal: 60 }, // 指定视频帧率
         //   facingMode: 'user' // 优先使用前置摄像头
         // }
-      };
+      // };
       mediaRecorder = null;
       mediaStream = null;
       temp = [];
@@ -200,7 +211,7 @@
           });
         } catch (error) {
           console.error(error);
-          document.querySelector('videos area').innerHTML = error;
+          document.querySelector('.videos.area').innerHTML = error;
         }
       }
       async getMedia() {
@@ -221,7 +232,7 @@
           } catch (error) {
             monitorEle.src = window.URL.createObjectURL(mediaStream);
             console.error(error);
-            document.querySelector('videos area').innerHTML = error;
+            document.querySelector('.videos.area').innerHTML = error;
           }
         } catch (error) {
           switch (error.name) {
@@ -250,7 +261,7 @@
               console.error(error);
               break;
           }
-          document.querySelector('videos area').innerHTML = error;
+          document.querySelector('.videos.area').innerHTML = error;
         }
       }
       captureMedia() {
