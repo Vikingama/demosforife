@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Rich Text</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      iframe,
+      div {
+        width: 100vmin;
+        height: 50vmin;
+        border: 1px solid black;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+
+  <body>
+    <iframe
+      src="./resource/ifame.html"
+      frameborder="0"
+      id="richEdit"
+      name="richedit"
+    ></iframe>
+    <div contenteditable="true"></div>
+  </body>
+  <script>
+    var iframeEle = document.getElementById('richEdit');
+    iframeEle.contentDocument.contentEditable = true;
+    iframeEle.contentDocument.designMode = 'on';
+    /*
+        对文档执行预定义的命令
+        document.execCommand("命令名称"，"为当前命令提供用户界面的布尔值"，"执行命令必须的一个值")
+        为保证浏览器兼容性，第二个参数应当始终为 false
+    */
+    console.log('to be continued...');
+  </script>
+</html>

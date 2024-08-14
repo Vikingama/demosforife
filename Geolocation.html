@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Geolocation</title>
+  </head>
+  <body></body>
+  <script>
+    navigator.geolocation.getCurrentPosition(
+      function success(good) {
+        console.log(good);
+      },
+      function fail(bad) {
+        console.log(bad);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 10000,
+        maximumAge: Infinity
+      }
+    );
+  </script>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Function 1</title>
+  </head>
+  <body>
+    <div id="divEle"></div>
+  </body>
+  <script>
+    // 箭头函数不能变量提升、不能使用 new，只能通过函数表达式来定义...
+    // 函数声明
+    function sample() {
+      console.log(1);
+    }
+    console.log(sample.name); // sample
+    // 函数表达式
+    var sample = function () {
+      console.log(2);
+    };
+    console.log(sample.name); // sample
+    var i = 1;
+    var i = 2;
+    // 为什么不报错???
+    console.log(i); // 2
+    // 递归函数--->一个函数通过名字调用自身
+    function factorialz(num) {
+      if (num > 1) {
+        // return num * factorialz(num - 1);
+        /*
+            callee---被召者、受话人
+            caller---呼叫者、召集者、访问者
+            arguments.callee 是一个指向正在执行的函数的指针...严格模式下报错--->指向拥有该 arguments 的函数
+            console.log(anotherz.caller);--->函数的调用者
+        */
+        return num * arguments.callee(num - 1);
+      } else {
+        return 1;
+      }
+    }
+    var anotherz = factorialz;
+    factorialz = null;
+    console.log(anotherz(5)); // 120
+    /*
+    闭包--->有权访问另一个函数作用域中的变量的函数...
+        闭包是一个函数；
+        闭包可以使用在它外面定义的变量；
+        闭包存在定义该变量的作用域中...
+        全局变量，生命周期是永久的；
+        局部变量，当定义该变量的函数调用结束时，该变量就会被垃圾回收机制回收而销毁；
+        再次调用该函数时又会重新定义了一个新变量...
+    */
+    function fncs() {
+      var area = 'area';
+      // 形成闭包，area 的生命周期被延续了...
+      var areaFncs = function () {
+        // area 存在于 fncs 的作用域中，areaFncs 也必然存在于这个作用域中...
+        area += 'rea';
+        console.log(area);
+      };
+      return areaFncs;
+    }
+    var realFncs = fncs();
+    realFncs(); // arearea
+    realFncs(); // arearearea
+    realFncs(); // arearearearea
+    for (var i = 0; i < 4; i++) {
+      setTimeout(console.log(i), 0); // 0,1,2,3
+    }
+    for (var i = 0; i < 4; i++) {
+      setTimeout('console.log(i);', 0); // 4,4,4,4
+    }
+    for (var i = 0; i < 4; i++) {
+      setTimeout(
+        (function () {
+          console.log(i); // 0,1,2,3
+        })(i),
+        0
+      );
+    }
+    // console.clear();
+    // apply & call & bind
+    var linxin = {
+      name: 'linxin'
+    };
+    var xinru = {
+      age: 36
+    };
+
+    function express(first, last) {
+      console.log(first + ' ' + this.name + ' ' + last);
+    }
+    // 改变 this 指向...
+    express.apply(linxin, ['A', 'B']); // 将函数中的 this 指向 linxin...
+    express.call(xinru, 'A', 'B'); // 将函数中的 this 指向 xinru...
+    // 借用别的对象的方法
+    var P1 = function () {
+      this.name = 'lixin';
+    };
+    var P2 = function () {
+      this.name = 'pepix';
+      this.getName = function () {
+        console.log(this.name);
+      };
+      P1.call(this);
+    };
+    var popo = new P2();
+    popo.getName(); // lixin
+    // 调用函数
+    function woow() {
+      console.log('Apply Me...');
+    }
+    woow.apply();
+    // bind --- 返回值是函数...
+    var b1 = {
+      name: 'babies'
+    };
+
+    function b2() {
+      console.log(this.name);
+    }
+    var b3 = b2.bind(b1);
+    b3(); // 需要调用才会执行...
+    // bind --- 参数的使用...
+    function b4(x, y, z) {
+      console.log(x, y, z);
+    }
+    var b5 = b4.bind(null, 'ljr');
+    b4.call(null, 'zgz');
+    b5(1, 2, 3); // ljr 1 2
+    // 实现 bind 方法(低版本浏览器需要自己实现)
+    if (!Function.prototype.bind) {
+      Function.prototype.bind = function () {
+        var bind = this,
+          context = [].shift.call(arguments), // 移除数组中的第一项并返回该项 --- this 的指向
+          args = [].slice.call(arguments); // arguments 除去第一项的剩余项
+        return function () {
+          bind.apply(context, [].concat.call(args, [].slice.call(arguments)));
+        };
+      };
+    }
+    /*
+    this：在运行时基于函数的执行环境绑定的...
+        作为普通函数调用；
+        作为对象的方法调用；
+        作为构造函数调用；
+        apply & call 调用...
+    当某个函数被调用时，会创建一个执行环境及相应的作用域链...
+    在全局函数中，this 等于 window；
+    当函数被作为某个对象的方法调用时，this 等于那个对象；
+    匿名函数的执行环境具有全局性，this 对象通常指向 window...
+    */
+    var name = 'the window',
+      age = 18,
+      sex = 'male';
+    var obj = {
+      name: 'the obj',
+      age: 24,
+      sex: 'female',
+      getName: function () {
+        // 匿名函数 this 通常指向 window...
+        return function () {
+          return this.name;
+        };
+      },
+      getAge: function () {
+        // 匿名函数 this 可以通过 apply、call、bind 改变...
+        return function () {
+          return this.age;
+        }.bind(obj);
+      },
+      getSex: function () {
+        // 可先将 this 保存...
+        var that = this;
+        return function () {
+          return that.sex;
+        };
+      }
+    };
+    console.log(obj.getName()()); // the window
+    console.log(obj.getAge()()); // 24
+    console.log(obj.getSex()()); // female
+    // 内存泄露 --- 闭包在 IE9 之前的特殊问题...
+    function eleHandler() {
+      var divEle = document.getElementById('divEle');
+      divEle.onclick = function (e) {
+        console.log(e);
+      };
+    }
+
+    function handBetter() {
+      var divEle = document.getElementById('divEle');
+      var insteadEle = divEle;
+      insteadEle.onclick = function (e) {
+        console.log(e);
+      };
+      divEle = null;
+    }
+  </script>
+</html>

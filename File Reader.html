@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>File Reader</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      div {
+        position: relative;
+        width: 30vmin;
+        height: 15vmin;
+        margin: 15vmin auto;
+        outline: 1px soild black;
+      }
+
+      input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        color: transparent;
+        opacity: 0;
+      }
+
+      a {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        color: balck;
+        line-height: 15vmin;
+        text-align: center;
+        text-decoration: none;
+        z-index: -1;
+      }
+
+      img {
+        position: absolute;
+        top: 50vmin;
+        left: 0;
+        right: 0;
+        width: 30vmin;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <input type="file" accept="image/*" />
+      <a href="javascript:void(0)">点我</a>
+    </div>
+    <img src="" alt="" />
+  </body>
+  <script>
+    var inputEle = document.getElementsByTagName('input')[0];
+    var imgEle = document.querySelector('img');
+    inputEle.onchange = function (e) {
+      if (e.target.files[0].type && !/image/.test(e.target.files[0].type)) {
+        return;
+      }
+      // var srcUrl = URL.createObjectURL(e.target.files[0]);
+      // imgEle.src = srcUrl;
+      // URL.revokeObjectURL(srcUrl);
+      var reader = new FileReader();
+      // reader.readAsArrayBuffer(e.target.files[0]);
+      // reader.readAsBinaryString(e.target.files[0]);
+      reader.readAsDataURL(e.target.files[0]);
+      // reader.readAsText(e.target.files[0]);
+      reader.onload = function (e) {
+        console.log(e);
+      };
+      reader.onprogress = function (e) {
+        if (e.lengthComputable) {
+          imgEle.src = e.target.result;
+        }
+      };
+      reader.onerror = function (e) {
+        console.error(e);
+      };
+    };
+  </script>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>DOM 3</title>
+    <style>
+      html,
+      body {
+        font-size: 6.18px;
+        transition: all 0.5s;
+      }
+
+      div {
+        width: 100%;
+        outline: 1px solid black;
+        text-align: center;
+        transition: color 0.5s;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="color: #e66465; font-size: 6.18rem" id="divele">I'm Sample</div>
+  </body>
+  <script>
+    console.log(document.defaultView);
+    const div1ele = document.createElement('div'),
+      div2ele = document.createElement('div');
+    div1ele.setAttribute('class', 'box');
+    div2ele.setAttribute('class', 'box');
+    // 相等但不同
+    console.log(
+      'div1ele.isEqualNode(div2ele): ' + div1ele.isEqualNode(div2ele)
+    ); // true -> 相等
+    console.log('div1ele.isSameNode(div2ele): ' + div1ele.isSameNode(div2ele)); // false -> 但不是同一个
+    /*
+    DOM 样式属性和方法
+        cssText：能够访问到 style 特性中的 CSS 代码
+        length：应用给元素的 CSS 属性的数量
+        parentRule：表示 CSS 信息的 CSSRule 对象
+        getPropertyCSSValue(propertyName)：返回包含给定属性值的 CSSValue 对象
+        getPropertyPriority(propertyName)：如果给定的属性使用了!important 设置，则返回"important"；否则，返回空字符串
+        getPropertyValue(propertyName)：返回给定属性的字符串值
+        item(index)：返回给定位置的 CSS 属性的名称
+        removeProperty(propertyName)：从样式中删除给定属性
+        setProperty(propertyName,value,priority)：将给定属性设置为相应的值，并加上优先权标志（"important"或者一个空字符串）
+    */
+    const divele = document.querySelector('#divele');
+    console.log(divele.getBoundingClientRect());
+    console.log(divele.style.cssText);
+    console.log(divele.style.length);
+    console.log(divele.style.item(0));
+    const randomNum = (min, max) => {
+      return Math.round(Math.random() * (max - min + 1) + min);
+    };
+    setInterval(() => {
+      divele.style.cssText = `
+                color: rgb(
+                    ${randomNum(0, 255)},
+                    ${randomNum(0, 255)},
+                    ${randomNum(0, 255)}
+                    );
+                font-size: 6.18rem;
+                `;
+    }, 3000);
+    let computedStyle = document.defaultView.getComputedStyle(divele, null);
+    console.log(computedStyle.visibility);
+    console.log(document.styleSheets.length);
+    let cssStyleSheet = document.styleSheets[0];
+    setTimeout(function () {
+      cssStyleSheet.insertRule('body{background-color: #9198e5;}', 3);
+      setTimeout(function () {
+        cssStyleSheet.deleteRule(3);
+      }, 3000);
+    }, 3000);
+    /*
+    元素大小：
+        1.偏移量：元素在屏幕上占用的所有可见的空间，元素的可见大小由其高度、宽度决定，包括所有内边距、滚动条和边框大小（不包括外边距）
+        2.客户区大小：元素内容及其内边距所占据的空间大小
+        3.滚动大小：是包含滚动内容的元素的大小，有些元素（例如 <html> 元素），能自动地添加滚动条；但另外一些元素，则需要通过 CSS 的 overflow 属性进行设置才能滚动
+        4.确定元素大小：getBoundingClientRect()，元素在页面中相对于视口的位置。但是，浏览器的实现稍有不同。IE8 及更早版本认为文档的左上角坐标是(2, 2)，而其他浏览器包括 IE9 则将传统的(0,0)作为起点坐标
+    */
+    console.log('to be continued...');
+  </script>
+</html>

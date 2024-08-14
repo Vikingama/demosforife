@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Skeleton</title>
+    <style>
+      .timeline-item {
+        position: relative;
+        margin: 0 auto;
+        max-width: 500px;
+        min-height: 200px;
+        background: #fff;
+        border: 1px solid;
+        border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+        border-radius: 3px;
+      }
+      .animated-background {
+        position: relative;
+        margin: 12px;
+        height: 10px;
+        background: linear-gradient(to right, #eee 25%, #ddd 50%, #eee 75%);
+        background-size: 800px 800px;
+        animation-duration: 1s;
+        /* 动画结束时，停留在最后一帧 */
+        animation-fill-mode: forwards;
+        animation-iteration-count: infinite;
+        animation-name: placeHolderShimmer;
+        animation-timing-function: linear;
+      }
+      /* 利用背景位置的移动，形成加载动画 */
+      @keyframes placeHolderShimmer {
+        0% {
+          background-position: -400px 0;
+        }
+        100% {
+          background-position: 400px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="timeline-item">
+      <!-- 可以通过自定义 animated-background，实现不同的加载样式 -->
+      <div
+        class="animated-background"
+        style="
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          width: 100px;
+          height: 100px;
+          border-radius: 50px;
+        "
+      ></div>
+      <div class="animated-background" style="width: 30px"></div>
+      <div
+        class="animated-background"
+        style="width: 60px; border-radius: 5px"
+      ></div>
+      <div class="animated-background" style="width: 90px"></div>
+      <div
+        class="animated-background"
+        style="width: 120px; border-radius: 5px"
+      ></div>
+      <div class="animated-background" style="width: 150px"></div>
+      <div
+        class="animated-background"
+        style="width: 180px; border-radius: 5px"
+      ></div>
+      <div class="animated-background" style="width: 210px"></div>
+      <div
+        class="animated-background"
+        style="width: 240px; border-radius: 5px"
+      ></div>
+      <div class="animated-background" style="width: 270px"></div>
+      <div
+        class="animated-background"
+        style="width: 300px; border-radius: 5px"
+      ></div>
+      <div class="animated-background" style="width: 330px"></div>
+      <div
+        class="animated-background"
+        style="width: 360px; border-radius: 5px"
+      ></div>
+      <div class="animated-background" style="width: 390px"></div>
+      <div
+        class="animated-background"
+        style="width: 420px; border-radius: 5px"
+      ></div>
+      <div class="animated-background" style="width: 450px"></div>
+      <div
+        class="animated-background"
+        style="width: 480px; border-radius: 5px"
+      ></div>
+    </div>
+  </body>
+</html>

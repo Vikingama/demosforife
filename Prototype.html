@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Prototype</title>
+  </head>
+  <body></body>
+  <script>
+    let initial = {
+        age: 0
+      },
+      real = Object.create(initial);
+    console.log(real.age); // 0
+    initial.age = 1;
+    console.log(real.age); // 1
+    real.age = 2;
+    console.log(initial.age); // 1
+    let other = Object.create(initial); // 创建一个“新”对象并把新对象内部的 Prototype 关联到你指定的对象
+    console.log(other);
+    let another = {};
+    Object.setPrototypeOf(another, other);
+    console.log(another);
+    console.log(other.isPrototypeOf(another)); // true
+    console.log(initial.isPrototypeOf(another)); // true
+    console.log(Object.prototype.isPrototypeOf(another)); // true
+    console.log(Object.getPrototypeOf(another) === other); // true
+    /*
+        Object.defineProperty(Object.prototype, "__proto__", {
+            get() {
+                return Object.getPrototypeOf(this);
+            },
+            set(o) {
+                Object.setPrototypeOf(this, o);
+                return o;
+            }
+        });    
+    */
+  </script>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Packing Type</title>
+  </head>
+  <body>
+    引用类型与基本包装类型的主要区别就是对象的生存期：
+    <hr />
+    使用 new
+    操作符创建的引用类型的实例，在执行流离开当前作用域之前都一直保存在内存中；
+    <hr />
+    自动创建的基本包装类型的对象，则只存在于一行代码的执行瞬间，然后立即被销毁。
+  </body>
+  <script>
+    console.time();
+    var sampleStr1 = 'hahasha';
+    sampleStr1.name = 'eardrum';
+    console.log(sampleStr1); // hahasha
+    console.log(sampleStr1.name); // undefined
+    var sampleStr2 = String('hahasha');
+    sampleStr2.name = 'eardrum';
+    console.log(sampleStr2); // hahasha
+    console.log(sampleStr2.name); // undefined
+    console.log(typeof sampleStr2); // string
+    console.log(sampleStr2 instanceof String); // false
+    console.log(sampleStr2 instanceof Object); // false
+    var sampleStr3 = new String('biubiubiu');
+    sampleStr3.age = 12;
+    console.log(sampleStr3); // String {"biubiubiu", age: 12}
+    console.log(sampleStr3.age); // 12
+    console.log(typeof sampleStr3); // object
+    console.log(sampleStr3 instanceof String); // true
+    console.log(sampleStr3 instanceof Object); // true
+    /*
+        charAt(基于 0 的字符位置)、charCodeAt(基于 0 的字符位置) --- 访问字符串中特定字符...
+        string1.concat(string2, string3, ...) --- 将一或多个字符串拼接起来，返回拼接得到的新字符串...
+    */
+    console.log(sampleStr1.charAt(1) === sampleStr1[1]); // true
+    console.log(sampleStr1.charCodeAt(1)); // 97 ---> 返回字符编码
+    console.log(sampleStr1.concat(sampleStr2, sampleStr3));
+    /*
+    位置若为负值，则表示 length + 负值...
+        slice(开始位置[, 结束位置]) --- 提取一个字符串的一部分(不包括结束位置)，并返回一新的字符串...
+        substr(开始位置[, 长度(为 0 或负值，返回一个空字符串)])) --- 返回一个字符串中从指定位置开始到指定字符数的字符...
+        substring(开始位置[, 结束位置]) --- 不接受负值，提取字符串中介于两个指定下标之间(不包括结束位置)的字符...
+    */
+    var sampleString = '0123456789';
+    console.log(sampleString.slice(3)); // 3456789
+    console.log(sampleString.slice(-3)); // 789
+    console.log(sampleString.slice(3, 7)); // 3456
+    console.log(sampleString.slice(-3, -2)); // 7
+    console.log(sampleString.substr(3)); // 3456789
+    console.log(sampleString.substr(-3)); // 789
+    console.log(sampleString.substr(3, 4)); // 3456
+    console.log(sampleString.substr(-3, 1)); // 7
+    console.log(sampleString.substring(3)); // 3456789
+    console.log(sampleString.substring(3, 4)); // 3
+    /*
+        indexOf() --- 从字符串的开头向后搜索子字符串...
+        lastIndexOf() --- 从字符串的末尾向前搜索子字符串...
+        trim() --- 删除前置及后缀的所有空格，返回新字符串...
+        toLowerCase() --- 转化为小写，返回新字符串...
+        toUpperCase() --- 转换为大写，返回新字符串...
+    */
+    var stringValue = ' heLLo world ';
+    console.log(stringValue.indexOf('o')); // 5
+    console.log(stringValue.lastIndexOf('o')); // 8
+    console.log(stringValue.trim());
+    console.log(stringValue.trim().toLowerCase());
+    console.log(stringValue.trim().toUpperCase());
+    /*
+        string.match(pattern) --- 与调用 RegExp 的 exec() 方法相同...
+        string.search(pattern) --- 返回字符串中第一个匹配项的索引，如果没有找到匹配项，则返回-1...
+        string.replace(pattern/string、string/function) --- 字符替换...
+        string.split(分隔符[, 数组大小]) --- 分割字符串为数组...
+        string1.localeCompare(string2) --- 比较两个字符串，返回1、0、-1...
+        String.fromCharCode(一个或多个字符编码) --- 字符编码转换为字符串...
+    */
+    var text = 'cat, bat, sat, fat';
+    console.log(text.match(/.at/));
+    console.log(text.search(/at/));
+    console.log(text.replace('at', 'ond'));
+    console.log(text.replace(/at/g, 'pr'));
+    console.log(text.replace(/at/g, 'word($1)'));
+    console.log(text.split(''));
+    console.log(text.split(',', 2));
+    console.log('宋'.localeCompare('明')); // -1
+    console.log(String.fromCharCode(104, 101, 108, 108, 111));
+    /*o(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)m*/
+    var sampleNum1 = 10;
+    var sampleNum2 = 10.05;
+    var sampleNum3 = 999;
+    // toFixed(输出结果中小数的位数)
+    console.log(sampleNum1.toFixed(2));
+    console.log(sampleNum2.toFixed(1));
+    // toExponential(输出结果中小数的位数)
+    console.log(sampleNum1.toExponential(2)); // 1.00e+1
+    console.log(sampleNum2.toExponential(1)); // 1.0e+1
+    // toPrecision(表示数值的所有数字的位数，不包括指数部分)
+    console.log(sampleNum3.toPrecision(1)); // 1e+3
+    console.log(sampleNum3.toPrecision(2)); // 1.0e+3
+    console.log(sampleNum3.toPrecision(3)); // 999
+    /*o(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)m*/
+    // console.clear();
+    /*
+        console.log()
+        console.info()
+        console.error()
+        console.warn()
+        console.debug()
+        console.dirxml() --- 显示网页的某个节点所包含的html/xml代码
+        console.group() --- 输出一组信息的开头
+        console.groupEnd() --- 结束一组输出信息
+        console.assert() --- 对输入的表达式进行断言，只有 false 时，才输出相应的信息到控制台
+        console.count() --- 统计代码被执行的次数
+        console.dir() --- 将该 DOM 结点以 DOM 树的结构进行输出
+        console.time() --- 计时开始
+        console.timeEnd() --- 计时结束
+        console.profile()、console.profileEnd() --- 配合一起使用来查看 CPU 使用相关信息
+        console.timeLine()、console.timeLineEnd() --- 配合一起记录一段时间轴
+        console.trace() --- 堆栈跟踪相关的调试
+    */
+    console.timeEnd();
+    // console.clear();
+    /*o(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)m*/
+    /*
+        encodeURI() --- 对整个 URI 进行编码，以便发送给浏览器...不会对本身属于 URI 的特殊字符进行编码...
+        encodeURIComponent() --- 对 URI 中的某一段进行编码，以便发送给浏览器...对任何非标准字符进行编码...
+        decodeURI() --- 只能对使用 encodeURI()替换的字符进行解码...
+        decodeURIComponent() --- 可以解码任何特殊字符的编码...
+        eval(JS 字符串) --- JS解释器...小心代码注入...
+    */
+    console.log(encodeURI('https://baidu.com/123.html')); // https://baidu.com/123.html
+    console.log(encodeURIComponent('https://baidu.com/123.html')); // https%3A%2F%2Fbaidu.com%2F123.html
+    console.log(decodeURI(encodeURI('https://baidu.com/123.html'))); // https://baidu.com/123.html
+    console.log(
+      decodeURIComponent(encodeURIComponent('https://baidu.com/123.html'))
+    ); // https://baidu.com/123.html
+    var uri = 'https://vks.com';
+    eval('alert(uri)');
+    /*o(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)mo(=•ェ•=)m*/
+    console.log(Math);
+    console.log(Math.max(1, 2, 3));
+    console.log(Math.min(3, 2, 1));
+    var minArr = [3, 54, 32, 16];
+    console.log(Math.max.apply(this, minArr));
+    console.log(Math.ceil(25.9)); // 26
+    console.log(Math.ceil(25.5)); // 26
+    console.log(Math.ceil(25.1)); // 26
+    console.log(Math.round(25.9)); // 26
+    console.log(Math.round(25.5)); // 26
+    console.log(Math.round(25.1)); // 25
+    console.log(Math.floor(25.9)); // 25
+    console.log(Math.floor(25.5)); // 25
+    console.log(Math.floor(25.1)); // 25
+    // Math.floor(Math.random() * 最大值 + 最小值) --- [最小值，最大值]的随机整数...
+    console.log('to be continued...');
+  </script>
+</html>

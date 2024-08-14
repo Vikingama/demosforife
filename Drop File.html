@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Drop File</title>
+    <style>
+      #dropHere {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5vmin auto;
+        width: 50vmin;
+        height: 50vmin;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border: 3px solid black;
+        border-radius: 5vmin;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="dropHere">
+      <span>↓ 拖到这儿 ↓</span>
+    </div>
+  </body>
+  <script>
+    var dropEle = document.getElementById('dropHere');
+    dropEle.ondragenter = function (e) {
+      return false;
+    };
+    dropEle.ondragover = function (e) {
+      return false;
+    };
+    dropEle.ondrop = function (e) {
+      showImage(e.dataTransfer.files[0]);
+      return false;
+    };
+    function showImage(data) {
+      var reader = new FileReader();
+      reader.readAsDataURL(data);
+      reader.onprogress = function (e) {
+        if (e.lengthComputable) {
+          dropEle.style.backgroundImage = 'url(' + e.target.result + ')';
+        }
+      };
+    }
+  </script>
+</html>

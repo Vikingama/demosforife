@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>百度前端-设计学院-第八课-Part Two</title>
+    <style>
+      html,
+      body {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      #bodyMovin {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        width: 80vmin;
+        height: 80vmin;
+        transition: all 1s;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="bodyMovin"></div>
+  </body>
+  <script src="./resource/bodymovin.js"></script>
+  <script>
+    var bodyMovin = bodymovin.loadAnimation({
+      autoplay: false,
+      container: document.getElementById('bodyMovin'),
+      loop: false,
+      path: './resource/box.json',
+      renderer: 'svg'
+    });
+    document
+      .getElementById('bodyMovin')
+      .addEventListener('mouseover', function () {
+        bodyMovin.play();
+      });
+    document
+      .getElementById('bodyMovin')
+      .addEventListener('mouseleave', function () {
+        bodyMovin.stop();
+      });
+  </script>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <title>意愿认证</title>
+    <style>
+      @font-face {
+        font-family: Emoji;
+        src: local('Apple Color Emoji'), local('Segoe UI Emoji'),
+          local('Segoe UI Symbol'), local('Noto Color Emoji');
+        unicode-range: U+1F000-1F644, U+203C-3299;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        -webkit-font-smoothing: antialiased;
+        color: #333;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Emoji,
+          Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        touch-action: manipulation;
+        overflow: hidden;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12vw;
+        height: 100%;
+      }
+      strong {
+        color: dodgerblue;
+      }
+      .area {
+        width: 100%;
+        height: calc((100vh - 24vw) / 3);
+      }
+      .tips .tip {
+        transition: all 0.3s;
+      }
+
+      .tips .step-1,
+      .tips .step-2,
+      .tips .step-3 {
+        height: 0;
+        opacity: 0;
+        visibility: hidden;
+      }
+      .tips h3.step-1 {
+        padding-bottom: 8px;
+      }
+      .tips ol.step-1 {
+        padding-left: 18px;
+      }
+      .tips p.step-2 {
+        padding-top: 24px;
+        text-align: center;
+      }
+      .tips p.step-2 strong {
+        display: inline-block;
+        padding-top: 24px;
+        font-size: 18px;
+      }
+      .tips p.step-3 {
+        padding-top: 36px;
+        color: firebrick;
+        font-size: 24px;
+        text-align: center;
+      }
+      .tips .current {
+        height: auto;
+        opacity: 1;
+        visibility: visible;
+      }
+      .videos {
+        position: relative;
+        overflow: hidden;
+        background-color: black;
+      }
+      .videos video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+      .videos .current {
+        z-index: 1;
+      }
+      .controls {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+      }
+      .controls button {
+        display: none;
+        padding: 8px;
+      }
+      .controls .current {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="tips area">
+      <h3 class="step-1 tip current">温馨提示：</h3>
+      <ol class="step-1 tip current">
+        <li>
+          录制时，需要您大声读一段话“<strong>本人已同意进行个体工商户注册</strong>”；
+        </li>
+        <li>
+          录制时，请保持脸部端正自然，不用其他饰品遮挡五官，保持五官清晰可见；
+        </li>
+        <li>录制时，请确保是本人进行录制的；</li>
+      </ol>
+      <p class="step-2 tip">
+        请您大声读出
+        <br />
+        <strong>本人已同意进行个体工商户注册</strong>
+      </p>
+      <p class="step-3 tip">录制完毕，可以上传</p>
+    </section>
+    <section class="videos area">
+      <video
+        src="./resource/sample.mp4"
+        class="step-1 current"
+        disablePictureInPicture
+        playsinline
+      ></video>
+      <video class="step-2" disablePictureInPicture muted playsinline></video>
+      <video class="step-3" disablePictureInPicture playsinline></video>
+    </section>
+    <section class="controls area">
+      <button class="step-1 current" id="startBtn">开始录制</button>
+      <button class="step-2" id="stopBtn">停止录制</button>
+      <button class="step-3" id="playbackBtn">回放</button>
+      <button class="step-3" id="uploadBtn">上传</button>
+      <button class="step-3" id="downloadBtn">下载</button>
+      <button class="step-3" id="refreshBtn">重新录制</button>
+    </section>
+  </body>
+  <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+  <script src="./resource/webrtc-adapter.js"></script>
+  <script>
+    var vConsole = new window.VConsole({
+      onReady
+    });
+    function onReady() {
+      console.log('vConsole is ready...');
+    }
+  </script>
+  <script>
+    class MediaTools {
+      // constraints = {
+      //   audio: true,
+      //   video: true
+      // };
+      constraints = {
+        audio: {
+          echoCancellation: { exact: true }
+        },
+        video: {
+          width: 1280,
+          height: 720
+        }
+      };
+      // constraints = {
+      // video: {
+      //   width: { ideal: 1920 }, // 指定视频宽度
+      //   height: { ideal: 1080 }, // 指定视频高度
+      //   frameRate: { ideal: 60 }, // 指定视频帧率
+      //   facingMode: 'user' // 优先使用前置摄像头
+      // }
+      // };
+      mediaRecorder = null;
+      mediaStream = null;
+      temp = [];
+      async checkDevice() {
+        try {
+          const mediaDevices = await navigator.mediaDevices.enumerateDevices();
+          const mediaDevicesKinds = mediaDevices.map(({ kind }) => kind);
+          if (!Array.isArray(mediaDevices)) {
+            throw new Error('未找到媒体设备');
+          }
+          if (!mediaDevicesKinds.includes('videoinput')) {
+            throw new Error('没有相机权限');
+          }
+          if (!mediaDevicesKinds.includes('audioinput')) {
+            throw new Error('没有麦克风权限');
+          }
+          mediaDevices.forEach(({ deviceId, groupId, kind, label }) => {
+            console.group();
+            console.log('设备 ID', deviceId);
+            console.log('设备组 ID', groupId);
+            console.log('设备类型', kind);
+            console.log('设备名称', label);
+            console.groupEnd();
+          });
+        } catch (error) {
+          console.error(error);
+          document.querySelector('.videos.area').innerHTML = error;
+        }
+      }
+      async getMedia() {
+        try {
+          const getUserMedia =
+            navigator?.mediaDevices?.getUserMedia ||
+            navigator.getUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.webkitGetUserMedia;
+          const mediaStream = await getUserMedia(this.constraints);
+          const monitorEle = document.querySelector('video.step-2');
+          monitorEle.onloadedmetadata = () => {
+            monitorEle.play();
+          };
+          this.mediaStream = mediaStream;
+          try {
+            monitorEle.srcObject = mediaStream;
+          } catch (error) {
+            monitorEle.src = window.URL.createObjectURL(mediaStream);
+            console.error(error);
+            document.querySelector('.videos.area').innerHTML = error;
+          }
+        } catch (error) {
+          switch (error.name) {
+            case 'AbortError':
+              console.error('中止错误');
+              break;
+            case 'NotAllowedError':
+              console.error('拒绝错误，用户拒绝了媒体访问请求');
+              break;
+            case 'NotFoundError':
+              console.error('找不到错误');
+              break;
+            case 'NotReadableError':
+              console.error('无法读取错误，别的硬件、软件问题');
+              break;
+            case 'OverconstrainedError':
+              console.error('无法满足要求错误，无法满足 constraint 的要求');
+              break;
+            case 'SecurityError':
+              console.error('安全错误，设备媒体被禁止，和用户设置有关');
+              break;
+            case 'TypeError':
+              console.error('类型错误，constraint 设置问题');
+              break;
+            default:
+              console.error(error);
+              break;
+          }
+          document.querySelector('.videos.area').innerHTML = error;
+        }
+      }
+      captureMedia() {
+        const { isTypeSupported } = MediaRecorder;
+        const mimeType = isTypeSupported('video/mp4')
+          ? 'video/mp4'
+          : isTypeSupported('video/mpeg')
+          ? 'video/mpeg'
+          : 'video/webm';
+        console.log(typeof this.mediaStream);
+        const mediaRecorder = new MediaRecorder(this.mediaStream, {
+          mimeType
+        });
+        mediaRecorder.ondataavailable = ({ data }) => {
+          if (data && data.size > 0) {
+            this.temp.push(data);
+          }
+        };
+        this.mediaRecorder = mediaRecorder;
+      }
+      async start() {
+        // 开始录制
+        await this.getMedia();
+        this.captureMedia();
+        this.mediaRecorder?.start && this.mediaRecorder.start(10);
+      }
+      async reset() {
+        // 重新录制
+        await this.stop();
+        this.mediaRecorder = null;
+        this.mediaStream = null;
+        this.temp = [];
+      }
+      async stop() {
+        // 停止录制
+        if (
+          this.mediaStream &&
+          typeof this.mediaStream.getTracks === 'function'
+        ) {
+          this.mediaStream.getTracks().forEach(track => track.stop());
+        }
+        if (this.mediaRecorder && this.mediaRecorder?.state !== 'inactive') {
+          this.mediaRecorder.stop();
+        }
+      }
+      async playback() {
+        // 回放
+        await this.stop();
+        const { type } = this.temp[0] || {};
+        const buffer = new Blob(this.temp, { type });
+        const playbackEle = document.querySelector('video.step-3');
+        playbackEle.src = window.URL.createObjectURL(buffer);
+        playbackEle.play();
+      }
+      async download() {
+        // 下载
+        await this.stop();
+        const { type } = this.temp[0] || {};
+        const buffer = new Blob(this.temp, { type });
+        const url = window.URL.createObjectURL(buffer);
+        const aEle = document.createElement('a');
+        aEle.style.display = 'none';
+        aEle.href = url;
+        aEle.download = '认证.mp4';
+        document.body.appendChild(aEle);
+        aEle.click();
+        setTimeout(() => {
+          document.body.removeChild(aEle);
+          window.URL.revokeObjectURL(url);
+        }, 0);
+      }
+      async upload() {
+        // 上传
+        await this.stop();
+        const { type } = this.temp[0] || {};
+        const buffer = new Blob(this.temp, { type });
+        // 请求接口，上传 buffer
+      }
+      async init() {
+        // 初始化
+        await this.checkDevice();
+        await this.reset();
+      }
+    }
+    function changeUI(index) {
+      oneTips.forEach(item => item.classList.remove('current'));
+      twoTips.forEach(item => item.classList.remove('current'));
+      threeTips.forEach(item => item.classList.remove('current'));
+      sampleVideo.classList.remove('current');
+      monitorVideo.classList.remove('current');
+      playbackVideo.classList.remove('current');
+      startBtn.classList.remove('current');
+      stopBtn.classList.remove('current');
+      playbackBtn.classList.remove('current');
+      uploadBtn.classList.remove('current');
+      downloadBtn.classList.remove('current');
+      refreshBtn.classList.remove('current');
+      switch (index) {
+        case 1:
+          oneTips.forEach(item => item.classList.add('current'));
+          sampleVideo.classList.add('current');
+          startBtn.classList.add('current');
+          break;
+        case 2:
+          twoTips.forEach(item => item.classList.add('current'));
+          monitorVideo.classList.add('current');
+          stopBtn.classList.add('current');
+          break;
+        case 3:
+          threeTips.forEach(item => item.classList.add('current'));
+          playbackVideo.classList.add('current');
+          playbackBtn.classList.add('current');
+          uploadBtn.classList.add('current');
+          downloadBtn.classList.add('current');
+          refreshBtn.classList.add('current');
+          break;
+        default:
+          break;
+      }
+    }
+    const oneTips = [...document.querySelectorAll('.tips .step-1')];
+    const twoTips = [...document.querySelectorAll('.tips .step-2')];
+    const threeTips = [...document.querySelectorAll('.tips .step-3')];
+    const sampleVideo = document.querySelector('.videos .step-1');
+    const monitorVideo = document.querySelector('.videos .step-2');
+    const playbackVideo = document.querySelector('.videos .step-3');
+    const controls = document.querySelector('.controls');
+    const startBtn = document.querySelector('.controls #startBtn');
+    const stopBtn = document.querySelector('.controls #stopBtn');
+    const playbackBtn = document.querySelector('.controls #playbackBtn');
+    const uploadBtn = document.querySelector('.controls #uploadBtn');
+    const downloadBtn = document.querySelector('.controls #downloadBtn');
+    const refreshBtn = document.querySelector('.controls #refreshBtn');
+    const tools = new MediaTools();
+    tools.init();
+    sampleVideo.addEventListener('click', function () {
+      this.play();
+    });
+    controls.addEventListener('click', async e => {
+      sampleVideo.pause();
+      if (e.target === startBtn) {
+        // 开始录制
+        await tools.start();
+        changeUI(2);
+        monitorVideo.play();
+      } else if (e.target === stopBtn) {
+        // 停止录制
+        await tools.stop();
+        changeUI(3);
+      } else if (e.target === refreshBtn) {
+        // 重新录制
+        await tools.reset();
+        await tools.start();
+        changeUI(2);
+        monitorVideo.play();
+      } else if (e.target === playbackBtn) {
+        // 回放
+        await tools.playback();
+        changeUI(3);
+      } else if (e.target === uploadBtn) {
+        // 上传
+        await tools.upload();
+        changeUI(3);
+      } else if (e.target === downloadBtn) {
+        // 下载
+        await tools.download();
+        changeUI(3);
+      }
+    });
+  </script>
+</html>

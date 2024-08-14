@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Error Handle</title>
+  </head>
+  <body></body>
+  <script>
+    var sample = function () {
+      try {
+        window.isDead();
+        return 0;
+      } catch (error) {
+        document.write(error + '<br/>'); // TypeError: window.isDead is not a function
+        console.log(error.message); // window.isDead is not a function
+        console.log(error.name); // TypeError
+        return 1;
+      } finally {
+        document.write("I'm Finally...");
+        return 2;
+      }
+    };
+    console.log(sample());
+    /*
+        Error               基类型，其他错误类型都继承自该类型
+        EvalError           使用 eval() 函数而发生异常时被抛出
+        RangeError          数值超出相应范围时触发
+        ReferenceError      访问不存在的变量时，会发生这种错误
+        SyntaxError         把语法错误的 JS 字符串传入 eval() 函数时，会导致此类错误，JS 代码立即停止执行
+        TypeErrpr           在执行特定于类型的操作时，变量的类型并不符合要求所致
+        URIError            使用 encodeURI() 或 decodeURI()，而 URI 格式不正确时，会导致此类错误
+    */
+    console.info(123);
+    console.warn(123);
+    throw true; // 抛出错误，后续代码不执行
+  </script>
+</html>

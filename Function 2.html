@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Function 2</title>
+  </head>
+  <body></body>
+  <script>
+    function sample() {
+      // 块级作用域
+    }
+    sample(); // 立即执行...
+    (function () {
+        /*
+        这种块级作用域可以减少闭包占用的内存问题...
+        因为没有指向匿名函数的引用...
+        只要函数执行完毕，就可以立即销毁其作用域链了...
+        */
+    })();
+    // 特权方法 --- 有权访问私有变量和私有函数的公有方法...
+    function Prerogative() {
+      // 私有变量
+      var priVar = 10;
+      // 私有函数
+      function priFun() {
+        return priVar;
+      }
+      // 特权方法
+      this.preMethod = function () {
+        /*
+        在创建 Prerogative 的实例后，除了使用 preMethod 这一个途径外，
+        没有任何办法可以直接访问 priVar 和 priFun...
+        */
+        priVar++;
+        return priFun();
+      };
+    }
+    // 静态私有变量
+    (function () {
+      var name = ''; // 一个静态的、由所有实例共享的属性...
+      Person = function (value) {
+        name = value;
+      };
+      Person.prototype.getName = function () {
+        return name;
+      };
+      Person.prototype.setName = function (value) {
+        name = value;
+      };
+    })();
+    var p1 = new Person('P1');
+    console.log(p1.getName()); // P1
+    p1.setName('PP1');
+    console.log(p1.getName()); // PP1
+    var p2 = new Person('P2');
+    console.log(p1.getName()); // P2
+    console.log(p2.getName()); // P2
+    // 模块模式
+    var ton = function () {
+      var priVa = 10;
+
+      function priFun() {
+        return false;
+      }
+
+      function Person() {}
+      var obj = new Person();
+      obj.prop = true;
+      obj.method = function () {
+        priVa++;
+        return priFun();
+      };
+      return obj;
+    };
+  </script>
+</html>

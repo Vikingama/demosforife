@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barrage</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        outline: none;
+      }
+      html,
+      body {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+      }
+      main {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        width: 300px;
+        height: 600px;
+        border: 1px solid black;
+      }
+      main > video {
+        width: 300px;
+        height: 532.5px;
+      }
+      main > section {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 300px;
+        height: 532.5px;
+        cursor: pointer;
+        overflow: hidden;
+      }
+      main > section span {
+        position: absolute;
+        padding: 0 15px;
+        height: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 15px;
+        color: #fff;
+        line-height: 20px;
+        white-space: nowrap;
+        transition: transform 5s linear;
+        will-change: transform;
+      }
+      main > div {
+        display: flex;
+        margin-top: -5px;
+        width: 300px;
+        height: 67.5px;
+      }
+      main > div input {
+        flex: 1;
+      }
+      main > div button {
+        width: 60px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <video src="./resource/demo.mp4"></video>
+      <section></section>
+      <div>
+        <input type="text" />
+        <button>弹个幕</button>
+      </div>
+    </main>
+  </body>
+  <script>
+    let exampleData = {
+      1: [
+        {
+          name: 'ciutto buffa',
+          content:
+            'icanha shoulder, shankle pork loin sirloin tri-tip pork frankfurter. Pancetta chicken alcatra, filet mignon shankle swine cow. Short loin meatball t-bone venison, hamburger ball tip salami bresaola ribeye capicola. Shank turkey'
+        },
+        {
+          name: 'Pork',
+          content:
+            'chicken ham shankle andouille biltong rump prosciutto pancetta ham hock'
+        }
+      ],
+      5: [
+        {
+          name: 'ef ha',
+          content:
+            'oner ribeye hamburger short loin. Prosciutt catra fatback. Landjae'
+        },
+        {
+          name: 'ffalo pican',
+          content:
+            'esaola ribeye capicola. Shank turkey venison pancetta ham drumstick meatloaf bacon jerky turducken landjaeger. Short loin beef saus'
+        }
+      ],
+      7: [
+        {
+          name: 'ankle pork loin sirloin tri-ti',
+          content:
+            'osciutto porchetta shank venison. Bacon leberkas shankle shoulder, drumstick shank spare ribs chicken t-bone rump. Cow boudin kevin landjaeger bacon, spare ribs jowl chislic fatback burgdogge'
+        },
+        {
+          name: 'Pork',
+          content:
+            'erloin fatback alcatra. Turkey chicken tri-tip short loin short ribs meatball shankle, buffalo venison fatback. Ball tip bacon jerky short loin beef ribs, meatball fatba'
+        }
+      ],
+      12: [
+        {
+          name: 'Bacon',
+          content: 'swine prosciutto ball tip ext long for something a little'
+        },
+        {
+          name: 'Pork',
+          content:
+            'chicken ham shankle andouille biltong rump prosciutto pancetta ham hock'
+        }
+      ],
+      24: [
+        {
+          name: 'Bacon',
+          content:
+            'tra short ribs shoulder, salami flank prosciutto buffalo corned beef bresaola shank beef. Salami jowl bresaola rump. Short loin short ribs boudin meatball, doner andouille jowl spare ribs shank corned beef ham hock alcatra fatback. Landjaeger capicola boudin salami. Buffalo picanha strip ste'
+        },
+        {
+          name: 'Pork',
+          content:
+            'chicken ham shankle andouille biltong rump prosciutto pancetta ham hock'
+        }
+      ],
+      36: [
+        {
+          name: 'ciutto buffa',
+          content:
+            'icanha shoulder, shankle pork loin sirloin tri-tip pork frankfurter. Pancetta chicken alcatra, filet mignon shankle swine cow. Short loin meatball t-bone venison, hamburger ball tip salami bresaola ribeye capicola. Shank turkey'
+        },
+        {
+          name: 'Pork',
+          content:
+            'chicken ham shankle andouille biltong rump prosciutto pancetta ham hock'
+        }
+      ],
+      48: [
+        {
+          name: 'ef ha',
+          content:
+            'oner ribeye hamburger short loin. Prosciutt catra fatback. Landjae'
+        },
+        {
+          name: 'ffalo pican',
+          content:
+            'esaola ribeye capicola. Shank turkey venison pancetta ham drumstick meatloaf bacon jerky turducken landjaeger. Short loin beef saus'
+        }
+      ],
+      52: [
+        {
+          name: 'ankle pork loin sirloin tri-ti',
+          content:
+            'osciutto porchetta shank venison. Bacon leberkas shankle shoulder, drumstick shank spare ribs chicken t-bone rump. Cow boudin kevin landjaeger bacon, spare ribs jowl chislic fatback burgdogge'
+        },
+        {
+          name: 'Pork',
+          content:
+            'erloin fatback alcatra. Turkey chicken tri-tip short loin short ribs meatball shankle, buffalo venison fatback. Ball tip bacon jerky short loin beef ribs, meatball fatba'
+        }
+      ],
+      54: [
+        {
+          name: 'Bacon',
+          content: 'swine prosciutto ball tip ext long for something a little'
+        },
+        {
+          name: 'Pork',
+          content:
+            'chicken ham shankle andouille biltong rump prosciutto pancetta ham hock'
+        }
+      ],
+      64: [
+        {
+          name: 'Bacon',
+          content:
+            'tra short ribs shoulder, salami flank prosciutto buffalo corned beef bresaola shank beef. Salami jowl bresaola rump. Short loin short ribs boudin meatball, doner andouille jowl spare ribs shank corned beef ham hock alcatra fatback. Landjaeger capicola boudin salami. Buffalo picanha strip ste'
+        },
+        {
+          name: 'Pork',
+          content:
+            'chicken ham shankle andouille biltong rump prosciutto pancetta ham hock'
+        }
+      ]
+    };
+    (function ({ sectioner, videoEle, container, inputEle, buttoner }) {
+      class Barrage {
+        id = 0; // 确保每条弹幕的 data-id 都是唯一的
+        inter = null; // 计时器
+        floor = 0; // 弹幕轨道个数
+        where = 0; // 弹幕出现在第几轨道
+        isPlay = false; // 视频是否在播放
+        barrages = null; // 弹幕数据
+        init = () => {
+          this.setBarrages(); // 设置弹幕数据，可以从后台获取
+          this.bindEvent(); // 绑定事件
+          this.setFloors(); // 设置轨道数
+          this.inter = setInterval(() => {
+            this.appendBarrage(); // 加载弹幕
+          }, 1000 / videoEle.playbackRate); // 如果有视频变速功能，需要调整定时器执行频率
+        };
+        setBarrages = () => {
+          for (let item in exampleData) {
+            exampleData[item].forEach(data => {
+              data.isShow = false;
+            });
+          }
+          // 设置弹幕数据，修复因为视频卡顿造成的弹幕重复出现
+          this.barrages = exampleData;
+        };
+        bindEvent = () => {
+          // 为浮层绑定事件
+          sectioner.addEventListener('click', () => {
+            if (this.isPlay) {
+              this.isPlay = false;
+              videoEle.pause();
+              clearInterval(this.inter); // 视频停止播放时，停止设置新的弹幕
+            } else {
+              this.isPlay = true;
+              videoEle.play();
+              clearInterval(this.inter);
+              this.inter = setInterval(() => {
+                this.appendBarrage(); // 重新加载弹幕
+              }, 1000 / videoEle.playbackRate);
+            }
+          });
+          // 为按钮绑定事件
+          buttoner.addEventListener('click', this.addBarrage);
+        };
+        // 获取当前视频的播放时间
+        getCurrentTime = () => Math.floor(videoEle.currentTime);
+        // 计算轨道数
+        setFloors = () => {
+          this.floor = Math.floor(videoEle.clientHeight / 20) - 1;
+        };
+        // 添加一条弹幕，按照业务场景，可以先提交弹幕至服务器
+        addBarrage = () => {
+          let barrage = inputEle.value;
+
+          if (!this.isPlay) {
+            return;
+          }
+
+          if (barrage && barrage.trim().length > 0) {
+            let now = this.getCurrentTime();
+            let content = barrage.trim();
+
+            if (this.barrages[now]) {
+              this.barrages[now].push({
+                name: '麻辣个鸡', // 当前用户的用户名
+                content,
+                isShow: false
+              });
+            } else {
+              this.barrages[now] = [
+                {
+                  name: '麻辣个鸡',
+                  content,
+                  isShow: false
+                }
+              ];
+            }
+            inputEle.value = '';
+          }
+        };
+        // 根据时间添加弹幕列表
+        appendBarrage = () => {
+          let list = this.barrages[this.getCurrentTime()] || null;
+
+          if (Array.isArray(list)) {
+            list.forEach((item, index) => {
+              if (!item.isShow) {
+                this.id = this.id + 1;
+
+                let id = this.id;
+                let node = this.generateSpan(item, index, id); // 生成每条弹幕的容器
+
+                sectioner.append(node);
+
+                let temp = document.querySelector(`[data-id="${id}"]`);
+                let where = temp.dataset.where;
+                // 使用 translate 性能比较好
+                temp.style.transform = `translate3D(-${temp.clientWidth}px, ${
+                  where * 20
+                }px, 0)`;
+                // DOM 回收，提高性能
+                temp.addEventListener(
+                  'transitionend',
+                  function () {
+                    this.remove(true);
+                  },
+                  { once: true }
+                );
+              }
+            });
+          }
+        };
+        generateSpan = (item, index, id) => {
+          let where = 0;
+          let span = document.createElement('span');
+
+          where = this.where;
+          // 分层摆放每条弹幕
+          if (this.where > this.floor - 1) {
+            this.where = 0;
+          } else {
+            this.where++;
+          }
+
+          span.innerText = `${item.name}: ${item.content}`;
+          span.dataset.id = `${id}`;
+          span.dataset.where = `${where}`;
+          span.style.zIndex = `${index}`;
+          span.style.transform = `translate3D(${videoEle.clientWidth}px, ${
+            where * 20
+          }px, 0)`;
+
+          return span;
+        };
+      }
+      new Barrage().init();
+    })({
+      sectioner: document.querySelector('section'),
+      videoEle: document.querySelector('video'),
+      container: document.querySelector('section'),
+      inputEle: document.querySelector('input'),
+      buttoner: document.querySelector('button')
+    });
+  </script>
+</html>

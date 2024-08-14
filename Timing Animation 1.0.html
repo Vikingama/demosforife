@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>时序动画一</title>
+    <style>
+      html,
+      body {
+        overflow: hidden;
+      }
+      .block {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        width: 15vmin;
+        height: 15vmin;
+        background: red;
+        transform-origin: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="block"></div>
+  </body>
+  <script>
+    const blockEle = document.querySelector('.block'); // 动画元素
+    const aniPeriod = 3000; // 动画周期
+    const startPos = 0; // 起始位置
+    let startTime = 0; // 起始时间
+    // 动画更新函数
+    function updateAni() {
+      // 初始化起始时间
+      startTime = startTime || Date.now();
+      // 某种意义上的缓动，沿着某种曲线动态改变就能改变动画效果
+      const p = (Date.now() - startTime) / aniPeriod;
+      const currentPos = startPos + 360 * p * 3;
+      blockEle.style.transform = `rotate(${currentPos}deg)`;
+      requestAnimationFrame(updateAni);
+    }
+    updateAni();
+  </script>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Events Advance</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-align: center;
+      }
+
+      li {
+        padding: 10px 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <a href="https://baidu.com">百度</a>
+    <ul id="eventDelegate">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+    </ul>
+  </body>
+  <script>
+    /*
+        HTML5 事件：contextmenu、beforeunload、DOMContentLoaded、readystatechange、pageshow、pagehide、hashchange
+        设备事件：orientationchange、MozOrientation、deviceorientation、devicemotion
+        触摸事件：touchstart、touchmove、touchend、touchcancel
+        手势事件：gesturestart、gesturechange、gestureend
+    */
+    window.onload = () => {
+      console.clear();
+    };
+    document.documentElement.oncontextmenu = function (e) {
+      e.preventDefault();
+      // return false;
+    };
+    window.onbeforeunload = e => {
+      let unloadMessage = "Don't go...";
+      return unloadMessage;
+    };
+    window.onhashchange = () => {
+      console.log('Hash Change: ' + location.hash);
+    };
+    window.onorientationchange = () => {
+      switch (this.orientation) {
+        case 0:
+          console.log('头部在上');
+          break;
+        case 90:
+          console.log('头部在左');
+          break;
+        case -90:
+          console.log('头部在右');
+          break;
+        case 180:
+          console.log('趴在地上');
+          break;
+        default:
+          break;
+      }
+    };
+    window.ondeviceorientation = e => {
+      console.log(e.alpha); // Z轴--->左右旋转
+      console.log(e.beta); // X轴--->前后旋转
+      console.log(e.gamma); // Y轴--->扭转
+      console.log(e.absolute);
+      console.log(e.compassCalibrated); // 指南针是否经过校准
+    };
+    window.ondeviceorientation = null;
+    window.ondevicemotion = e => {
+      console.log(e.acceleration);
+      console.log(e.accelerationIncludingGravity);
+      console.log(e.interval);
+      console.log(e.rotationRate);
+    };
+    window.ondevicemotion = null;
+    document.documentElement.ontouchstart = e => {
+      console.log(e.touches);
+      console.log(e.targetTouches);
+      console.log(e.changeTouches);
+    };
+    document.documentElement.ontouchstart = null;
+    // 事件委托依赖事件冒泡
+    const eventDelegate = document.getElementById('eventDelegate');
+    eventDelegate.querySelector('li').onclick = e => {
+      e.stopPropagation(); // 取消冒泡，事件委托失败
+    };
+    eventDelegate.onclick = e => {
+      switch (e.target.innerText) {
+        case '1':
+          alert(1);
+          break;
+        case '2':
+          alert(2);
+          break;
+        case '3':
+          alert(3);
+          break;
+        default:
+          break;
+      }
+    };
+    // 事件模拟--->createEvent()、dispatchEvent()
+    var eventz = document.createEvent('Event');
+    var eventele = eventDelegate.querySelector('li');
+    eventz.initEvent('build', true, true);
+    eventele.addEventListener(
+      'build',
+      function (e) {
+        console.log(e);
+      },
+      false
+    );
+    setTimeout(function () {
+      eventele.dispatchEvent(eventz);
+    }, 3000);
+  </script>
+</html>

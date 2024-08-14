@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>DOM 1.1</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+
+      img {
+        width: 100%;
+        vertical-align: top;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Node</h1>
+    <img
+      src="https://cdn.sspai.com/article/e87707b8-abfe-16ef-eca8-e39e2b727403.jpg"
+      name="first"
+      alt="e39e2b727403"
+    />
+    <a href="javascript:void(0)" name="namea">Anchors</a>
+    <img
+      src="https://cdn.sspai.com/article/defce8bc-9ad8-2dd9-6c5f-e3dc96b4569b.jpg"
+      name="second"
+      alt="e3dc96b4569b"
+    />
+    <a href="javascript:void(0)" name="nameb">Anchors</a>
+    <img
+      src="https://cdn.sspai.com/article/36d64359-0481-89dc-ff8c-daa8f05d2248.jpg"
+      name="third"
+      alt="daa8f05d2248"
+    />
+    <a href="javascript:void(0)" name="namec">Anchors</a>
+    <img
+      src="https://cdn.sspai.com/article/5e4f8c3d-5b2a-d87f-249c-a26725335e47.jpg"
+      name="fourth"
+      alt="a26725335e47"
+    />
+    <a href="#abc">Anchors</a>
+    <!-- 似乎仅仅把标点和文字的位置反过来的，文字顺序并没有变化 -->
+    <p dir="rtl" onclick="alert('栗子')" style="color: aqua">
+      ？？？这是一个栗子，哈哈哈哈！！！
+    </p>
+  </body>
+  <script>
+    console.log(document.head);
+    console.log('document.URL: ' + document.URL);
+    /*
+        当页面包含来自其他子域的框架或内嵌框架时，将每个页面的 document.domain 设为相同的值，就可以互相访问对方包含的 JS 对象了。
+        浏览器对 domain 属性有一个限制，如果域名一开始是“松散的”，那么不能将它再设置为“紧绷的”。在将 document.domain 设置为 "wrox.com" 之后，就不能再将其设置回 "p2p.wrox.com"，否则将会导致错误。
+        假设页面来自于 p2p.wrox.com
+        document.domain = "wrox.com";// 松散的（成功）
+        document.domain = "p2p.wrox.com";// 紧绷的（出错）
+    */
+    console.log('document.domain: ');
+    console.log(document.domain);
+    console.log('document.referrer: ');
+    console.log(document.referrer);
+    console.log('document.doctype: ');
+    console.log(document.doctype);
+    console.log('document.title: ');
+    console.log(document.title);
+    console.log('document.children: ');
+    console.log(document.children);
+    console.log('document.childNodes: '); // 神似数组
+    console.log(document.childNodes);
+    console.log(document.childNodes[0] === document.childNodes.item(0)); // true
+    var nodeArray = Array.prototype.slice.call(document.childNodes, 0); // 将 NodeList 转换为 数组
+    console.log(nodeArray);
+    /*
+         Node.ELEMENT_NODE(1)；---> 元素节点
+         Node.ATTRIBUTE_NODE(2)；---> 属性节点
+         Node.TEXT_NODE(3)；---> 文本节点
+         Node.CDATA_SECTION_NODE(4)；---> 
+         Node.ENTITY_REFERENCE_NODE(5)；---> 
+         Node.ENTITY_NODE(6)；---> 
+         Node.PROCESSING_INSTRUCTION_NODE(7)；---> 
+         Node.COMMENT_NODE(8)；---> 注释节点
+         Node.DOCUMENT_NODE(9)；---> 文档节点
+         Node.DOCUMENT_TYPE_NODE(10)；---> 
+         Node.DOCUMENT_FRAGMENT_NODE(11)；---> 
+         Node.NOTATION_NODE(12)。---> 
+    */
+    const h1ele = document.querySelector('h1');
+    console.log(h1ele.parentNode); // body
+    console.log(h1ele.nodeType == Node.ELEMENT_NODE); // true
+    console.log(h1ele.firstChild === h1ele.lastChild); // true
+    console.log(h1ele.childNodes[0].hasChildNodes()); // false
+    console.log(h1ele.childNodes[0].ownerDocument); // #document
+    /*
+        node.appendChild(childNode)
+        nodeinsertBefore(newChildNode, existChildNode)
+        node.replaceChild(newChildNode, oldChildNode)
+        node.removeChild(childNode)
+        node.cloneNode(isTrue): true -> 递归复制当前节点的所有子孙节点; false -> 复制当前节点
+        node.normalize(): 合并相邻的文本节点并删除空的文本节点
+    */
+    /*
+        <input type="text" name="myElement" value="Text field">
+        <div id="myElement">A div</div>
+        在 IE7 中调用 document.getElementById("myElement")，结果会返回 <input> 元素；而在其他所有浏览器中，都会返回对 <div> 元素的引用。
+    */
+    const imgele = document.images;
+    console.log(imgele[0]);
+    console.log(imgele.namedItem('second'));
+    console.log(imgele['third']);
+    console.log(imgele.item(3));
+    // 带有 name 属性的 a 标签，称之为 "锚"。document.anchors ---> 只能获取到 带有 name 属性的 a 标签...
+    const atagz = document.anchors;
+    console.log(atagz);
+    // document.applets ---> 获取所有 <applet> 标签，不推荐使用，<applet> 标签已不推荐使用。
+    console.log(document.links); // 获取所有带有 href 属性的 a 标签
+    /*
+        document.write()    原样写入
+        document.writeln()  在字符串的末尾添加一个换行符
+        document.open()     打开网页的输出流
+        document.close()    关闭网页的输出流
+    */
+    // console.clear();
+    console.log('nodeName: ' + h1ele.nodeName);
+    console.log('tagName: ' + h1ele.tagName);
+    // getAttribute()、setAttribute()、removeAttribute()
+    // 两类特殊的属性：style 和事件处理程序
+    const pele = document.querySelector('p');
+    // 事件处理程序属性本身就应该被赋予函数值
+    console.log(pele.onclick); // 返回函数
+    console.log(pele.getAttribute('onclick')); // 返回字符串
+    // style 属性是用于以编程方式访问元素样式的，因此并没有直接映射到 style 特性
+    console.log(pele.style); // 返回对象
+    console.log(pele.getAttribute('style')); // 返回字符串
+    /*
+    NamedNodeMap 对象的方法：
+        getNamedItem()
+        removeNamedItem()
+        setNamedItem()
+        item()
+    */
+    console.log(pele.attributes.getNamedItem('style'));
+    const colorRed = document.createAttribute('style');
+    colorRed.nodeValue = 'color: red';
+    setTimeout(() => {
+      pele.attributes.setNamedItem(colorRed);
+      setTimeout(() => {
+        pele.attributes.removeNamedItem('style');
+      }, 3000);
+    }, 3000);
+    // 创建元素节点
+    const divele = document.createElement('div');
+    document.body.appendChild(divele);
+    // 创建文本节点
+    const divtext1 = document.createTextNode("I'm Created Node...");
+    divele.appendChild(divtext1);
+    // 规范化文本节点--->normalize()--->将所有文本节点合并成一个节点
+    const divtext2 = document.createTextNode('Oops...');
+    divele.appendChild(divtext2);
+    console.log('beforeNormalize: ' + divele.childNodes.length);
+    divele.normalize();
+    console.log('afterNormlize: ' + divele.childNodes.length);
+    // 分割文本节点--->splitText()--->与 normalize() 相反
+    const newdivtext = divele.firstChild.splitText(8);
+    console.log(newdivtext);
+    console.log(divele.childNodes);
+    // 创建注释节点
+    const divcomment = document.createComment('我是注释');
+    divele.appendChild(divcomment);
+    console.log(divele.lastChild.data); // 读取注释内容
+    /*
+    documentFragment 的使用场景：
+        例如，需要向 dom 插入大量节点，可以将要插入的节点保存在 documentFragment 中，然后将 documentFragment 插入到文档...
+        这样比起一个一个插入文档，更节省性能。
+    */
+    const docFragment = document.createDocumentFragment();
+    for (var i = 0; i < 10; i++) {
+      let peles = document.createElement('p');
+      peles.appendChild(document.createTextNode(i));
+      docFragment.appendChild(peles);
+    }
+    console.log(docFragment);
+    document.body.appendChild(docFragment);
+  </script>
+</html>
